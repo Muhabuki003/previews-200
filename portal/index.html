@@ -232,7 +232,7 @@ iframe{display:block;border:0;width:100%;height:min(72vh,720px);background:#fff}
           </div>
         </div>
         <div class="pvbody beam">
-          <iframe id="pv" src="demo-site/index.html" title="Draft preview"></iframe>
+          <iframe id="pv" src="demo-site/index.html?v=3" title="Draft preview"></iframe>
         </div>
         <div class="pvfoot"><span>Scaled preview · updates as you type</span><span style="margin-left:auto" id="pvNote">Same pages as the live site</span></div>
       </div>
@@ -273,9 +273,18 @@ function buildFields(){
   const nodes = [...doc.querySelectorAll('[data-k]')];
   const box = document.getElementById('fields');
   const groups = new Map();
+  let curGroup = 'Page top';
   nodes.forEach((n) => {
+    const tag = n.tagName;
+    if(tag === 'H1' || tag === 'H2'){
+      const t = (n.textContent||'').trim();
+      if(t.length > 1) curGroup = t.slice(0, 34);
+    }
     const key = n.getAttribute('data-k');
-    const g = n.getAttribute('data-g') || 'Page top';
+    const lbl = n.getAttribute('data-lbl') ||
+      ({H1:'Headline', H2:'Section title', H3:'Small heading', H4:'Small heading'}[tag]) ||
+      (/btn/i.test(n.className) ? 'Button label' : 'Body text');
+    const g = curGroup;
     if(!groups.has(g)) groups.set(g, []);
     if(!groups.get(g).some(x => x.key === key)) groups.get(g).push({key, n, lbl: n.getAttribute('data-lbl') || 'Text'});
   });
@@ -345,7 +354,7 @@ document.getElementById('publishBar').onclick = () => scrim.classList.add('on');
 document.getElementById('cancel').onclick = () => scrim.classList.remove('on');
 document.getElementById('confirm').onclick = () => { scrim.classList.remove('on'); toast('Demo only — publishing is not wired in this preview.'); };
 document.getElementById('discard').onclick = () => { location.reload(); };
-document.getElementById('viewLive').onclick = () => window.open('demo-site/index.html','_blank');
+document.getElementById('viewLive').onclick = () => window.open('demo-site/index.html?v=3','_blank');
 </script>
 </body>
 </html>
