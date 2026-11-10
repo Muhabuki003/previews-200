@@ -6,9 +6,9 @@
 <title>BookiStudios . Client Portal</title>
 <style>
 :root{
-  --bg:#f4f6f3; --panel:#ffffff; --hair:rgba(16,32,24,.09); --hair2:rgba(16,32,24,.14);
-  --tx:#0f1a14; --tx2:#5c6b62; --tx3:#939f97;
-  --green:#16a34a; --green-d:#12813c; --green-t:rgba(22,163,74,.10);
+  --bg:#f6f3f2; --panel:#ffffff; --hair:rgba(28,20,18,.09); --hair2:rgba(28,20,18,.14);
+  --tx:#0f1a14; --tx2:#6b615c; --tx3:#9a908b;
+  --green:#d63929; --green-d:#a82a1d; --green-t:rgba(214,57,41,.10);
   --amber:#c2760a; --amber-t:rgba(194,118,10,.10);
   --r:14px; --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
   --serif:'Georgia','Times New Roman',serif;
@@ -22,7 +22,7 @@ aside{width:64px;flex:0 0 64px;background:var(--panel);border-right:1px solid va
 .rail-logo{width:34px;height:34px;border-radius:10px;background:var(--green-t);display:grid;place-items:center;margin-bottom:8px}
 .rail-logo img{width:24px;height:24px;object-fit:contain}
 .rail-btn{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;color:var(--tx2);cursor:pointer;position:relative;border:0;background:none}
-.rail-btn:hover{background:#f1f4f1;color:var(--tx)}
+.rail-btn:hover{background:#f2efee;color:var(--tx)}
 .rail-btn.on{background:var(--green-t);color:var(--green-d)}
 .rail-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7}
 .rail-spacer{flex:1}
@@ -33,9 +33,9 @@ header{height:64px;display:flex;align-items:center;gap:14px;padding:0 24px;backg
 .cname small{display:block;font-weight:500;color:var(--tx3);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase}
 .hright{margin-left:auto;display:flex;align-items:center;gap:8px}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;font-size:12px;font-weight:600;
-  background:#f1f4f1;color:var(--tx2);border:1px solid var(--hair)}
+  background:#f2efee;color:var(--tx2);border:1px solid var(--hair)}
 .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--amber)}
-.chip.plan{background:var(--green-t);color:var(--green-d);border-color:rgba(22,163,74,.22)}
+.chip.plan{background:var(--green-t);color:var(--green-d);border-color:rgba(214,57,41,.22)}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;font-size:13px;font-weight:600;
   border:1px solid transparent;cursor:pointer;background:var(--green);color:#fff;position:relative;overflow:hidden}
 .btn:hover{background:var(--green-d)}
@@ -43,7 +43,7 @@ header{height:64px;display:flex;align-items:center;gap:14px;padding:0 24px;backg
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transition:transform .7s cubic-bezier(.2,.8,.2,1)}
 .btn:hover::after{transform:translateX(120%) skewX(-18deg)}
 .btn.ghost{background:#fff;color:var(--tx);border-color:var(--hair2)}
-.btn.ghost:hover{background:#f7f9f7}
+.btn.ghost:hover{background:#f8f6f5}
 .btn.sm{padding:7px 12px;font-size:12px}
 .pills{display:flex;gap:6px;padding:12px 24px 0;flex-wrap:wrap}
 .pill{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:500;
@@ -76,8 +76,8 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400}
 .field{margin-bottom:10px}
 .field label{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px}
 .field input,.field textarea,.field select{width:100%;padding:9px 11px;border:1px solid var(--hair2);border-radius:9px;
-  font:14px/1.45 var(--sans);color:var(--tx);background:#fdfefd}
-.field input:focus,.field textarea:focus{outline:2px solid rgba(22,163,74,.25);border-color:rgba(22,163,74,.5)}
+  font:14px/1.45 var(--sans);color:var(--tx);background:#fdfcfb}
+.field input:focus,.field textarea:focus{outline:2px solid rgba(214,57,41,.25);border-color:rgba(214,57,41,.5)}
 .field textarea{resize:vertical;min-height:64px}
 .row{display:flex;gap:10px;align-items:center}
 .muted{color:var(--tx2);font-size:13px}
@@ -101,14 +101,14 @@ tr:last-child td{border-bottom:0}
 .price{font-size:13px;font-weight:700;color:var(--green-d)}
 .ulist{display:flex;flex-direction:column;gap:2px;max-height:520px;overflow:auto}
 .uitem{padding:11px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent}
-.uitem:hover{background:#f7f9f7}
-.uitem.on{background:var(--green-t);border-color:rgba(22,163,74,.2)}
+.uitem:hover{background:#f8f6f5}
+.uitem.on{background:var(--green-t);border-color:rgba(214,57,41,.2)}
 .uitem .t{font-weight:600;font-size:13.5px}
 .uitem .s{font-size:12px;color:var(--tx2)}
 .empty{padding:26px;text-align:center;color:var(--tx2);font-size:13.5px;border:1px dashed var(--hair2);border-radius:12px}
 .support{display:flex;flex-direction:column;gap:8px}
 .support a{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--hair);border-radius:10px;font-size:13.5px}
-.support a:hover{border-color:var(--hair2);background:#f7f9f7}
+.support a:hover{border-color:var(--hair2);background:#f8f6f5}
 .support b{font-weight:600}
 .overlay{position:fixed;inset:0;background:rgba(12,22,17,.34);display:none;place-items:center;z-index:60;padding:20px}
 .overlay.on{display:grid}
