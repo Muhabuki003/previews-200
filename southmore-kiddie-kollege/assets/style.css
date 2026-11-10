@@ -18,7 +18,7 @@ background:var(--accent);color:#fff;font-weight:650;font-size:15px}
 .hero{width:100%;height:min(64vh,520px);background:var(--soft);overflow:hidden}
 .hero img{width:100%;height:100%;object-fit:cover}
 .hero.plain{height:auto;background:var(--soft)}
-.intro{padding:56px 0 8px}
+.intro{padding-top:56px;padding-bottom:8px}
 .eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 14px}
 h1{font-size:clamp(30px,6vw,52px);line-height:1.06;letter-spacing:-.03em;margin:0 0 16px;font-weight:760}
 .lede{font-size:clamp(17px,2.2vw,20px);color:var(--muted);margin:0 0 28px;max-width:60ch}
