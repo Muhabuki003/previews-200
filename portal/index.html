@@ -139,6 +139,12 @@ iframe{display:block;border:0;width:100%;height:min(72vh,720px);background:#fff}
   padding:10px 16px;border-radius:11px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:70}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
+.grp{border-radius:10px;margin:4px 2px 6px}
+.grp>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:9px 10px;font-size:12px;font-weight:750;letter-spacing:.02em;color:var(--tx);border-radius:9px;background:var(--panel2);border:1px solid var(--hair2)}
+.grp>summary::-webkit-details-marker{display:none}
+.grp>summary::before{content:"▸";color:var(--tx3);font-size:10px;transition:transform .15s}
+.grp[open]>summary::before{transform:rotate(90deg)}
+.grp>summary .cnt{margin-left:auto;font-size:10.5px;color:var(--tx3);background:#fff;border:1px solid var(--hair);border-radius:999px;padding:1px 7px}
 @media(max-width:1100px){
   .editor{grid-template-columns:1fr}
   .preview{position:static}
@@ -210,7 +216,9 @@ iframe{display:block;border:0;width:100%;height:min(72vh,720px);background:#fff}
 
     <div class="editor">
       <div class="card" id="contentCard">
-        <h2>Text on this page <span class="badge">Editable</span></h2>
+        <h2>Text on this page <span class="badge">Editable</span>
+          <input id="find" placeholder="Find text…" style="margin-left:auto;width:150px;border:1px solid var(--hair);background:var(--panel2);border-radius:8px;padding:5px 9px;font:inherit;font-size:12px;outline:none">
+        </h2>
         <div class="rows" id="fields"><div class="fld"><label>Loading</label><input value="Reading your page…" disabled></div></div>
       </div>
 
@@ -264,28 +272,52 @@ pv.addEventListener('load', () => {
 function buildFields(){
   const nodes = [...doc.querySelectorAll('[data-k]')];
   const box = document.getElementById('fields');
-  const seen = new Set();
-  box.innerHTML = '';
-  nodes.forEach((n, i) => {
+  const groups = new Map();
+  nodes.forEach((n) => {
     const key = n.getAttribute('data-k');
-    if(seen.has(key)) return; seen.add(key);
-    const isLong = (n.textContent || '').trim().length > 70;
-    const wrap = document.createElement('div');
-    wrap.className = 'fld'; wrap.dataset.k = key;
-    const lab = document.createElement('label');
-    lab.textContent = n.getAttribute('data-label') || (n.tagName.toLowerCase() === 'h1' ? 'Headline' : 'Text ' + (i+1));
-    const inp = document.createElement(isLong ? 'textarea' : 'input');
-    if(isLong) inp.rows = 3;
-    inp.value = n.textContent.trim();
-    inp.addEventListener('input', () => {
-      const t = doc.querySelectorAll('[data-k="'+key+'"]');
-      t.forEach(el => { el.textContent = inp.value; });
-      wrap.classList.add('changed'); changed.add(key); syncDraft();
-    });
-    wrap.append(lab, inp); box.append(wrap);
+    const g = n.getAttribute('data-g') || 'Page top';
+    if(!groups.has(g)) groups.set(g, []);
+    if(!groups.get(g).some(x => x.key === key)) groups.get(g).push({key, n, lbl: n.getAttribute('data-lbl') || 'Text'});
   });
-  document.getElementById('statBlocks').textContent = seen.size;
+  box.innerHTML = '';
+  let first = true;
+  groups.forEach((items, gname) => {
+    const sec = document.createElement('details');
+    sec.className = 'grp'; sec.open = first; first = false;
+    const sum = document.createElement('summary');
+    sum.innerHTML = '<span>' + gname + '</span><span class="cnt">' + items.length + '</span>';
+    sec.appendChild(sum);
+    items.forEach(({key, n, lbl}) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'fld'; wrap.dataset.k = key; wrap.dataset.hay = (gname + ' ' + lbl + ' ' + n.textContent).toLowerCase();
+      const lab = document.createElement('label');
+      lab.textContent = lbl;
+      const long = (n.textContent||'').trim().length > 70;
+      const inp = document.createElement(long ? 'textarea' : 'input');
+      if(long) inp.rows = 3;
+      inp.value = n.textContent.trim();
+      inp.addEventListener('input', () => {
+        doc.querySelectorAll('[data-k="'+key+'"]').forEach(el => { el.textContent = inp.value; });
+        wrap.classList.add('changed'); changed.add(key); syncDraft();
+      });
+      wrap.append(lab, inp); sec.appendChild(wrap);
+    });
+    box.appendChild(sec);
+  });
+  document.getElementById('statBlocks').textContent = nodes.length;
   document.getElementById('statImgs').textContent = doc.querySelectorAll('[data-img]').length;
+  const f = document.getElementById('find');
+  f.addEventListener('input', () => {
+    const q = f.value.toLowerCase().trim();
+    box.querySelectorAll('.fld').forEach(el => {
+      el.style.display = (!q || el.dataset.hay.includes(q)) ? '' : 'none';
+    });
+    box.querySelectorAll('.grp').forEach(sec => {
+      const any = [...sec.querySelectorAll('.fld')].some(el => el.style.display !== 'none');
+      sec.style.display = any ? '' : 'none';
+      if(q && any) sec.open = true;
+    });
+  });
   syncDraft();
 }
 

@@ -392,15 +392,32 @@
 <script src="assets/js/site-admin.js"></script>
 <script src="assets/js/site.js"></script>
 
+
+
 <script>
 (function(){
   var i=0;
-  document.querySelectorAll('h1,h2,h3,h4,p,li>a,.btn,.site-nav a').forEach(function(n){
+  function groupOf(n){
+    var s=n.closest('section[id],section,article,div[data-section]');
+    if(s){ if(s.id) return s.id.replace(/[-_]/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
+           var hd=s.querySelector('h1,h2,h3'); if(hd) return hd.textContent.trim().slice(0,28); }
+    return 'Page top';
+  }
+  function labelOf(n){
+    var t=n.tagName;
+    if(t==='H1') return 'Headline';
+    if(t==='H2') return 'Section title';
+    if(t==='H3'||t==='H4') return 'Small heading';
+    if(n.classList.contains('btn')||t==='BUTTON'||(t==='A'&&n.classList.contains('btn'))) return 'Button label';
+    return 'Body text';
+  }
+  document.querySelectorAll('h1,h2,h3,h4,p,.btn').forEach(function(n){
+    if(n.closest('header,footer,nav,.site-nav,.site-header')) return;
     if(n.querySelector('h1,h2,h3,h4,p')) return;
-    var t=(n.textContent||'').trim(); if(!t||t.length<2) return;
-    if(n.tagName==='IMG') return;
+    var t=(n.textContent||'').trim(); if(t.length<2) return;
     n.setAttribute('data-k','k'+(++i));
-    n.setAttribute('data-label', t.length>46 ? t.slice(0,46)+'…' : t);
+    n.setAttribute('data-lbl', labelOf(n));
+    n.setAttribute('data-g', groupOf(n));
   });
   document.querySelectorAll('img').forEach(function(n,j){ n.setAttribute('data-img','i'+j); });
 })();
