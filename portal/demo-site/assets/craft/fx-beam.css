@@ -1,0 +1,112 @@
+/* ============================================================================
+   fx-beam.css — static port of Libraries.dev border-beam
+   ----------------------------------------------------------------------------
+   Origin: Libraries.dev (Jakubantalik/Libraries.dev), packages/border-beam/
+   src/styles.ts — vendored 2026-09-04, MIT (see sources/libraries-dev/).
+   The source emits per-instance CSS from React props; a static page needs one
+   shared set of classes + CSS custom properties. Distilled to three variants,
+   no palette data, no JS driver.
+
+   API:
+     .fx-beam                       host gets position:relative (NO overflow
+                                    clipping — masks do the cutting)
+     .fx-beam--line                 traveling glow hugging the bottom edge
+                                    (search bars, inputs — the least decorative)
+     .fx-beam--md                   full traveling border glow (one hero / one
+                                    featured card max)
+     .fx-beam--pulse                breathing ring, no rotation
+
+   Colour: override the three custom props on the host (defaults follow the
+   page's --coll-* theme when present):
+     --fx-beam-c1   main beam colour          default var(--coll-accent,#111)
+     --fx-beam-c2   secondary beam colour     default var(--coll-accent-soft,#eee)
+     --fx-beam-w    ring thickness            default 1px (md: 2px)
+     --fx-beam-dur  one full travel           default 6s
+   Do NOT use on every product card — one beam per viewport, two per page.
+   ========================================================================== */
+
+@property --fx-beam-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@property --fx-beam-x { syntax: "<number>"; initial-value: 0.06; inherits: false; }
+
+.fx-beam { position: relative; --fx-beam-c1: var(--coll-accent, #111); --fx-beam-c2: var(--coll-accent-soft, #eee); }
+.fx-beam::before, .fx-beam::after {
+  content: ""; position: absolute; inset: 0;
+  border-radius: inherit; z-index: 0; pointer-events: none;
+}
+
+/* --- .fx-beam--md : a bright arc travels around the border ring ------------- */
+.fx-beam--md::before {
+  padding: var(--fx-beam-w, 2px);
+  background: conic-gradient(from var(--fx-beam-angle),
+    transparent 0deg, transparent 250deg,
+    color-mix(in oklab, var(--fx-beam-c1) 85%, transparent) 296deg,
+    var(--fx-beam-c1) 318deg, var(--fx-beam-c2) 330deg,
+    var(--fx-beam-c1) 342deg,
+    color-mix(in oklab, var(--fx-beam-c1) 85%, transparent) 360deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: fx-beam-spin var(--fx-beam-dur, 6s) linear infinite;
+  opacity: .8;
+}
+@keyframes fx-beam-spin { to { --fx-beam-angle: 360deg; } }
+
+/* --- .fx-beam--line : the same ring, but only a soft window on the bottom
+   edge is ever visible, and that window travels left→right. Use under search
+   bars and inputs; the ring matches the host's own border-radius. ---------- */
+.fx-beam--line::before {
+  padding: var(--fx-beam-w, 1px);
+  background: linear-gradient(90deg,
+    color-mix(in oklab, var(--fx-beam-c1) 55%, transparent),
+    var(--fx-beam-c1), var(--fx-beam-c2), var(--fx-beam-c1),
+    color-mix(in oklab, var(--fx-beam-c1) 55%, transparent));
+  -webkit-mask:
+    radial-gradient(78px 46px at calc(var(--fx-beam-x) * 100%) 100%, #fff 0%, rgba(255,255,255,.55) 45%, transparent 100%),
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: source-in, xor;
+  mask:
+    radial-gradient(78px 46px at calc(var(--fx-beam-x) * 100%) 100%, #fff 0%, rgba(255,255,255,.55) 45%, transparent 100%),
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: intersect, exclude;
+  animation:
+    fx-beam-travel var(--fx-beam-dur, 7s) linear infinite,
+    fx-beam-edge  var(--fx-beam-dur, 7s) linear infinite;
+  opacity: .85;
+}
+@keyframes fx-beam-travel {
+  0%   { --fx-beam-x: .04; } 15%  { --fx-beam-x: .18; } 30% { --fx-beam-x: .32; }
+  50%  { --fx-beam-x: .5; }  70%  { --fx-beam-x: .68; } 85% { --fx-beam-x: .82; }
+  100% { --fx-beam-x: .96; }
+}
+/* the beam fades in near the left edge and out near the right edge instead of
+   popping at the wrap point */
+@keyframes fx-beam-edge {
+  0%, 9%    { opacity: 0; } 18%   { opacity: .85; }
+  82%       { opacity: .85; } 91%, 100% { opacity: 0; }
+}
+
+/* --- .fx-beam--pulse : a quiet breathing ring, no rotation ------------------ */
+.fx-beam--pulse::before {
+  padding: var(--fx-beam-w, 1px);
+  background: linear-gradient(90deg,
+    color-mix(in oklab, var(--fx-beam-c1) 70%, transparent),
+    var(--fx-beam-c2), var(--fx-beam-c1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: fx-beam-breathe 3.4s ease-in-out infinite;
+}
+@keyframes fx-beam-breathe {
+  0%, 100% { opacity: .22; } 50% { opacity: .95; }
+}
+
+/* --- reduced motion: a static hairline, never a disappearance -------------- */
+@media (prefers-reduced-motion: reduce) {
+  .fx-beam::before, .fx-beam--line::before, .fx-beam--pulse::before {
+    animation: none; opacity: .35;
+  }
+}
