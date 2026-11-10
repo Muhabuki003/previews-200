@@ -1,364 +1,531 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Client Portal — Johnny Bravo Entertainment · BookiStudios</title>
+<title>BookiStudios . Client Portal</title>
 <style>
-/* ── tokens: light counterpart of the Agentic OS palette ─────────────────── */
 :root{
-  --bg:#f2f5f1; --bg2:#e9eee9; --panel:#ffffff; --panel2:#f7faf7;
-  --hair:rgba(14,32,23,.085); --hair2:rgba(14,32,23,.05);
-  --tx:#101c15; --tx2:#5b6a61; --tx3:#8b978f;
-  --green:#16a34a; --green2:#22c55e; --green-d:rgba(22,163,74,.10); --green-b:rgba(22,163,74,.28);
-  --amber:#c2740a; --amber-d:rgba(217,119,6,.10);
-  --red:#dc2626; --red-d:rgba(220,38,38,.09);
-  --r:14px; --railw:64px; --hdrH:60px;
-  --sh:0 1px 2px rgba(14,32,23,.04), 0 10px 30px -22px rgba(14,32,23,.35);
-  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;
-  --serif:Georgia,"Liberation Serif","Times New Roman",serif;
+  --bg:#f4f6f3; --panel:#ffffff; --hair:rgba(16,32,24,.09); --hair2:rgba(16,32,24,.14);
+  --tx:#0f1a14; --tx2:#5c6b62; --tx3:#939f97;
+  --green:#16a34a; --green-d:#12813c; --green-t:rgba(22,163,74,.10);
+  --amber:#c2760a; --amber-t:rgba(194,118,10,.10);
+  --r:14px; --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --serif:'Georgia','Times New Roman',serif;
 }
-*{box-sizing:border-box}
-html,body{margin:0;height:100%}
-body{background:var(--bg);color:var(--tx);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-button{font:inherit;cursor:pointer}
-.shell{display:flex;min-height:100vh}
-
-/* ── icon rail ───────────────────────────────────────────────────────────── */
-aside{width:var(--railw);flex:0 0 var(--railw);background:var(--panel);border-right:1px solid var(--hair);
-  display:flex;flex-direction:column;align-items:stretch;padding:10px 8px;position:sticky;top:0;height:100vh;z-index:40}
-.brand{display:flex;align-items:center;gap:10px;padding:6px 6px 14px;border-bottom:1px solid var(--hair2);margin-bottom:8px}
-.brand img{width:30px;height:30px;object-fit:contain;border-radius:7px;background:#fff}
-.brand .bmark{width:30px;height:30px;border-radius:8px;background:linear-gradient(145deg,#16a34a,#0d7a37);display:grid;place-items:center;color:#fff;font-weight:800;font-size:13px;letter-spacing:-.4px}
-.nav{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:var(--tx2);font-size:13px;font-weight:600;white-space:nowrap}
-.nav:hover{background:var(--panel2);color:var(--tx)}
-.nav.on{background:var(--green-d);color:#0b7a35}
-.nav.on .ic{filter:none}
-.ic{width:18px;text-align:center;font-size:15px;opacity:.85}
-.rail-lbl{display:none}
-aside:hover .rail-lbl{display:inline}
-aside:hover{width:196px;flex-basis:196px}
-aside{transition:width .18s ease,flex-basis .18s ease}
-.side-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--hair2)}
-
-/* ── main ────────────────────────────────────────────────────────────────── */
+.wrap{display:flex;min-height:100vh}
+aside{width:64px;flex:0 0 64px;background:var(--panel);border-right:1px solid var(--hair);
+  display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:6px;position:sticky;top:0;height:100vh}
+.rail-logo{width:34px;height:34px;border-radius:10px;background:var(--green-t);display:grid;place-items:center;margin-bottom:8px}
+.rail-logo img{width:24px;height:24px;object-fit:contain}
+.rail-btn{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;color:var(--tx2);cursor:pointer;position:relative;border:0;background:none}
+.rail-btn:hover{background:#f1f4f1;color:var(--tx)}
+.rail-btn.on{background:var(--green-t);color:var(--green-d)}
+.rail-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7}
+.rail-spacer{flex:1}
 main{flex:1;min-width:0;display:flex;flex-direction:column}
-header{height:var(--hdrH);display:flex;align-items:center;gap:14px;padding:0 22px;background:rgba(255,255,255,.82);
-  backdrop-filter:blur(10px);border-bottom:1px solid var(--hair);position:sticky;top:0;z-index:30}
-.clientlogo{height:30px;width:auto;object-fit:contain}
-.cname{font-weight:750;letter-spacing:-.2px;font-size:15px}
-.cname small{display:block;font-weight:500;color:var(--tx3);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
-.hspace{flex:1}
-.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;font-size:12px;font-weight:650;border:1px solid var(--hair);background:var(--panel);color:var(--tx2)}
-.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 3px var(--amber-d)}
-.chip.ok{color:#0b7a35;border-color:var(--green-b);background:var(--green-d)}
-.chip.ok .dot{background:var(--green);box-shadow:0 0 0 3px var(--green-d)}
-.btn{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:11px;padding:9px 15px;font-weight:700;font-size:13px;
-  background:var(--tx);color:#fff;position:relative;overflow:hidden;transition:transform .18s,box-shadow .18s}
-.btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px -14px rgba(14,32,23,.8)}
-.btn.primary{background:linear-gradient(180deg,#1eb257,#128c41);box-shadow:0 8px 20px -12px rgba(18,140,65,.9),inset 0 1px 0 rgba(255,255,255,.35)}
-.btn.primary::after{content:"";position:absolute;inset:0;transform:translateX(-120%) skewX(-18deg);
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transition:transform .7s cubic-bezier(.2,.8,.2,1)}
-.btn.primary:hover::after{transform:translateX(120%) skewX(-18deg)}
-.btn.ghost{background:var(--panel);color:var(--tx);border:1px solid var(--hair);box-shadow:var(--sh)}
-.btn.sm{padding:7px 12px;font-size:12px;border-radius:9px}
-
-/* pill tab strip */
-.pills{display:flex;gap:8px;padding:14px 22px 0;overflow-x:auto}
-.pill{padding:8px 14px;border-radius:999px;font-size:12.5px;font-weight:650;color:var(--tx2);border:1px solid var(--hair);background:var(--panel);white-space:nowrap}
+header{height:64px;display:flex;align-items:center;gap:14px;padding:0 24px;background:var(--panel);border-bottom:1px solid var(--hair);position:sticky;top:0;z-index:20}
+.brand{width:30px;height:30px;border-radius:8px;object-fit:contain;background:#fff}
+.cname{font-weight:600;font-size:14px;line-height:1.15}
+.cname small{display:block;font-weight:500;color:var(--tx3);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase}
+.hright{margin-left:auto;display:flex;align-items:center;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;font-size:12px;font-weight:600;
+  background:#f1f4f1;color:var(--tx2);border:1px solid var(--hair)}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--amber)}
+.chip.plan{background:var(--green-t);color:var(--green-d);border-color:rgba(22,163,74,.22)}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;font-size:13px;font-weight:600;
+  border:1px solid transparent;cursor:pointer;background:var(--green);color:#fff;position:relative;overflow:hidden}
+.btn:hover{background:var(--green-d)}
+.btn::after{content:"";position:absolute;inset:0;transform:translateX(-120%) skewX(-18deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.btn:hover::after{transform:translateX(120%) skewX(-18deg)}
+.btn.ghost{background:#fff;color:var(--tx);border-color:var(--hair2)}
+.btn.ghost:hover{background:#f7f9f7}
+.btn.sm{padding:7px 12px;font-size:12px}
+.pills{display:flex;gap:6px;padding:12px 24px 0;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:500;
+  color:var(--tx2);background:#fff;border:1px solid var(--hair);cursor:pointer}
+.pill:hover{border-color:var(--hair2);color:var(--tx)}
 .pill.on{background:var(--tx);color:#fff;border-color:var(--tx)}
-.pill:hover:not(.on){border-color:var(--green-b);color:var(--tx)}
-
-/* hero */
-.hero{padding:26px 22px 8px;max-width:1120px}
-.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--tx3);font-weight:700}
-h1{font-size:clamp(26px,3.4vw,40px);line-height:1.06;letter-spacing:-.03em;margin:10px 0 8px;font-weight:800}
-h1 em{font-family:var(--serif);font-style:italic;font-weight:500;color:#0b7a35}
-.sub{color:var(--tx2);max-width:60ch;font-size:14.5px}
-
-/* stat row */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:18px 22px 0;max-width:1120px}
-.stat{background:var(--panel);border:1px solid var(--hair);border-radius:var(--r);padding:14px 16px;box-shadow:var(--sh)}
-.stat .k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);font-weight:700}
-.stat .v{font-size:26px;font-weight:800;letter-spacing:-.03em;margin-top:6px;display:flex;align-items:baseline;gap:6px}
-.stat .v span{font-size:12px;font-weight:600;color:var(--tx3);letter-spacing:0}
-.stat .v .up{color:#0b7a35}
-
-/* editor grid */
-.editor{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:16px;padding:18px 22px 90px;max-width:1380px;align-items:start}
-.card{background:var(--panel);border:1px solid var(--hair);border-radius:var(--r);box-shadow:var(--sh)}
-.card h2{font-size:13px;margin:0;padding:14px 16px;border-bottom:1px solid var(--hair2);display:flex;align-items:center;gap:9px;letter-spacing:-.01em}
-.card h2 .badge{margin-left:auto;font-size:10.5px;font-weight:750;letter-spacing:.06em;text-transform:uppercase;color:#0b7a35;background:var(--green-d);border:1px solid var(--green-b);border-radius:999px;padding:3px 8px}
-.rows{padding:6px 8px 10px}
-.fld{padding:10px 8px;border-radius:10px}
-.fld:hover{background:var(--panel2)}
-.fld label{display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-weight:750;margin-bottom:5px}
-.fld input,.fld textarea{width:100%;border:1px solid var(--hair);background:var(--panel2);color:var(--tx);border-radius:9px;padding:9px 11px;font:inherit;font-size:13.5px;resize:vertical;outline:none;transition:border-color .15s,box-shadow .15s}
-.fld input:focus,.fld textarea:focus{border-color:var(--green-b);box-shadow:0 0 0 3px var(--green-d);background:#fff}
-.fld.changed label::after{content:" • edited";color:var(--amber);letter-spacing:0;text-transform:none;font-weight:600}
-
-/* preview */
-.preview{position:sticky;top:calc(var(--hdrH) + 14px)}
-.pvhead{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--hair2)}
-.pvhead .t{font-size:12.5px;font-weight:750}
-.tabs{display:flex;gap:4px;background:var(--panel2);border:1px solid var(--hair);border-radius:9px;padding:3px;margin-left:auto}
-.tabs button{border:0;background:transparent;color:var(--tx3);font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:7px}
-.tabs button.on{background:#fff;color:var(--tx);box-shadow:0 1px 2px rgba(14,32,23,.12)}
-.pvbody{position:relative;background:var(--bg2);border-radius:0 0 var(--r) var(--r);overflow:hidden}
-.pvbody.beam::before{content:"";position:absolute;inset:0;border-radius:0 0 var(--r) var(--r);padding:1px;
-  background:conic-gradient(from var(--a,0deg),transparent 0 65%,rgba(34,197,94,.85) 78%,rgba(34,197,94,.15) 88%,transparent 100%);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
-  animation:beam 6s linear infinite;pointer-events:none}
-@keyframes beam{to{--a:360deg}}
-@property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
-iframe{display:block;border:0;width:100%;height:min(72vh,720px);background:#fff}
-.pvfoot{display:flex;align-items:center;gap:10px;padding:9px 14px;border-top:1px solid var(--hair2);font-size:11.5px;color:var(--tx3)}
-
-/* publish bar */
-.pbar{position:fixed;left:var(--railw);right:0;bottom:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);
-  border-top:1px solid var(--hair);padding:11px 22px;display:flex;align-items:center;gap:12px;z-index:25}
-.pbar .note{font-size:12.5px;color:var(--tx2)}
-.pbar .note b{color:var(--tx)}
-.pbar .sp{flex:1}
-
-/* support */
-.support{padding:12px 10px}
-.support .t{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);font-weight:750;margin-bottom:7px}
-.support a{display:block;font-size:12.5px;color:var(--tx2);padding:5px 0}
-.support a:hover{color:#0b7a35}
-
-/* modal */
-.scrim{position:fixed;inset:0;background:rgba(12,26,19,.35);backdrop-filter:blur(3px);display:none;place-items:center;z-index:60}
-.scrim.on{display:grid}
-.modal{width:min(460px,92vw);background:var(--panel);border:1px solid var(--hair);border-radius:18px;box-shadow:0 30px 80px -40px rgba(12,26,19,.6);padding:22px}
-.modal h3{margin:0 0 8px;font-size:17px;letter-spacing:-.02em}
-.modal p{margin:0 0 16px;color:var(--tx2);font-size:13.5px}
-.modal .acts{display:flex;gap:9px;justify-content:flex-end}
-.toast{position:fixed;left:50%;bottom:74px;transform:translateX(-50%) translateY(8px);background:var(--tx);color:#fff;
-  padding:10px 16px;border-radius:11px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:70}
+.pill .lk{font-size:10px;opacity:.6}
+.body{padding:20px 24px 90px;max-width:1480px}
+h1{font-size:30px;font-weight:600;letter-spacing:-.02em;line-height:1.15;margin:10px 0 6px}
+h1 em{font-family:var(--serif);font-style:italic;font-weight:400}
+.eyebrow{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--tx3);font-weight:600}
+.sub{color:var(--tx2);font-size:14px;max-width:62ch}
+.grid{display:grid;gap:12px;margin-top:18px}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:1.05fr .95fr}
+@media(max-width:1100px){.g4{grid-template-columns:repeat(2,1fr)}.g3,.g2{grid-template-columns:1fr}}
+.stat{background:var(--panel);border:1px solid var(--hair);border-radius:var(--r);padding:15px 16px}
+.stat .k{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-weight:600}
+.stat .v{font-size:27px;font-weight:600;letter-spacing:-.02em;margin-top:6px}
+.stat .m{font-size:12px;color:var(--tx2);margin-top:2px}
+.stat.pos .v{color:var(--green-d)}
+.stat.warn .v{color:var(--amber)}
+.card{background:var(--panel);border:1px solid var(--hair);border-radius:var(--r);padding:18px}
+.card h2{font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.card .hint{font-size:12.5px;color:var(--tx2);margin-bottom:14px}
+.badge{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:6px;
+  background:var(--green-t);color:var(--green-d)}
+.badge.lock{background:var(--amber-t);color:var(--amber)}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px}
+.field input,.field textarea,.field select{width:100%;padding:9px 11px;border:1px solid var(--hair2);border-radius:9px;
+  font:14px/1.45 var(--sans);color:var(--tx);background:#fdfefd}
+.field input:focus,.field textarea:focus{outline:2px solid rgba(22,163,74,.25);border-color:rgba(22,163,74,.5)}
+.field textarea{resize:vertical;min-height:64px}
+.row{display:flex;gap:10px;align-items:center}
+.muted{color:var(--tx2);font-size:13px}
+.tiny{color:var(--tx3);font-size:11.5px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);font-weight:600;
+  padding:8px 10px;border-bottom:1px solid var(--hair)}
+td{padding:11px 10px;border-bottom:1px solid var(--hair);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.pv{border:1px solid var(--hair);border-radius:12px;overflow:hidden;background:#fff;max-height:540px}
+.pv iframe{width:200%;height:1560px;border:0;transform:scale(.5);transform-origin:top left;display:block}
+.pvbar{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border-bottom:1px solid var(--hair)}
+.pvbar .dot{width:8px;height:8px;border-radius:50%;background:var(--amber)}
+.view{display:none}
+.view.on{display:block}
+.lockbox{position:relative;border:1px solid var(--hair);border-radius:var(--r);overflow:hidden;background:var(--panel)}
+.lockbody{padding:22px}
+.lockbody h3{font-size:19px;font-weight:600;letter-spacing:-.01em}
+.lockbody p{color:var(--tx2);font-size:13.5px;margin:6px 0 14px;max-width:52ch}
+.locktease{filter:blur(3.4px);opacity:.5;pointer-events:none;user-select:none;padding:18px;border-bottom:1px solid var(--hair)}
+.price{font-size:13px;font-weight:700;color:var(--green-d)}
+.ulist{display:flex;flex-direction:column;gap:2px;max-height:520px;overflow:auto}
+.uitem{padding:11px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent}
+.uitem:hover{background:#f7f9f7}
+.uitem.on{background:var(--green-t);border-color:rgba(22,163,74,.2)}
+.uitem .t{font-weight:600;font-size:13.5px}
+.uitem .s{font-size:12px;color:var(--tx2)}
+.empty{padding:26px;text-align:center;color:var(--tx2);font-size:13.5px;border:1px dashed var(--hair2);border-radius:12px}
+.support{display:flex;flex-direction:column;gap:8px}
+.support a{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--hair);border-radius:10px;font-size:13.5px}
+.support a:hover{border-color:var(--hair2);background:#f7f9f7}
+.support b{font-weight:600}
+.overlay{position:fixed;inset:0;background:rgba(12,22,17,.34);display:none;place-items:center;z-index:60;padding:20px}
+.overlay.on{display:grid}
+.modal{background:#fff;border-radius:16px;max-width:430px;width:100%;padding:22px;box-shadow:0 30px 70px -30px rgba(12,22,17,.5)}
+.modal h3{font-size:18px;font-weight:600;letter-spacing:-.01em;margin-bottom:4px}
+.modal p{font-size:13.5px;color:var(--tx2);margin-bottom:14px}
+.pbar{position:fixed;left:64px;right:0;bottom:0;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);
+  border-top:1px solid var(--hair);padding:11px 24px;display:flex;align-items:center;gap:12px;z-index:30}
+.toast{position:fixed;bottom:74px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--tx);color:#fff;
+  padding:10px 16px;border-radius:999px;font-size:13px;opacity:0;transition:.25s;z-index:70;pointer-events:none}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
-
-.grp{border-radius:10px;margin:4px 2px 6px}
-.grp>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:9px 10px;font-size:12px;font-weight:750;letter-spacing:.02em;color:var(--tx);border-radius:9px;background:var(--panel2);border:1px solid var(--hair2)}
-.grp>summary::-webkit-details-marker{display:none}
-.grp>summary::before{content:"▸";color:var(--tx3);font-size:10px;transition:transform .15s}
-.grp[open]>summary::before{transform:rotate(90deg)}
-.grp>summary .cnt{margin-left:auto;font-size:10.5px;color:var(--tx3);background:#fff;border:1px solid var(--hair);border-radius:999px;padding:1px 7px}
-@media(max-width:1100px){
-  .editor{grid-template-columns:1fr}
-  .preview{position:static}
-  .stats{grid-template-columns:repeat(2,1fr)}
+@media(max-width:760px){
+  aside{display:none}.pbar{left:0}
+  header{padding:0 14px;gap:9px}.cname small{display:none}
+  .pills,.body{padding-left:14px;padding-right:14px}
+  .g4{grid-template-columns:1fr 1fr}
+  h1{font-size:24px}
 }
-@media(max-width:720px){
-  aside{display:none}
-  .pbar{left:0}
-  header{padding:0 14px;gap:10px}
-  .cname{font-size:13px;line-height:1.2}
-  .cname small{display:none}
-  #viewLive{display:none}
-  #draftChip{padding:5px 9px;font-size:0}
-  #draftChip .dot{width:8px;height:8px}
-  .pills,.hero,.stats,.editor{padding-left:14px;padding-right:14px}
-  iframe{height:56vh}
-  .btn span.lbl{display:none}
-}
-@media(prefers-reduced-motion:reduce){.pvbody.beam::before{display:none}.btn.primary::after{display:none}}
 </style>
 </head>
 <body>
-<div class="shell">
+<div class="wrap">
   <aside>
-    <div class="brand">
-      <span class="bmark">BS</span>
-      <span class="rail-lbl" style="font-weight:750;font-size:13px;letter-spacing:-.2px">BookiStudios</span>
-    </div>
-    <a class="nav on" href="#content"><span class="ic">✎</span><span class="rail-lbl">Content</span></a>
-    <a class="nav" href="#images"><span class="ic">▣</span><span class="rail-lbl">Images</span></a>
-    <a class="nav" href="#pages"><span class="ic">▤</span><span class="rail-lbl">Pages</span></a>
-    <a class="nav" href="#publish"><span class="ic">↥</span><span class="rail-lbl">Publish</span></a>
-    <div class="side-foot">
-      <div class="support">
-        <div class="t rail-lbl">Support</div>
-        <a href="mailto:founder@bookistudios.com"><span class="ic">✉</span> <span class="rail-lbl">founder@bookistudios.com</span></a>
-        <a href="https://bookistudios.com" target="_blank" rel="noopener"><span class="ic">◍</span> <span class="rail-lbl">bookistudios.com</span></a>
-      </div>
-    </div>
+    <div class="rail-logo"><img src="demo-site/assets/img/jbe-logo.png" alt=""></div>
+    <button class="rail-btn on" data-go="overview" title="Overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
+    <button class="rail-btn" data-go="site" title="Site"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 9h16"/></svg></button>
+    <button class="rail-btn" data-go="inbox" title="Inbox"><svg viewBox="0 0 24 24"><path d="M3 12l3-7h12l3 7v7H3z"/><path d="M3 12h5l1 2h6l1-2h5"/></svg></button>
+    <button class="rail-btn" data-go="contacts" title="Contacts"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></button>
+    <button class="rail-btn" data-go="bookings" title="Bookings"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></button>
+    <button class="rail-btn" data-go="reviews" title="Reviews"><svg viewBox="0 0 24 24"><path d="M12 3l2.9 6 6.1.9-4.5 4.3 1.1 6.3L12 17.8 6.4 20.5l1.1-6.3L3 9.9 9.1 9z"/></svg></button>
+    <button class="rail-btn" data-go="automations" title="Automations"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></button>
+    <button class="rail-btn" data-go="reports" title="Reports"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></button>
+    <button class="rail-btn" data-go="brain" title="AI Brain"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M8 12h8M12 8v8"/></svg></button>
+    <button class="rail-btn" data-go="ads" title="Ads"><svg viewBox="0 0 24 24"><path d="M3 10v4h3l5 4V6L6 10z"/><path d="M17 9a4 4 0 010 6"/></svg></button>
+    <div class="rail-spacer"></div>
+    <button class="rail-btn" data-go="support" title="Support"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 115 .5c0 1.5-2.5 2-2.5 3.5"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg></button>
   </aside>
 
   <main>
     <header>
-      <img class="clientlogo" src="demo-site/assets/img/jbe-logo.png" alt="Johnny Bravo Entertainment">
-      <div class="cname">Johnny Bravo Entertainment<small>Client portal · BookiStudios</small></div>
-      <div class="hspace"></div>
-      <span class="chip" id="draftChip"><span class="dot"></span><span id="draftTxt">No changes yet</span></span>
-      <button class="btn ghost sm" id="viewLive">View live site ↗</button>
-      <button class="btn primary" id="publishTop"><span class="lbl">Publish</span></button>
+      <img class="brand" src="demo-site/assets/img/jbe-logo.png" alt="">
+      <div class="cname">Johnny Bravo Entertainment<small>Client portal . BookiStudios</small></div>
+      <div class="hright">
+        <span class="chip" id="draftChip"><span class="dot"></span><span id="draftTxt">No unpublished changes</span></span>
+        <span class="chip plan">Growth</span>
+        <button class="btn ghost sm" id="viewLive">View live site</button>
+        <button class="btn" id="publishBtn">Publish</button>
+      </div>
     </header>
 
-    <div class="pills">
-      <button class="pill on">Home page</button>
-      <button class="pill">About</button>
-      <button class="pill">Services</button>
-      <button class="pill">Auctions</button>
-      <button class="pill">Contact</button>
-      <button class="pill">＋ Add page</button>
+    <div class="pills" id="pills">
+      <button class="pill on" data-go="overview">Overview</button>
+      <button class="pill" data-go="site">Site</button>
+      <button class="pill" data-go="inbox">Inbox</button>
+      <button class="pill" data-go="contacts">Contacts <span class="lk">&#9679;</span></button>
+      <button class="pill" data-go="bookings">Bookings <span class="lk">&#9679;</span></button>
+      <button class="pill" data-go="reviews">Reviews <span class="lk">&#9679;</span></button>
+      <button class="pill" data-go="automations">Automations <span class="lk">&#9679;</span></button>
+      <button class="pill" data-go="reports">Reports <span class="lk">&#9679;</span></button>
+      <button class="pill" data-go="brain">AI Brain <span class="lk">&#9679;</span></button>
+      <button class="pill" data-go="ads">Ads <span class="lk">&#9679;</span></button>
+      <button class="pill" data-go="support">Support</button>
     </div>
 
-    <section class="hero">
-      <div class="eyebrow">Content · Home page</div>
-      <h1>Edit your site, <em>live preview</em>, publish when ready.</h1>
-      <p class="sub">Type on the left and watch your page change on the right. Nothing visitors see changes until you press Publish — and you'll be asked to confirm first.</p>
-    </section>
+    <div class="body">
 
-    <div class="stats">
-      <div class="stat"><div class="k">Pages</div><div class="v">12</div></div>
-      <div class="stat"><div class="k">Editable blocks</div><div class="v" id="statBlocks">—</div></div>
-      <div class="stat"><div class="k">Image slots</div><div class="v" id="statImgs">—</div></div>
-      <div class="stat"><div class="k">Live version</div><div class="v" id="statLive">v18 <span class="up">● published</span></div></div>
-    </div>
-
-    <div class="editor">
-      <div class="card" id="contentCard">
-        <h2>Text on this page <span class="badge">Editable</span>
-          <input id="find" placeholder="Find text…" style="margin-left:auto;width:150px;border:1px solid var(--hair);background:var(--panel2);border-radius:8px;padding:5px 9px;font:inherit;font-size:12px;outline:none">
-        </h2>
-        <div class="rows" id="fields"><div class="fld"><label>Loading</label><input value="Reading your page…" disabled></div></div>
-      </div>
-
-      <div class="card preview" id="previewCard">
-        <div class="pvhead">
-          <span class="t">Preview</span>
-          <span class="chip" style="padding:3px 9px;font-size:11px">Draft — not live</span>
-          <div class="tabs">
-            <button class="on" data-w="100%">Desktop</button>
-            <button data-w="420px">Mobile</button>
+      <!-- OVERVIEW -->
+      <section class="view on" id="v-overview">
+        <div class="eyebrow">Your business, one screen</div>
+        <h1>Good evening, Johnny.<br><em>Your site is live and your leads are here.</em></h1>
+        <p class="sub">Everything below is yours. Free tabs are open now; the ones with a dot are already built and switch on when you want them.</p>
+        <div class="grid g4">
+          <div class="stat"><div class="k">Pages live</div><div class="v" id="s-pages">12</div><div class="m">Home, about, services, contact</div></div>
+          <div class="stat"><div class="k">Editable blocks</div><div class="v" id="s-blocks">40</div><div class="m">Text you control</div></div>
+          <div class="stat"><div class="k">Inquiries</div><div class="v pos" id="s-inq">0</div><div class="m">Through your site form</div></div>
+          <div class="stat warn"><div class="k">Awaiting reply</div><div class="v" id="s-wait">0</div><div class="m">Nobody has replied yet</div></div>
+        </div>
+        <div class="grid g2">
+          <div class="card">
+            <h2>New inquiry <span class="badge">Live form</span></h2>
+            <div class="hint">This is the form on your site. Send yourself a test — it lands in your Inbox instantly.</div>
+            <form id="inqForm">
+              <div class="row">
+                <div class="field" style="flex:1"><label>Name</label><input name="name" required placeholder="Dana Whitfield"></div>
+                <div class="field" style="flex:1"><label>Phone</label><input name="phone" required placeholder="(713) 555-0142"></div>
+              </div>
+              <div class="field"><label>What's the event?</label><textarea name="msg" required placeholder="Wedding reception, 120 guests, May 16 — need DJ + MC"></textarea></div>
+              <button class="btn" type="submit">Send inquiry</button>
+            </form>
+          </div>
+          <div class="card">
+            <h2>What's already included <span class="badge">Free</span></h2>
+            <div class="hint">No extra charge, no setup — it came with your site.</div>
+            <table>
+              <tr><td><b>Site editing</b><div class="tiny">Text and your own photos, live preview</div></td><td style="text-align:right"><span class="badge">On</span></td></tr>
+              <tr><td><b>Inquiry inbox</b><div class="tiny">Every form submission, one place</div></td><td style="text-align:right"><span class="badge">On</span></td></tr>
+              <tr><td><b>Publish with confirm</b><div class="tiny">Draft until you say go</div></td><td style="text-align:right"><span class="badge">On</span></td></tr>
+              <tr><td><b>Contacts, bookings, reviews</b><div class="tiny">Growth</div></td><td style="text-align:right"><span class="badge lock">$59</span></td></tr>
+              <tr><td><b>Instant reply, automations, AI</b><div class="tiny">Pro</div></td><td style="text-align:right"><span class="badge lock">$149</span></td></tr>
+            </table>
           </div>
         </div>
-        <div class="pvbody beam">
-          <iframe id="pv" src="demo-site/index.html?v=3" title="Draft preview"></iframe>
+      </section>
+
+      <!-- SITE -->
+      <section class="view" id="v-site">
+        <div class="eyebrow">Site</div>
+        <h1>Edit your words. <em>Watch it change.</em></h1>
+        <p class="sub">Text and photo slots only — the design can't break. Nothing goes live until you publish.</p>
+        <div class="grid g2" style="align-items:start">
+          <div class="card">
+            <h2>Page content <span class="badge">40 blocks</span></h2>
+            <div class="hint">Click any field, type, and the preview updates as you go.</div>
+            <div id="fields"></div>
+          </div>
+          <div class="card" style="position:sticky;top:84px">
+            <div class="pvbar"><span class="dot"></span><span class="tiny">Draft preview — not live</span>
+              <span style="margin-left:auto" class="tiny" id="pvNote">Home</span></div>
+            <div class="pv"><iframe id="pv" src="demo-site/index.html?v=3" title="Preview"></iframe></div>
+          </div>
         </div>
-        <div class="pvfoot"><span>Scaled preview · updates as you type</span><span style="margin-left:auto" id="pvNote">Same pages as the live site</span></div>
-      </div>
+      </section>
+
+      <!-- INBOX -->
+      <section class="view" id="v-inbox">
+        <div class="eyebrow">Inbox</div>
+        <h1>Every lead. <em>One place.</em></h1>
+        <p class="sub">Form submissions land here the second they arrive — no logging into anything else.</p>
+        <div class="grid g2" style="align-items:start">
+          <div class="card">
+            <h2>Inquiries <span class="badge" id="ibCount">0</span></h2>
+            <div class="hint">Click one to read it.</div>
+            <div class="ulist" id="ibList"></div>
+          </div>
+          <div class="card" id="ibDetail"><div class="empty">No inquiry selected.</div></div>
+        </div>
+      </section>
+
+      <!-- LOCKED -->
+      <section class="view" id="v-contacts"></section>
+      <section class="view" id="v-bookings"></section>
+      <section class="view" id="v-reviews"></section>
+      <section class="view" id="v-automations"></section>
+      <section class="view" id="v-reports"></section>
+      <section class="view" id="v-brain"></section>
+      <section class="view" id="v-ads"></section>
+
+      <!-- SUPPORT -->
+      <section class="view" id="v-support">
+        <div class="eyebrow">Support</div>
+        <h1>Talk to a human. <em>Not a ticket queue.</em></h1>
+        <p class="sub">Straight to the people who built your site.</p>
+        <div class="grid g2">
+          <div class="card">
+            <h2>BookiStudios</h2>
+            <div class="hint">Mon–Sat, 9am–7pm CT. Answered by the owner, not an agency.</div>
+            <div class="support">
+              <a href="mailto:founder@bookistudios.com"><b>founder@bookistudios.com</b><span class="tiny" style="margin-left:auto">Email</span></a>
+              <a href="https://bookistudios.com" target="_blank" rel="noopener"><b>bookistudios.com</b><span class="tiny" style="margin-left:auto">Website</span></a>
+              <a href="https://cal.com" target="_blank" rel="noopener"><b>Book a 15-minute call</b><span class="tiny" style="margin-left:auto">Calendar</span></a>
+            </div>
+          </div>
+          <div class="card">
+            <h2>Your account</h2>
+            <div class="hint">What you're on right now.</div>
+            <table>
+              <tr><td>Plan</td><td style="text-align:right"><b>Growth</b></td></tr>
+              <tr><td>Site</td><td style="text-align:right"><b>12 pages</b></td></tr>
+              <tr><td>Domain</td><td style="text-align:right">johnnybravoentertainment.com</td></tr>
+              <tr><td>Since</td><td style="text-align:right">2026</td></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
     </div>
 
     <div class="pbar">
-      <span class="note" id="barNote">Nothing to publish yet.</span>
-      <span class="sp"></span>
-      <button class="btn ghost sm" id="discard">Discard draft</button>
-      <button class="btn primary" id="publishBar">Publish changes</button>
+      <span class="muted" id="pbarTxt">No changes yet</span>
+      <div style="margin-left:auto" class="row">
+        <span class="tiny">Everything here is yours. Add modules anytime.</span>
+        <button class="btn" id="publishBtn2">Publish changes</button>
+      </div>
     </div>
   </main>
 </div>
 
-<div class="scrim" id="scrim">
-  <div class="modal" role="dialog" aria-modal="true">
-    <h3>Publish to johnnybravoentertainment.com?</h3>
-    <p>This replaces the live version. Visitors will see your changes immediately, and the previous version is kept so you can roll back.</p>
-    <div class="acts">
-      <button class="btn ghost" id="cancel">Cancel</button>
-      <button class="btn primary" id="confirm">Yes, publish</button>
-    </div>
-  </div>
-</div>
+<div class="overlay" id="ov"><div class="modal" id="ovBody"></div></div>
 <div class="toast" id="toast"></div>
-
 <script>
-const pv = document.getElementById('pv');
-let doc = null, changed = new Set();
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const money = n => '$' + n;
 
-pv.addEventListener('load', () => {
-  try { doc = pv.contentDocument; } catch(e){ doc = null; }
-  if(!doc) return;
-  buildFields();
+/* ---------- locked modules ---------- */
+const LOCKS = {
+  contacts: {t:'Contacts', price:59, plan:'Growth',
+    blurb:'Every person who ever inquired — one record with their history, tags and notes. No more scrolling texts to remember what you quoted.',
+    bullets:['Auto-created from every inquiry','Full conversation history per person','Tags: wedding, corporate, repeat','Notes and quoted amounts'],
+    tease:[['Contacts in your site form','0','Created automatically'],['Source tracking','Form, call, referral','Attribution on every record'],['Export','CSV anytime','Your data is yours']]},
+  bookings: {t:'Bookings', price:59, plan:'Growth',
+    blurb:'A booking link that matches your calendar, with automatic reminders so fewer people flake on the date.',
+    bullets:['Shareable booking link','Reminders 24h and 2h before','Deposit link at booking','No-show follow-up'],
+    tease:[['Booking link','johnnybravoentertainment.com/book','Ready to switch on'],['Reminders','24h + 2h','Automatic'],['Calendar sync','Google Calendar','Two-way']]},
+  reviews: {t:'Reviews', price:59, plan:'Growth',
+    blurb:'Two hours after every event, the client gets one text with your Google review link. You stop asking and start collecting.',
+    bullets:['Automatic request after the event','One tap to Google','Reply templates for 5-star and 3-star','Monthly review count'],
+    tease:[['Requests sent','Automatic','After each event'],['Where it goes','Your Google listing','One tap'],['Bad-review routing','Private first','Protects your rating']]},
+  automations: {t:'Automations', price:149, plan:'Pro',
+    blurb:'The one thing that decides who wins the job: whoever replies first. This replies in under a minute, every time, even at 11pm during a wedding.',
+    bullets:['Instant reply to every inquiry','Missed-call text-back','3-touch follow-up if no answer','Reactivation: past clients each spring'],
+    compare:true,
+    tease:[['First reply','Under 60 seconds','Automatic'],['Missed calls','Text back in 20s','Automatic'],['Follow-up','Day 1, 3, 7','Stops on reply'],['Reactivation','Every March','Past clients only']]},
+  reports: {t:'Reports', price:149, plan:'Pro',
+    blurb:'One page a month: how many inquiries, what they were worth, which channel brought them, and what is still unanswered.',
+    bullets:['Monthly PDF one-pager','Source attribution','Revenue pipeline','Response-time score'],
+    tease:[['Inquiries','Auto-counted','From your form'],['Source','Form, call, referral','Tagged'],['Delivery','1st of the month','Emailed']]},
+  brain: {t:'AI Brain', price:149, plan:'Pro',
+    blurb:'Ask your own business a question in plain English — "what did I quote the Hendersons?" — and get the answer from your own records. Runs locally, your data never leaves your account.',
+    bullets:['Ask across inquiries, notes, quotes','Draft a reply in your voice','Summarise a client before the call','Runs on our own model, no per-message fees'],
+    tease:[['Model','Local, client-scoped','No usage bills'],['Reads','Your inquiries + notes','Nobody else’s'],['Answers','Under 2 seconds','Cached summaries']]},
+  ads: {t:'Ads', price:299, plan:'Scale',
+    blurb:'Turn the ads on when the calendar has gaps, off when you are full. Reporting that ties spend to actual inquiries, not clicks.',
+    bullets:['Facebook + Instagram campaigns','Spend tied to inquiries','Pause when booked','Monthly creative refresh'],
+    tease:[['Channels','Meta only','Where your buyers are'],['Attribution','Spend to inquiry','Not clicks'],['Pause rule','Auto when full','Waste stops']]}
+};
+
+const inq = {
+  key:'bsos_inq_jbe',
+  all(){ try{ return JSON.parse(localStorage.getItem(this.key) || '[]'); }catch(e){ return []; } },
+  save(a){ localStorage.setItem(this.key, JSON.stringify(a)); }
+};
+
+/* ---------- render locked views ---------- */
+function lockView(key){
+  const L = LOCKS[key]; if(!L) return '';
+  const rows = L.tease.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td class="tiny" style="text-align:right">${r[2]}</td></tr>`).join('');
+  const bullets = L.bullets.map(b => `<div class="row" style="gap:8px;margin-bottom:6px"><span style="color:var(--green-d)">&#10003;</span><span class="muted">${b}</span></div>`).join('');
+  const cmp = L.compare ? `
+    <div class="card" style="margin-top:12px">
+      <h2>What you already have here <span class="badge lock">vs. your invoice</span></h2>
+      <div class="hint">Bring the invoice from your current provider. We'll map it line by line — no guessing.</div>
+      <table>
+        <tr><th>Capability</th><th>Here</th><th>What you pay today</th></tr>
+        <tr><td>Website + edits</td><td><span class="badge">Included</span></td><td class="tiny">You have it — this site</td></tr>
+        <tr><td>Inquiry form + inbox</td><td><span class="badge">Included</span></td><td class="tiny">Bring your invoice</td></tr>
+        <tr><td>Instant reply</td><td>Pro — $149</td><td class="tiny">Bring your invoice</td></tr>
+        <tr><td>Booking + reminders</td><td>Growth — $59</td><td class="tiny">Bring your invoice</td></tr>
+        <tr><td>Reviews + reactivation</td><td>Pro — $149</td><td class="tiny">Bring your invoice</td></tr>
+      </table>
+    </div>` : '';
+  return `
+    <div class="eyebrow">${L.plan} module</div>
+    <h1>${L.t}. <em>Already built. One switch.</em></h1>
+    <p class="sub">${L.blurb}</p>
+    <div class="grid g2" style="align-items:start">
+      <div class="lockbox">
+        <div class="locktease"><table>${rows}</table></div>
+        <div class="lockbody">
+          <h3>Turn on ${L.t}</h3>
+          <p>${bullets}</p>
+          <div class="row">
+            <span class="price">${money(L.price)}/mo</span>
+            <span class="tiny">on top of your Growth plan — cancel anytime, no setup fee</span>
+          </div>
+          <div style="margin-top:14px"><button class="btn" data-unlock="${key}">Turn on ${L.t}</button></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h2>What it does with your account</h2>
+          <div class="hint">Everything below runs on your own site and your own records.</div>
+          <table>${rows}</table>
+        </div>
+        ${cmp}
+      </div>
+    </div>`;
+}
+Object.keys(LOCKS).forEach(k => { const el = $('#v-'+k); if(el) el.innerHTML = lockView(k); });
+
+/* ---------- nav ---------- */
+function go(key){
+  $$('.view').forEach(v => v.classList.toggle('on', v.id === 'v-'+key));
+  $$('.pill').forEach(p => p.classList.toggle('on', p.dataset.go === key));
+  $$('.rail-btn').forEach(b => b.classList.toggle('on', b.dataset.go === key));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+$$('[data-go]').forEach(el => el.onclick = () => go(el.dataset.go));
+
+/* ---------- inbox ---------- */
+function renderInbox(sel){
+  const a = inq.all().slice().reverse();
+  $('#ibCount').textContent = a.length;
+  $('#s-inq').textContent = a.length;
+  $('#s-wait').textContent = a.filter(x => !x.done).length;
+  const list = $('#ibList');
+  if(!a.length){ list.innerHTML = '<div class="empty">No inquiries yet. Send a test from Overview — it appears here instantly.</div>'; }
+  else {
+    list.innerHTML = a.map((x,i) => `
+      <div class="uitem ${x.id===sel?'on':''}" data-id="${x.id}">
+        <div class="row"><div class="t">${x.name}</div>
+          <span class="tiny" style="margin-left:auto">${x.when}</span></div>
+        <div class="s">${x.phone} · ${x.msg.slice(0,52)}${x.msg.length>52?'…':''}</div>
+      </div>`).join('');
+    $$('.uitem', list).forEach(n => n.onclick = () => renderInbox(n.dataset.id));
+  }
+  const cur = a.find(x => x.id === sel) || a[0];
+  $('#ibDetail').innerHTML = cur ? `
+    <h2>${cur.name} <span class="badge lock">Unanswered</span></h2>
+    <div class="hint">${cur.phone} · ${cur.when}</div>
+    <p style="font-size:14.5px;line-height:1.6;margin-bottom:16px">${cur.msg}</p>
+    <div class="row">
+      <a class="btn sm" href="tel:${cur.phone.replace(/[^0-9+]/g,'')}">Call back</a>
+      <a class="btn ghost sm" href="sms:${cur.phone.replace(/[^0-9+]/g,'')}">Text back</a>
+      <button class="btn ghost sm" data-unlock="automations">Reply automatically</button>
+    </div>
+    <div class="tiny" style="margin-top:14px">Replies are sent from your own number. Automatic replies are a Pro module.</div>` :
+    '<div class="empty">No inquiry selected.</div>';
+}
+$('#inqForm').onsubmit = e => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const a = inq.all();
+  a.push({id:'i'+Date.now(), name:f.get('name'), phone:f.get('phone'), msg:f.get('msg'),
+    when:new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}), done:false});
+  inq.save(a); e.target.reset(); renderInbox(); toast('Inquiry received — it is in your Inbox');
+  go('inbox');
+};
+renderInbox();
+
+/* ---------- site editor ---------- */
+let dirty = 0;
+function setDirty(n){
+  dirty = n;
+  $('#draftTxt').textContent = n ? n+' unpublished change'+(n>1?'s':'') : 'No unpublished changes';
+  $('#pbarTxt').textContent = n ? n+' change'+(n>1?'s':'')+' ready to publish' : 'No changes yet';
+}
+function buildFields(){
+  const d = $('#pv').contentDocument; if(!d) return;
+  const nodes = [...d.querySelectorAll('[data-k]')];
+  $('#s-blocks').textContent = nodes.length;
+  let cur = 'Top of page', out = '';
+  nodes.forEach((n,i) => {
+    const tag = n.tagName.toLowerCase();
+    if(tag === 'h1' || tag === 'h2'){ const t = (n.textContent||'').trim(); if(t.length>1) cur = t.slice(0,34); }
+    const val = (n.textContent||'').trim().replace(/\s+/g,' ');
+    const label = tag.startsWith('h') ? 'Headline' : (tag === 'p' ? 'Body text' : 'Label');
+    out += `<div class="field" data-g="${cur}">
+      <label>${cur} · ${label}</label>
+      ${val.length > 70
+        ? `<textarea data-k="${n.getAttribute('data-k')}">${val}</textarea>`
+        : `<input data-k="${n.getAttribute('data-k')}" value="${val.replace(/"/g,'&quot;')}">`}
+    </div>`;
+    $(`[data-k="${n.getAttribute('data-k')}"]`);
+  });
+  $('#fields').innerHTML = out;
+  $$('#fields [data-k]').forEach(inp => {
+    inp.oninput = () => {
+      const el = d.querySelector(`[data-k="${inp.dataset.k}"]`);
+      if(el){ el.textContent = inp.value; }
+      if(!inp.dataset.d){ inp.dataset.d = '1'; setTimeout(()=>setDirty(dirty+1),0); }
+    };
+  });
+}
+$('#pv').onload = () => { try{ buildFields(); }catch(e){} };
+let _tries = 0;
+const _t = setInterval(() => {
+  _tries++;
+  try{
+    buildFields();
+    if(document.querySelectorAll('#fields [data-k]').length) clearInterval(_t);
+  }catch(e){}
+  if(_tries > 40) clearInterval(_t);
+}, 400);
+$$('[data-go=site]').forEach(el => el.addEventListener('click', () => setTimeout(() => { try{ buildFields(); }catch(e){} }, 250)));
+
+/* ---------- publish + unlock ---------- */
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),2600); }
+function modal(html){ $('#ovBody').innerHTML = html; $('#ov').classList.add('on'); }
+$('#ov').onclick = e => { if(e.target.id === 'ov') $('#ov').classList.remove('on'); };
+
+function publish(){
+  modal(`<h3>Publish these changes?</h3>
+    <p>They go live on johnnybravoentertainment.com right away. Your previous version is kept, so this can be undone.</p>
+    <div class="row" style="justify-content:flex-end;margin-top:16px">
+      <button class="btn ghost" onclick="document.getElementById('ov').classList.remove('on')">Not yet</button>
+      <button class="btn" id="doPub">Publish</button></div>`);
+  $('#doPub').onclick = () => { $('#ov').classList.remove('on'); setDirty(0); toast('Published — your site is updated'); };
+}
+$('#publishBtn').onclick = publish;
+$('#publishBtn2').onclick = publish;
+$('#viewLive').onclick = () => window.open('demo-site/index.html?v=3','_blank');
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-unlock]'); if(!b) return;
+  const k = b.dataset.unlock, L = LOCKS[k];
+  modal(`<h3>Turn on ${L.t}</h3>
+    <p>${money(L.price)}/mo, added to your plan. Cancels anytime. We switch it on for your account and email you when it's live.</p>
+    <div class="field"><label>Where should we confirm?</label><input id="ulEmail" placeholder="you@business.com"></div>
+    <div class="row" style="justify-content:flex-end">
+      <button class="btn ghost" onclick="document.getElementById('ov').classList.remove('on')">Cancel</button>
+      <button class="btn" id="ulGo">Request ${L.t}</button></div>`);
+  $('#ulGo').onclick = () => {
+    const v = $('#ulEmail').value.trim();
+    if(!v){ $('#ulEmail').focus(); return; }
+    const reqs = JSON.parse(localStorage.getItem('bsos_req') || '[]');
+    reqs.push({module:k, email:v, when:new Date().toISOString()});
+    localStorage.setItem('bsos_req', JSON.stringify(reqs));
+    $('#ov').classList.remove('on');
+    toast('Request saved — we will confirm by email');
+  };
 });
 
-function buildFields(){
-  const nodes = [...doc.querySelectorAll('[data-k]')];
-  const box = document.getElementById('fields');
-  const groups = new Map();
-  let curGroup = 'Page top';
-  nodes.forEach((n) => {
-    const tag = n.tagName;
-    if(tag === 'H1' || tag === 'H2'){
-      const t = (n.textContent||'').trim();
-      if(t.length > 1) curGroup = t.slice(0, 34);
-    }
-    const key = n.getAttribute('data-k');
-    const lbl = n.getAttribute('data-lbl') ||
-      ({H1:'Headline', H2:'Section title', H3:'Small heading', H4:'Small heading'}[tag]) ||
-      (/btn/i.test(n.className) ? 'Button label' : 'Body text');
-    const g = curGroup;
-    if(!groups.has(g)) groups.set(g, []);
-    if(!groups.get(g).some(x => x.key === key)) groups.get(g).push({key, n, lbl: n.getAttribute('data-lbl') || 'Text'});
-  });
-  box.innerHTML = '';
-  let first = true;
-  groups.forEach((items, gname) => {
-    const sec = document.createElement('details');
-    sec.className = 'grp'; sec.open = first; first = false;
-    const sum = document.createElement('summary');
-    sum.innerHTML = '<span>' + gname + '</span><span class="cnt">' + items.length + '</span>';
-    sec.appendChild(sum);
-    items.forEach(({key, n, lbl}) => {
-      const wrap = document.createElement('div');
-      wrap.className = 'fld'; wrap.dataset.k = key; wrap.dataset.hay = (gname + ' ' + lbl + ' ' + n.textContent).toLowerCase();
-      const lab = document.createElement('label');
-      lab.textContent = lbl;
-      const long = (n.textContent||'').trim().length > 70;
-      const inp = document.createElement(long ? 'textarea' : 'input');
-      if(long) inp.rows = 3;
-      inp.value = n.textContent.trim();
-      inp.addEventListener('input', () => {
-        doc.querySelectorAll('[data-k="'+key+'"]').forEach(el => { el.textContent = inp.value; });
-        wrap.classList.add('changed'); changed.add(key); syncDraft();
-      });
-      wrap.append(lab, inp); sec.appendChild(wrap);
-    });
-    box.appendChild(sec);
-  });
-  document.getElementById('statBlocks').textContent = nodes.length;
-  document.getElementById('statImgs').textContent = doc.querySelectorAll('[data-img]').length;
-  const f = document.getElementById('find');
-  f.addEventListener('input', () => {
-    const q = f.value.toLowerCase().trim();
-    box.querySelectorAll('.fld').forEach(el => {
-      el.style.display = (!q || el.dataset.hay.includes(q)) ? '' : 'none';
-    });
-    box.querySelectorAll('.grp').forEach(sec => {
-      const any = [...sec.querySelectorAll('.fld')].some(el => el.style.display !== 'none');
-      sec.style.display = any ? '' : 'none';
-      if(q && any) sec.open = true;
-    });
-  });
-  syncDraft();
-}
-
-function syncDraft(){
-  const n = changed.size;
-  const chip = document.getElementById('draftChip');
-  document.getElementById('draftTxt').textContent = n ? n + ' unpublished change' + (n>1?'s':'') : 'No changes yet';
-  chip.classList.toggle('ok', n === 0);
-  document.getElementById('barNote').innerHTML = n
-    ? '<b>' + n + '</b> change' + (n>1?'s':'') + ' ready to publish.'
-    : 'Nothing to publish yet.';
-}
-
-document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('.tabs button').forEach(x => x.classList.remove('on'));
-  b.classList.add('on');
-  pv.style.width = b.dataset.w;
-  pv.style.margin = b.dataset.w === '420px' ? '0 auto' : '0';
-}));
-
-const scrim = document.getElementById('scrim');
-const toast = (m) => { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'), 2600); };
-document.getElementById('publishTop').onclick = () => scrim.classList.add('on');
-document.getElementById('publishBar').onclick = () => scrim.classList.add('on');
-document.getElementById('cancel').onclick = () => scrim.classList.remove('on');
-document.getElementById('confirm').onclick = () => { scrim.classList.remove('on'); toast('Demo only — publishing is not wired in this preview.'); };
-document.getElementById('discard').onclick = () => { location.reload(); };
-document.getElementById('viewLive').onclick = () => window.open('demo-site/index.html?v=3','_blank');
+/* deep link */
+const h = (location.hash||'').replace('#','');
+if(h && document.getElementById('v-'+h)) go(h);
+setDirty(0);
 </script>
 </body>
 </html>
