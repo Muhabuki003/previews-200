@@ -104,15 +104,13 @@ header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);backdro
   .pgrid{grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,64px);align-items:start;padding-top:14px}
   .gallery-col{position:sticky;top:80px}
 }
-.gallery{display:grid;grid-template-columns:56px 1fr;gap:10px}
-.thumbs{display:grid;gap:8px;align-content:start}
-.thumb{padding:0;border:1px solid var(--hair);border-radius:7px;overflow:hidden;background:#fff}
+.gallery{display:grid;gap:10px}
+.thumbs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:2px}
+.thumbs::-webkit-scrollbar{display:none}
+.thumb{flex:0 0 62px;padding:0;border:1px solid var(--hair);border-radius:7px;overflow:hidden;background:#fff}
 .thumb[aria-current="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
 .thumb .ph{border:0;border-radius:0;aspect-ratio:1/1}
-.dots{display:flex;gap:6px;justify-content:center;margin-top:10px}
-.dot{width:6px;height:6px;border-radius:99px;background:var(--hair-2)}
-.dot[aria-current="true"]{background:var(--ink);width:16px}
-@media(min-width:900px){.dots{display:none}}
+@media(min-width:900px){.thumb{flex-basis:74px}}
 
 .title{font-size:25px;line-height:1.2;letter-spacing:-.01em;font-weight:500;margin:2px 0 6px}
 @media(min-width:900px){.title{font-size:31px}}
@@ -229,9 +227,25 @@ header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);backdro
   font-size:8.5px;letter-spacing:.04em;color:var(--ink-2);font-weight:600;background:#fff;padding:0 6px;
 }
 
-/* video strip */
-.vids{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:34px 0}
-@media(min-width:900px){.vids{gap:16px;margin:48px 0}}
+/* ugc strip under the shipping timeline */
+.vids{display:flex;gap:8px;margin:16px 0 2px}
+.vthumb{flex:0 0 64px;padding:0;border:0;background:none;cursor:zoom-in;border-radius:8px;overflow:hidden;display:block;transition:transform .15s ease,box-shadow .15s ease}
+.vthumb:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(22,18,28,.12)}
+.vthumb:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.vids .ph{border-radius:8px}
+.vids .ph.video::before{width:20px;height:20px}
+.vids .ph.video::after{display:none}
+.vids .ph.video .tri{border-left:6px solid var(--accent);border-top:4px solid transparent;border-bottom:4px solid transparent;margin-left:2px}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:90;background:rgba(22,18,28,.74);display:grid;place-items:center;padding:22px;opacity:0;pointer-events:none;transition:opacity .2s}
+.lb.on{opacity:1;pointer-events:auto}
+.lb-in{width:min(360px,76vw);animation:lbIn .22s ease}
+@keyframes lbIn{from{transform:scale(.96);opacity:.4}to{transform:none;opacity:1}}
+.lb-in .ph{box-shadow:0 26px 60px rgba(0,0,0,.4)}
+.lb-in .ph.video::before{width:58px;height:58px}
+.lb-close{position:absolute;top:14px;right:16px;width:38px;height:38px;border-radius:99px;background:rgba(255,255,255,.16);color:#fff;font-size:22px;line-height:1;display:grid;place-items:center}
+.lb-close:hover{background:rgba(255,255,255,.26)}
 
 /* reviews */
 .reviews{border-top:1px solid var(--hair);padding:34px 0 10px;background:var(--paper-2)}
@@ -392,20 +406,13 @@ footer{border-top:1px solid var(--hair);padding:34px 0 40px;margin-top:20px}
       <!-- gallery -->
       <div class="gallery-col">
         <div class="gallery">
+          <div class="ph r45" id="mainImg" data-label="IMAGE 01 · 4:5"></div>
           <div class="thumbs" id="thumbs">
             <button class="thumb" aria-current="true" data-i="0"><div class="ph r11 sm" data-label="01"></div></button>
             <button class="thumb" aria-current="false" data-i="1"><div class="ph r11 sm" data-label="02"></div></button>
             <button class="thumb" aria-current="false" data-i="2"><div class="ph r11 sm" data-label="03"></div></button>
             <button class="thumb" aria-current="false" data-i="3"><div class="ph r11 sm" data-label="04"></div></button>
             <button class="thumb" aria-current="false" data-i="4"><div class="ph r11 sm" data-label="05"></div></button>
-          </div>
-          <div>
-            <div class="ph r45" id="mainImg" data-label="IMAGE 01 · 4:5"></div>
-            <div class="dots" id="dots">
-              <i class="dot" aria-current="true" data-i="0"></i><i class="dot" aria-current="false" data-i="1"></i>
-              <i class="dot" aria-current="false" data-i="2"></i><i class="dot" aria-current="false" data-i="3"></i>
-              <i class="dot" aria-current="false" data-i="4"></i>
-            </div>
           </div>
         </div>
       </div>
@@ -506,17 +513,17 @@ footer{border-top:1px solid var(--hair);padding:34px 0 40px;margin-top:20px}
           </div>
         </div>
 
+        <div class="vids" id="vids" aria-label="Customer videos">
+          <button class="vthumb" data-vid="0" aria-label="Play customer video 1"><div class="ph r916 video sm" data-label=""><span class="tri"></span></div></button>
+          <button class="vthumb" data-vid="1" aria-label="Play customer video 2"><div class="ph r916 video sm" data-label=""><span class="tri"></span></div></button>
+          <button class="vthumb" data-vid="2" aria-label="Play customer video 3"><div class="ph r916 video sm" data-label=""><span class="tri"></span></div></button>
+        </div>
+
         <div class="pays">
           <span class="pay">PayPal</span><span class="pay">VISA</span><span class="pay">MC</span>
           <span class="pay">Pay</span><span class="pay">G Pay</span><span class="pay">Shop&nbsp;Pay</span>
         </div>
       </div>
-    </div>
-
-    <div class="vids">
-      <div class="ph r916 video" data-label="VIDEO · 9:16"><span class="tri"></span></div>
-      <div class="ph r916 video" data-label="VIDEO · 9:16"><span class="tri"></span></div>
-      <div class="ph r916 video" data-label="VIDEO · 9:16"><span class="tri"></span></div>
     </div>
   </section>
 
@@ -619,6 +626,13 @@ footer{border-top:1px solid var(--hair);padding:34px 0 40px;margin-top:20px}
   </div>
 </aside>
 
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Customer video" aria-hidden="true">
+  <button class="lb-close" id="lbClose" aria-label="Close video">&times;</button>
+  <div class="lb-in">
+    <div class="ph r916 video" data-label="VIDEO · 9:16"><span class="tri"></span></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -639,7 +653,6 @@ const mainImg = document.getElementById('mainImg');
 function setImg(i){
   mainImg.setAttribute('data-label', 'IMAGE 0' + (i+1) + ' · 4:5');
   document.querySelectorAll('#thumbs .thumb').forEach(t => t.setAttribute('aria-current', String(+t.dataset.i === i)));
-  document.querySelectorAll('#dots .dot').forEach(d => d.setAttribute('aria-current', String(+d.dataset.i === i)));
 }
 document.getElementById('thumbs').addEventListener('click', e => {
   const t = e.target.closest('.thumb'); if (t) setImg(+t.dataset.i);
@@ -769,6 +782,18 @@ function closeCart(){
 }
 document.querySelectorAll('[data-open-cart]').forEach(b => b.onclick = openCart);
 document.querySelectorAll('[data-close-cart]').forEach(b => b.onclick = closeCart);
+
+/* ---------- ugc lightbox ---------- */
+const lb = document.getElementById('lb');
+function openLb(i){
+  lb.querySelector('.ph').setAttribute('data-label', 'CUSTOMER VIDEO 0' + (i+1) + ' · 9:16');
+  lb.classList.add('on'); lb.setAttribute('aria-hidden','false');
+}
+function closeLb(){ lb.classList.remove('on'); lb.setAttribute('aria-hidden','true'); }
+document.querySelectorAll('.vthumb').forEach(b => b.onclick = () => openLb(+b.dataset.vid));
+document.getElementById('lbClose').onclick = closeLb;
+lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
 
 /* ---------- reservation countdown ---------- */
