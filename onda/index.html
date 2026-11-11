@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ONDA Heatless Curling Ribbon — ONDA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFFFF;
+  --paper-2:#FBF9FE;
+  --ink:#16121C;
+  --ink-2:#5D5668;
+  --ink-3:#8B8497;
+  --hair:#E9E4F0;
+  --hair-2:#DCD5E8;
+  --accent:#6B46C1;
+  --accent-deep:#55339B;
+  --accent-soft:#EFE8FB;
+  --accent-mid:#DCCFF5;
+  --gold:#E8B33A;
+  --stock:#D93025;
+  --maxw:1240px;
+  --pad:clamp(16px,4vw,56px);
+  --r:10px;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --serif:"Cormorant Garamond",Georgia,serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:15px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- placeholder media ---------- */
+.ph{
+  position:relative;width:100%;background-color:#F3EFFA;
+  background-image:repeating-linear-gradient(45deg,#F3EFFA 0 10px,#ECE5F7 10px 20px);
+  border:1px solid var(--hair-2);border-radius:var(--r);overflow:hidden;
+  display:grid;place-items:center;
+}
+.ph::after{
+  content:attr(data-label);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:#8C7FA6;background:rgba(255,255,255,.82);padding:5px 9px;border-radius:99px;
+  border:1px solid var(--hair-2);white-space:nowrap;
+}
+.ph.r45{aspect-ratio:4/5}
+.ph.r11{aspect-ratio:1/1}
+.ph.r169{aspect-ratio:16/9}
+.ph.r916{aspect-ratio:9/16}
+.ph.sm::after{font-size:8px;letter-spacing:.1em;padding:3px 6px}
+.ph[data-label=""]::after{display:none}
+.ph.video::before{
+  content:"";position:absolute;width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,.9);border:1px solid var(--hair-2);
+}
+.ph.video::after{
+  content:attr(data-label);position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  background:rgba(255,255,255,.92);
+}
+.ph.video .tri{
+  position:relative;z-index:2;width:0;height:0;margin-left:3px;
+  border-left:11px solid var(--accent);border-top:7px solid transparent;border-bottom:7px solid transparent;
+}
+
+/* ---------- announcement ---------- */
+.ann{
+  background:var(--accent-mid);color:#2B1D45;text-align:center;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;padding:9px 12px;font-weight:500;
+}
+.ann b{font-weight:600}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--hair)}
+.hrow{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;height:62px}
+.nav-l{display:none;gap:26px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
+.brand{font-family:var(--serif);font-weight:600;font-size:23px;letter-spacing:.34em;text-indent:.34em;white-space:nowrap}
+.icons{display:flex;gap:16px;align-items:center;justify-content:flex-end}
+.icons button{display:grid;place-items:center;width:26px;height:26px;color:var(--ink)}
+.icons svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.4}
+.cart-n{position:relative}
+.cart-n span{
+  position:absolute;top:-5px;right:-7px;min-width:16px;height:16px;border-radius:99px;
+  background:var(--accent);color:#fff;font-size:9.5px;display:grid;place-items:center;padding:0 4px;font-weight:600;
+}
+@media(min-width:900px){
+  .nav-l{display:flex}
+  .brand{font-size:26px}
+}
+
+/* ---------- product ---------- */
+.product{padding-block:20px 8px}
+.pgrid{display:grid;gap:22px}
+@media(min-width:900px){
+  .pgrid{grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,64px);align-items:start;padding-top:14px}
+  .gallery-col{position:sticky;top:80px}
+}
+.gallery{display:grid;grid-template-columns:56px 1fr;gap:10px}
+.thumbs{display:grid;gap:8px;align-content:start}
+.thumb{padding:0;border:1px solid var(--hair);border-radius:7px;overflow:hidden;background:#fff}
+.thumb[aria-current="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
+.thumb .ph{border:0;border-radius:0;aspect-ratio:1/1}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:10px}
+.dot{width:6px;height:6px;border-radius:99px;background:var(--hair-2)}
+.dot[aria-current="true"]{background:var(--ink);width:16px}
+@media(min-width:900px){.dots{display:none}}
+
+.title{font-size:25px;line-height:1.2;letter-spacing:-.01em;font-weight:500;margin:2px 0 6px}
+@media(min-width:900px){.title{font-size:31px}}
+.sub{color:var(--ink-2);font-size:14px;margin:0 0 14px;max-width:42ch}
+.price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.price .was{color:var(--ink-3);text-decoration:line-through;font-size:14px}
+.price .now{font-size:20px;font-weight:500}
+.price .cur{font-size:12px;color:var(--ink-3);letter-spacing:.06em}
+.badge-sale{
+  background:var(--accent-soft);color:var(--accent-deep);border:1px solid var(--accent-mid);
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:99px;font-weight:500;
+}
+
+.promo{
+  border:1px dashed var(--accent-mid);background:var(--paper-2);border-radius:var(--r);
+  padding:12px 14px;margin-bottom:16px;
+}
+.promo-h{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px;color:var(--accent-deep)}
+.promo-h svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6}
+.promo p{margin:5px 0 9px;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.code{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--hair-2);background:#fff;border-radius:6px;padding:4px 9px;font-size:11.5px;letter-spacing:.14em;font-weight:600}
+.code button{display:grid;place-items:center;color:var(--ink-3)}
+.code svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5}
+
+.usps{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:8px}
+.usps li{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--ink)}
+.tick{flex:none;width:15px;height:15px;border-radius:50%;background:var(--accent);display:grid;place-items:center;margin-top:2px}
+.tick svg{width:8px;height:8px;stroke:#fff;fill:none;stroke-width:2.6}
+
+/* review slider */
+.slider{border:1px solid var(--hair);border-radius:var(--r);padding:12px 34px 12px 12px;position:relative;margin-bottom:18px;background:#fff}
+.slider-body{display:flex;gap:10px}
+.av{flex:none;width:34px;height:34px;border-radius:6px;overflow:hidden}
+.slider .who{font-size:12.5px;font-weight:600;display:flex;gap:6px;align-items:center;margin-bottom:3px}
+.stars{color:var(--gold);letter-spacing:1px;font-size:10px}
+.slider q{font-size:12.5px;color:var(--ink-2);line-height:1.5;display:block;quotes:none}
+.s-nav{position:absolute;top:50%;transform:translateY(-50%);width:24px;height:24px;display:grid;place-items:center;color:var(--ink-3)}
+.s-nav.prev{left:4px}.s-nav.next{right:4px}
+.s-nav svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.6}
+
+/* variants */
+.opt-label{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-bottom:8px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.pill{
+  border:1px solid var(--hair-2);border-radius:99px;padding:7px 16px;font-size:13px;background:#fff;
+  transition:background .15s,border-color .15s,color .15s;
+}
+.pill[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.pill:hover:not([aria-pressed="true"]){border-color:var(--ink-3)}
+
+/* bundles */
+.divider{display:flex;align-items:center;gap:12px;margin:0 0 12px}
+.divider::before,.divider::after{content:"";height:1px;background:var(--hair);flex:1}
+.divider span{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);font-weight:500}
+.bundles{display:grid;gap:8px;margin-bottom:14px}
+.bundle:has(.best){margin-top:6px}
+.bundle{
+  display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;
+  border:1px solid var(--hair);border-radius:var(--r);padding:10px 12px;background:#fff;text-align:left;
+  transition:border-color .15s,box-shadow .15s;position:relative;
+}
+.bundle[aria-checked="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
+.bundle .ph{width:44px;border-radius:6px}
+.b-name{font-size:14px;font-weight:500}
+.b-sub{font-size:11.5px;color:var(--ink-3);margin-top:1px}
+.b-price{text-align:right}
+.b-now{font-size:14px;font-weight:500}
+.b-was{font-size:11px;color:var(--ink-3);text-decoration:line-through}
+.best{
+  position:absolute;top:-8px;right:12px;background:var(--accent);color:#fff;font-size:9px;
+  letter-spacing:.12em;text-transform:uppercase;padding:2.5px 8px;border-radius:3px;font-weight:600;
+}
+.stock{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--stock);margin-bottom:10px}
+.stock i{width:6px;height:6px;border-radius:99px;background:var(--stock);display:block}
+
+.atc{
+  width:100%;background:var(--accent);color:#fff;border-radius:8px;padding:15px;
+  font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;
+  transition:background .15s,transform .08s;
+}
+.atc:hover{background:var(--accent-deep)}
+.atc:active{transform:translateY(1px)}
+
+.addon-lab{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin:20px 0 8px}
+.addon{
+  display:grid;grid-template-columns:18px 48px 1fr auto;gap:12px;align-items:center;
+  border:1px solid var(--hair);border-radius:var(--r);padding:10px 12px;background:#fff;cursor:pointer;
+}
+.addon .ph{width:48px;border-radius:6px}
+.cb{width:16px;height:16px;border:1px solid var(--hair-2);border-radius:4px;display:grid;place-items:center;background:#fff}
+.addon[aria-checked="true"] .cb{background:var(--accent);border-color:var(--accent)}
+.addon .cb svg{width:9px;height:9px;stroke:#fff;fill:none;stroke-width:3;opacity:0}
+.addon[aria-checked="true"] .cb svg{opacity:1}
+.a-name{font-size:13.5px;font-weight:500}
+.a-sub{font-size:11.5px;color:var(--ink-3)}
+.a-price{font-size:13.5px}
+
+/* shipping timeline */
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:22px 0 16px;position:relative}
+.timeline::before{
+  content:"";position:absolute;left:14%;right:14%;top:17px;border-top:1.5px dashed var(--hair-2);
+}
+.tl{text-align:center;position:relative;z-index:1}
+.tl-ico{
+  width:34px;height:34px;margin:0 auto 7px;border-radius:99px;background:#fff;border:1px solid var(--hair);
+  display:grid;place-items:center;color:var(--ink-2);
+}
+.tl-ico svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.4}
+.tl-h{font-size:11px;font-weight:600}
+.tl-d{font-size:10.5px;color:var(--ink-3);line-height:1.35;margin-top:1px}
+.pays{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;padding-top:6px}
+.pay{
+  height:22px;min-width:38px;border:1px solid var(--hair);border-radius:4px;display:grid;place-items:center;
+  font-size:8.5px;letter-spacing:.04em;color:var(--ink-2);font-weight:600;background:#fff;padding:0 6px;
+}
+
+/* video strip */
+.vids{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:34px 0}
+@media(min-width:900px){.vids{gap:16px;margin:48px 0}}
+
+/* reviews */
+.reviews{border-top:1px solid var(--hair);padding:34px 0 10px;background:var(--paper-2)}
+.rv-head{text-align:center;margin-bottom:22px}
+.rv-h2{font-size:23px;font-weight:400;letter-spacing:.01em;margin:0 0 4px}
+@media(min-width:900px){.rv-h2{font-size:30px}}
+.rv-sub{font-size:12px;color:var(--ink-2);margin:0}
+.rv-top{display:grid;gap:18px;margin-bottom:26px}
+@media(min-width:760px){.rv-top{grid-template-columns:1.1fr 1.6fr auto;align-items:center;gap:32px}}
+.rv-score{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.rv-score .n{font-size:30px;font-weight:500;line-height:1}
+.rv-score .st{color:var(--gold);font-size:14px;letter-spacing:2px}
+.rv-count{font-size:11.5px;color:var(--ink-2);margin-top:5px}
+.bars{display:grid;gap:7px}
+.bar{display:grid;grid-template-columns:10px 1fr 26px;gap:9px;align-items:center;font-size:11px;color:var(--ink-2)}
+.bar .track{height:7px;border-radius:99px;background:#EDE8F5;overflow:hidden}
+.bar .fill{height:100%;background:var(--gold);border-radius:99px}
+.rv-actions{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.btn-dark{background:var(--ink);color:#fff;border-radius:6px;padding:10px 18px;font-size:12.5px;font-weight:500}
+.sortwrap{position:relative}
+.sort{
+  appearance:none;border:1px solid var(--hair-2);border-radius:6px;background:#fff;padding:9px 30px 9px 12px;
+  font-size:12px;color:var(--ink-2);min-width:148px;
+}
+.sortwrap svg{position:absolute;right:9px;top:50%;transform:translateY(-50%);width:12px;height:12px;stroke:var(--ink-3);fill:none;stroke-width:1.8;pointer-events:none}
+.rv-list{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:640px){.rv-list{grid-template-columns:1fr 1fr}}
+@media(min-width:1040px){.rv-list{grid-template-columns:repeat(4,1fr)}}
+.card{border:1px solid var(--hair);border-radius:8px;background:#fff;padding:14px}
+.card .st{color:var(--gold);font-size:10px;letter-spacing:1.5px}
+.card h3{font-size:13.5px;font-weight:600;margin:6px 0 5px}
+.card p{font-size:12px;color:var(--ink-2);line-height:1.55;margin:0 0 9px}
+.card .who{font-size:11px;color:var(--ink);font-weight:500}
+.card .when{font-size:10.5px;color:var(--ink-3)}
+.card .prod{display:flex;align-items:center;gap:7px;margin-top:11px;padding-top:10px;border-top:1px solid var(--hair);font-size:10px;color:var(--ink-3)}
+.card .prod .ph{width:22px;border-radius:4px}
+.more{display:grid;place-items:center;margin-top:22px}
+
+/* footer */
+footer{border-top:1px solid var(--hair);padding:34px 0 40px;margin-top:20px}
+.f-grid{display:grid;gap:24px}
+@media(min-width:760px){.f-grid{grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}}
+.f-brand{font-family:var(--serif);font-size:20px;letter-spacing:.3em;margin-bottom:8px}
+.f-note{font-size:11.5px;color:var(--ink-3);max-width:30ch;line-height:1.6}
+.f-h{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin-bottom:9px;font-weight:600}
+.f-l{display:grid;gap:6px;font-size:12px;color:var(--ink-2)}
+.f-bottom{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:28px;padding-top:16px;border-top:1px solid var(--hair);flex-wrap:wrap}
+.f-copy{font-size:10.5px;color:var(--ink-3)}
+
+/* sticky mobile atc */
+.sbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:45;background:rgba(255,255,255,.96);
+  backdrop-filter:blur(10px);border-top:1px solid var(--hair);padding:9px 12px;
+  display:flex;gap:10px;align-items:center;transform:translateY(110%);transition:transform .25s ease;
+}
+.sbar.on{transform:none}
+.sbar .ph{width:38px;border-radius:6px}
+.sbar .m{flex:1;min-width:0}
+.sbar .m b{display:block;font-size:11.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sbar .m span{font-size:10.5px;color:var(--ink-3)}
+.sbar .atc{width:auto;padding:11px 18px;font-size:10.5px;letter-spacing:.14em}
+@media(min-width:900px){.sbar{display:none}}
+
+/* cart drawer */
+.scrim{position:fixed;inset:0;background:rgba(22,18,28,.42);opacity:0;pointer-events:none;transition:opacity .25s;z-index:60}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:#fff;z-index:61;
+  transform:translateX(101%);transition:transform .3s cubic-bezier(.22,.61,.36,1);
+  display:flex;flex-direction:column;box-shadow:-18px 0 40px rgba(22,18,28,.12);
+}
+.drawer.on{transform:none}
+.d-soc{display:flex;align-items:center;gap:9px;padding:12px 16px;border-bottom:1px solid var(--hair)}
+.d-soc .avs{display:flex}
+.d-soc .avs .ph{width:22px;height:22px;border-radius:99px;margin-right:-6px;border-color:#fff}
+.d-soc p{margin:0;font-size:11px;color:var(--ink-2);line-height:1.35}
+.d-timer{background:var(--accent-mid);color:#2B1D45;text-align:center;font-size:11.5px;padding:8px;letter-spacing:.04em}
+.d-timer b{font-variant-numeric:tabular-nums;font-weight:600}
+.d-body{flex:1;overflow:auto;padding:14px 16px}
+.d-banner{position:relative;border-radius:8px;overflow:hidden;margin-bottom:14px}
+.d-banner .ph{border-radius:0}
+.d-tp{
+  position:absolute;right:10px;bottom:10px;background:rgba(255,255,255,.94);border-radius:6px;
+  padding:7px 10px;text-align:right;line-height:1.2;
+}
+.d-tp .t1{font-size:9px;letter-spacing:.04em;color:var(--ink-2);display:flex;align-items:center;gap:3px}
+.d-tp .t1 i{width:9px;height:9px;background:#00B67A;display:block;border-radius:1px}
+.d-tp .t2{font-size:10.5px;font-weight:600;margin-top:3px}
+.d-line{display:grid;grid-template-columns:56px 1fr;gap:11px;padding:12px 0;border-bottom:1px solid var(--hair)}
+.d-line .ph{width:56px;border-radius:6px}
+.d-line h4{font-size:12.5px;font-weight:500;margin:0 0 2px}
+.d-line .v{font-size:11px;color:var(--ink-3)}
+.d-line .p{font-size:12px;margin-top:4px;display:flex;gap:7px;align-items:baseline}
+.d-line .p s{color:var(--ink-3);font-size:10.5px}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--hair-2);border-radius:99px;margin-top:8px}
+.qty button{width:26px;height:24px;display:grid;place-items:center;color:var(--ink-2);font-size:13px}
+.qty span{min-width:24px;text-align:center;font-size:12px;font-variant-numeric:tabular-nums}
+.d-rm{margin-left:auto;color:var(--ink-3);display:grid;place-items:center}
+.d-rm svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.4}
+.d-empty{font-size:12.5px;color:var(--ink-3);padding:26px 0;text-align:center}
+.prog{margin:16px 0 4px}
+.prog-t{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--ink-2);margin-bottom:8px}
+.prog-t i{width:14px;height:14px;border-radius:3px;background:var(--accent-soft);border:1px solid var(--accent-mid);display:block}
+.prog-bar{height:7px;border-radius:99px;background:#EDE8F5;overflow:hidden}
+.prog-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .3s}
+.prog-end{display:flex;justify-content:space-between;font-size:9.5px;color:var(--ink-3);margin-top:5px;letter-spacing:.06em;text-transform:uppercase}
+.d-foot{border-top:1px solid var(--hair);padding:12px 16px 16px;background:#fff}
+.d-lab{font-size:11px;color:var(--ink-2);margin-bottom:5px}
+.d-code{display:flex;gap:8px}
+.d-code input{
+  flex:1;border:1px solid var(--hair-2);border-radius:6px;padding:10px 11px;font-size:12px;font-family:inherit;
+  color:var(--ink);background:#fff;
+}
+.d-code input::placeholder{color:var(--ink-3)}
+.d-apply{background:var(--accent);color:#fff;border-radius:6px;padding:0 18px;font-size:12px;font-weight:500}
+.d-sub{display:flex;justify-content:space-between;align-items:baseline;margin:12px 0 10px;font-size:13px}
+.d-sub b{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.d-check{width:100%;background:var(--ink);color:#fff;border-radius:7px;padding:14px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+.d-note{font-size:10px;color:var(--ink-3);text-align:center;margin-top:8px}
+
+.toast{
+  position:fixed;left:50%;bottom:78px;transform:translate(-50%,14px);z-index:80;
+  background:var(--ink);color:#fff;font-size:11.5px;padding:9px 14px;border-radius:99px;
+  opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;
+}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="ann">15% off your first order — code <b>ONDA15</b></div>
+
+<header>
+  <div class="wrap hrow">
+    <nav class="nav-l" aria-label="Main">
+      <a href="#">Shop</a><a href="#">About</a><a href="#">Contact</a>
+    </nav>
+    <a class="brand" href="#">ONDA</a>
+    <div class="icons">
+      <button aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg></button>
+      <button aria-label="Account"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c1.6-3.6 4.2-5.2 7.5-5.2S18 16.4 19.5 20"/></svg></button>
+      <button class="cart-n" aria-label="Cart" data-open-cart>
+        <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+        <span id="cartCount">1</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="product wrap">
+    <div class="pgrid">
+
+      <!-- gallery -->
+      <div class="gallery-col">
+        <div class="gallery">
+          <div class="thumbs" id="thumbs">
+            <button class="thumb" aria-current="true" data-i="0"><div class="ph r11 sm" data-label="01"></div></button>
+            <button class="thumb" aria-current="false" data-i="1"><div class="ph r11 sm" data-label="02"></div></button>
+            <button class="thumb" aria-current="false" data-i="2"><div class="ph r11 sm" data-label="03"></div></button>
+            <button class="thumb" aria-current="false" data-i="3"><div class="ph r11 sm" data-label="04"></div></button>
+            <button class="thumb" aria-current="false" data-i="4"><div class="ph r11 sm" data-label="05"></div></button>
+          </div>
+          <div>
+            <div class="ph r45" id="mainImg" data-label="IMAGE 01 · 4:5"></div>
+            <div class="dots" id="dots">
+              <i class="dot" aria-current="true" data-i="0"></i><i class="dot" aria-current="false" data-i="1"></i>
+              <i class="dot" aria-current="false" data-i="2"></i><i class="dot" aria-current="false" data-i="3"></i>
+              <i class="dot" aria-current="false" data-i="4"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- buy box -->
+      <div class="buybox">
+        <h1 class="title">ONDA Heatless Curling Ribbon</h1>
+        <p class="sub">Overnight satin ribbon for soft, bouncy curls with zero heat.</p>
+
+        <div class="price">
+          <span class="was">$38.00</span>
+          <span class="now" id="nowPrice">$29.00</span>
+          <span class="cur">USD</span>
+          <span class="badge-sale">Sale</span>
+        </div>
+
+        <div class="promo">
+          <div class="promo-h">
+            <svg viewBox="0 0 24 24"><path d="M20 12 12 20 4 12l8-8 8 8Z"/><circle cx="9" cy="9" r="1.4"/></svg>
+            15% off your first ONDA
+          </div>
+          <p>New to heatless curls? Use the code at checkout on your ribbon and Curl Cream.</p>
+          <span class="code">ONDA15
+            <button data-copy="ONDA15" aria-label="Copy code"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M6 15V6a2 2 0 0 1 2-2h7"/></svg></button>
+          </span>
+        </div>
+
+        <ul class="usps">
+          <li><span class="tick"><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg></span>Zero heat, so no heat damage</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg></span>Five minutes to wrap, then bed</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg></span>Smooth satin that is kind to every strand</li>
+        </ul>
+
+        <div class="slider">
+          <button class="s-nav prev" id="qPrev" aria-label="Previous review"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button class="s-nav next" id="qNext" aria-label="Next review"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+          <div class="slider-body">
+            <div class="av"><div class="ph r11 sm" data-label=""></div></div>
+            <div>
+              <div class="who"><span id="qName">Emma L.</span><span class="stars">★★★★★</span></div>
+              <q id="qText">Wrapped it damp before bed and woke up to actual curls. My straightener lives in a drawer now.</q>
+            </div>
+          </div>
+        </div>
+
+        <div class="opt-label">Colour</div>
+        <div class="pills" id="pills">
+          <button class="pill" aria-pressed="true" data-v="Lavender">Lavender</button>
+          <button class="pill" aria-pressed="false" data-v="Pearl">Pearl</button>
+          <button class="pill" aria-pressed="false" data-v="Midnight">Midnight</button>
+        </div>
+
+        <div class="divider"><span>Curl together and save</span></div>
+
+        <div class="bundles" id="bundles" role="radiogroup" aria-label="Bundle">
+          <button class="bundle" role="radio" aria-checked="true" data-b="one">
+            <div class="ph r11 sm" data-label=""></div>
+            <div><div class="b-name">One Ribbon</div><div class="b-sub">Standard price</div></div>
+            <div class="b-price"><div class="b-now">$29.00</div><div class="b-was">$38.00</div></div>
+          </button>
+          <button class="bundle" role="radio" aria-checked="false" data-b="duo">
+            <div class="ph r11 sm" data-label=""></div>
+            <div><div class="b-name">Ribbon Duo</div><div class="b-sub">Save 15%</div></div>
+            <div class="b-price"><div class="b-now">$49.30</div><div class="b-was">$58.00</div></div>
+          </button>
+          <button class="bundle" role="radio" aria-checked="false" data-b="trio">
+            <span class="best">Best value</span>
+            <div class="ph r11 sm" data-label=""></div>
+            <div><div class="b-name">Sleepover Trio</div><div class="b-sub">Save 25%</div></div>
+            <div class="b-price"><div class="b-now">$65.25</div><div class="b-was">$87.00</div></div>
+          </button>
+        </div>
+
+        <div class="stock"><i></i>Almost out of stock</div>
+
+        <button class="atc" id="atc">Add to cart</button>
+
+        <div class="addon-lab">Set your curls</div>
+        <div class="addon" id="addon" role="checkbox" aria-checked="false" tabindex="0">
+          <span class="cb"><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg></span>
+          <div class="ph r11 sm" data-label=""></div>
+          <div><div class="a-name">ONDA Curl Cream</div><div class="a-sub">Light cream for soft, defined waves</div></div>
+          <div class="a-price">$18.00</div>
+        </div>
+
+        <div class="timeline">
+          <div class="tl">
+            <div class="tl-ico"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></div>
+            <div class="tl-h">Ordered</div><div class="tl-d">Today</div>
+          </div>
+          <div class="tl">
+            <div class="tl-ico"><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/></svg></div>
+            <div class="tl-h">Shipped</div><div class="tl-d">November 8 –<br>November 11</div>
+          </div>
+          <div class="tl">
+            <div class="tl-ico"><svg viewBox="0 0 24 24"><path d="M12 3 21 8v8l-9 5-9-5V8l9-5Z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg></div>
+            <div class="tl-h">Delivered</div><div class="tl-d">November 11 –<br>November 14</div>
+          </div>
+        </div>
+
+        <div class="pays">
+          <span class="pay">PayPal</span><span class="pay">VISA</span><span class="pay">MC</span>
+          <span class="pay">Pay</span><span class="pay">G Pay</span><span class="pay">Shop&nbsp;Pay</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="vids">
+      <div class="ph r916 video" data-label="VIDEO · 9:16"><span class="tri"></span></div>
+      <div class="ph r916 video" data-label="VIDEO · 9:16"><span class="tri"></span></div>
+      <div class="ph r916 video" data-label="VIDEO · 9:16"><span class="tri"></span></div>
+    </div>
+  </section>
+
+  <section class="reviews">
+    <div class="wrap">
+      <div class="rv-head">
+        <h2 class="rv-h2">Hear what our customers say</h2>
+        <p class="rv-sub">Product reviews</p>
+      </div>
+
+      <div class="rv-top">
+        <div>
+          <div class="rv-score"><span class="n">4.8</span><span class="st">★★★★★</span></div>
+          <div class="rv-count">Based on 41 reviews</div>
+        </div>
+        <div class="bars">
+          <div class="bar"><span>5</span><div class="track"><div class="fill" style="width:78%"></div></div><span>32</span></div>
+          <div class="bar"><span>4</span><div class="track"><div class="fill" style="width:22%"></div></div><span>9</span></div>
+          <div class="bar"><span>3</span><div class="track"><div class="fill" style="width:0%"></div></div><span>0</span></div>
+          <div class="bar"><span>2</span><div class="track"><div class="fill" style="width:0%"></div></div><span>0</span></div>
+          <div class="bar"><span>1</span><div class="track"><div class="fill" style="width:0%"></div></div><span>0</span></div>
+        </div>
+        <div class="rv-actions">
+          <button class="btn-dark">Write a review</button>
+          <div class="sortwrap">
+            <select class="sort" aria-label="Sort reviews">
+              <option>Most Recent</option><option>Highest rating</option><option>Lowest rating</option>
+            </select>
+            <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-list" id="rvList"></div>
+
+      <div class="more"><button class="btn-dark">41 reviews</button></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <div class="f-brand">ONDA</div>
+        <p class="f-note">Satin heatless curling ribbon. Wrap before bed, wake up to curls.</p>
+      </div>
+      <div><div class="f-h">Shop</div><div class="f-l"><a href="#">Heatless Curling Ribbon</a><a href="#">Curl Cream</a><a href="#">Bundles</a></div></div>
+      <div><div class="f-h">Help</div><div class="f-l"><a href="#">Shipping</a><a href="#">Returns</a><a href="#">Contact</a></div></div>
+      <div><div class="f-h">About</div><div class="f-l"><a href="#">Our story</a><a href="#">Reviews</a><a href="#">Instagram</a></div></div>
+    </div>
+    <div class="f-bottom">
+      <span class="f-copy">© 2026 ONDA</span>
+      <div class="pays">
+        <span class="pay">PayPal</span><span class="pay">VISA</span><span class="pay">MC</span><span class="pay">Pay</span><span class="pay">G Pay</span><span class="pay">Shop&nbsp;Pay</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="sbar" id="sbar">
+  <div class="ph r11 sm" data-label=""></div>
+  <div class="m"><b id="sbName">ONDA Heatless Curling Ribbon</b><span id="sbPrice">Lavender · $29.00</span></div>
+  <button class="atc" id="atc2">Add to cart</button>
+</div>
+
+<div class="scrim" id="scrim" data-close-cart></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Cart">
+  <div class="d-soc">
+    <div class="avs">
+      <div class="ph r11 sm" data-label=""></div><div class="ph r11 sm" data-label=""></div><div class="ph r11 sm" data-label=""></div>
+    </div>
+    <p>Sara, Maddie, Tyler and 8,068 others are a fan of Onda</p>
+  </div>
+  <div class="d-timer">Your cart is reserved for <b id="clock">05:00</b> minutes</div>
+  <div class="d-body">
+    <div class="d-banner">
+      <div class="ph r169" data-label="IMAGE · TRUSTPILOT BANNER"></div>
+      <div class="d-tp">
+        <div class="t1"><i></i>Trustpilot ★★★★★</div>
+        <div class="t2">Over 8,000 happy customers</div>
+      </div>
+    </div>
+    <div id="dLines"></div>
+    <div class="prog">
+      <div class="prog-t"><i></i><span id="progText">Add $26.00 to unlock Free Shipping</span></div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:53%"></div></div>
+      <div class="prog-end"><span>Free shipping at $55</span><span>Free Shipping</span></div>
+    </div>
+  </div>
+  <div class="d-foot">
+    <div class="d-lab">Discount code</div>
+    <div class="d-code">
+      <input id="codeIn" placeholder="Discount code" autocomplete="off">
+      <button class="d-apply" id="applyCode">Apply</button>
+    </div>
+    <div class="d-sub"><span>Subtotal</span><b id="subtotal">$29.00</b></div>
+    <button class="d-check">Checkout</button>
+    <div class="d-note">Shipping and taxes calculated at checkout.</div>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CAL = null; // no booking on this page
+const FREE_SHIP = 55;
+const BUNDLES = {
+  one:  {name:'One Ribbon',     short:'One Ribbon',     price:29.00, was:38.00},
+  duo:  {name:'Ribbon Duo',     short:'Ribbon Duo',     price:49.30, was:58.00},
+  trio: {name:'Sleepover Trio', short:'Sleepover Trio', price:65.25, was:87.00}
+};
+const CREAM = {name:'ONDA Curl Cream', price:18.00};
+const money = n => '$' + n.toFixed(2);
+
+const state = {bundle:'one', colour:'Lavender', cream:false, discount:0, qty:1};
+
+/* ---------- gallery ---------- */
+const mainImg = document.getElementById('mainImg');
+function setImg(i){
+  mainImg.setAttribute('data-label', 'IMAGE 0' + (i+1) + ' · 4:5');
+  document.querySelectorAll('#thumbs .thumb').forEach(t => t.setAttribute('aria-current', String(+t.dataset.i === i)));
+  document.querySelectorAll('#dots .dot').forEach(d => d.setAttribute('aria-current', String(+d.dataset.i === i)));
+}
+document.getElementById('thumbs').addEventListener('click', e => {
+  const t = e.target.closest('.thumb'); if (t) setImg(+t.dataset.i);
+});
+
+/* ---------- reviews slider ---------- */
+const QUOTES = [
+  {n:'Emma L.', t:'Wrapped it damp before bed and woke up to actual curls. My straightener lives in a drawer now.'},
+  {n:'Surretha L.', t:'Everything else looks great and the Midnight satin feels lovely.'},
+  {n:'Marlee G.', t:'Bouncy curls by morning, and no heat at all.'}
+];
+let qi = 0;
+function paintQuote(){
+  document.getElementById('qName').textContent = QUOTES[qi].n;
+  document.getElementById('qText').textContent = QUOTES[qi].t;
+}
+document.getElementById('qNext').onclick = () => { qi = (qi+1) % QUOTES.length; paintQuote(); };
+document.getElementById('qPrev').onclick = () => { qi = (qi-1+QUOTES.length) % QUOTES.length; paintQuote(); };
+
+/* ---------- variants + bundles ---------- */
+document.getElementById('pills').addEventListener('click', e => {
+  const p = e.target.closest('.pill'); if (!p) return;
+  document.querySelectorAll('#pills .pill').forEach(x => x.setAttribute('aria-pressed', 'false'));
+  p.setAttribute('aria-pressed','true');
+  state.colour = p.dataset.v;
+  paintPrice();
+});
+document.getElementById('bundles').addEventListener('click', e => {
+  const b = e.target.closest('.bundle'); if (!b) return;
+  document.querySelectorAll('#bundles .bundle').forEach(x => x.setAttribute('aria-checked','false'));
+  b.setAttribute('aria-checked','true');
+  state.bundle = b.dataset.b;
+  paintPrice();
+});
+function paintPrice(){
+  const b = BUNDLES[state.bundle];
+  document.getElementById('nowPrice').textContent = money(b.price);
+  document.getElementById('sbPrice').textContent = state.colour + ' · ' + money(b.price);
+}
+
+/* ---------- cream add-on ---------- */
+const addon = document.getElementById('addon');
+function toggleCream(){
+  state.cream = !state.cream;
+  addon.setAttribute('aria-checked', String(state.cream));
+}
+addon.addEventListener('click', toggleCream);
+addon.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); toggleCream(); }
+});
+
+/* ---------- cart ---------- */
+let cart = [{id:'one', name:'One Ribbon', variant:'Lavender', price:29.00, was:38.00, qty:1}];
+function cartCount(){ return cart.reduce((s,l) => s + l.qty, 0); }
+function cartSubtotal(){ return cart.reduce((s,l) => s + l.price*l.qty, 0); }
+
+function renderCart(){
+  document.getElementById('cartCount').textContent = cartCount();
+  const box = document.getElementById('dLines');
+  if (!cart.length){
+    box.innerHTML = '<div class="d-empty">Your cart is empty.</div>';
+  } else {
+    box.innerHTML = cart.map((l,i) => `
+      <div class="d-line">
+        <div class="ph r11 sm" data-label=""></div>
+        <div>
+          <h4>ONDA Heatless Curling Ribbon</h4>
+          <div class="v">${l.variant}</div>
+          <div class="p">${money(l.price)} <s>${money(l.was)}</s></div>
+          <div style="display:flex;align-items:center">
+            <span class="qty">
+              <button data-q="-1" data-i="${i}" aria-label="Decrease">−</button>
+              <span>${l.qty}</span>
+              <button data-q="1" data-i="${i}" aria-label="Increase">+</button>
+            </span>
+            <button class="d-rm" data-rm="${i}" aria-label="Remove">
+              <svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+  const sub = cartSubtotal();
+  const disc = sub * state.discount;
+  document.getElementById('subtotal').textContent = money(sub - disc);
+  const left = Math.max(0, FREE_SHIP - sub);
+  document.getElementById('progText').textContent = left > 0
+    ? 'Add ' + money(left) + ' to unlock Free Shipping'
+    : 'Free shipping unlocked';
+  document.getElementById('progFill').style.width = Math.min(100, sub / FREE_SHIP * 100) + '%';
+}
+document.getElementById('dLines').addEventListener('click', e => {
+  const q = e.target.closest('[data-q]');
+  if (q){
+    const i = +q.dataset.i;
+    cart[i].qty = Math.max(1, cart[i].qty + (+q.dataset.q));
+    renderCart(); return;
+  }
+  const r = e.target.closest('[data-rm]');
+  if (r){ cart.splice(+r.dataset.rm, 1); renderCart(); }
+});
+
+function addSelection(){
+  const b = BUNDLES[state.bundle];
+  const line = {id:state.bundle, name:b.short, variant:state.colour, price:b.price, was:b.was, qty:1};
+  const found = cart.find(l => l.id === line.id && l.variant === line.variant);
+  if (found) found.qty += 1; else cart.push(line);
+  if (state.cream && !cart.some(l => l.id === 'cream')){
+    cart.push({id:'cream', name:'Curl Cream', variant:'', price:CREAM.price, was:CREAM.price, qty:1});
+  }
+  renderCart(); openCart(); toast(b.short + ' added');
+}
+document.getElementById('atc').onclick = addSelection;
+document.getElementById('atc2').onclick = addSelection;
+
+/* ---------- drawer ---------- */
+const drawer = document.getElementById('drawer');
+const scrim = document.getElementById('scrim');
+function openCart(){
+  drawer.classList.add('on'); scrim.classList.add('on');
+  drawer.setAttribute('aria-hidden','false');
+  startClock();
+}
+function closeCart(){
+  drawer.classList.remove('on'); scrim.classList.remove('on');
+  drawer.setAttribute('aria-hidden','true');
+}
+document.querySelectorAll('[data-open-cart]').forEach(b => b.onclick = openCart);
+document.querySelectorAll('[data-close-cart]').forEach(b => b.onclick = closeCart);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
+
+/* ---------- reservation countdown ---------- */
+let clockTimer = null, secondsLeft = 300;
+function startClock(){
+  if (clockTimer) return;
+  clockTimer = setInterval(() => {
+    secondsLeft = Math.max(0, secondsLeft - 1);
+    const m = String(Math.floor(secondsLeft / 60)).padStart(2,'0');
+    const s = String(secondsLeft % 60).padStart(2,'0');
+    document.getElementById('clock').textContent = m + ':' + s;
+    if (!secondsLeft) clearInterval(clockTimer);
+  }, 1000);
+}
+
+/* ---------- discount ---------- */
+document.getElementById('applyCode').onclick = () => {
+  const v = document.getElementById('codeIn').value.trim().toUpperCase();
+  if (v === 'ONDA15'){ state.discount = 0.15; renderCart(); toast('ONDA15 applied — 15% off'); }
+  else if (!v){ toast('Enter a code'); }
+  else { state.discount = 0; renderCart(); toast('That code is not valid'); }
+};
+
+/* ---------- copy code ---------- */
+document.querySelectorAll('[data-copy]').forEach(b => {
+  b.onclick = async () => {
+    try { await navigator.clipboard.writeText(b.dataset.copy); toast('Code copied'); }
+    catch { toast('Code: ' + b.dataset.copy); }
+  };
+});
+
+/* ---------- toast ---------- */
+let toastTimer = null;
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('on'), 1900);
+}
+
+/* ---------- sticky bar ---------- */
+const sbar = document.getElementById('sbar');
+new IntersectionObserver(es => {
+  const atc = document.getElementById('atc');
+  sbar.classList.toggle('on', !es[0].isIntersecting && es[0].boundingClientRect.top < 0);
+}, {threshold:0}).observe(document.getElementById('atc'));
+
+/* ---------- reviews ---------- */
+const REVIEWS = [
+  {s:5, t:"Swimmer's hair routine", b:"Swimming three times a week makes my hair terribly dry or styled. I finally found a routine: towel it off, wrap it at night, release it in the morning.", n:"Corinna V.", d:"October 19, 2026"},
+  {s:5, t:"Great except my fringe", b:"Fantastic on the lengths, but my fringe stays flat so I still style it with a brush in the morning. Everything else looks great and the Midnight satin feels lovely.", n:"Surretha L.", d:"October 22, 2026"},
+  {s:4, t:"Soft waves, not ringlets", b:"I was hoping for tighter ringlets, but this gives soft, loose curls. They look beautiful and very natural, just not the light spirals I imagined. Lavender is still my favourite.", n:"Naomi Z.", d:"October 18, 2026"},
+  {s:5, t:"Longer version, please", b:"I have very long hair and wish the ribbon were a little longer. It did give me waves from the mid-lengths down, and I love the Pearl satin.", n:"Katharina M.", d:"October 16, 2026"},
+  {s:5, t:"Curls by morning", b:"Bouncy curls by morning, and no heat at all.", n:"Marlee G.", d:"October 15, 2026"},
+  {s:5, t:"Slow to arrive", b:"Delivery took longer than I hoped, which was frustrating because I had planned it for a weekend away. Once it arrived, though, Lavender did exactly what I hoped.", n:"Pauline K.", d:"October 17, 2026"},
+  {s:5, t:"Fine hair finally curls", b:"Finally something that works with my fine hair.", n:"Louise T.", d:"October 6, 2026"},
+  {s:5, t:"Works on shorter hair", b:"I have a shoulder-length bob and was not sure there would be enough to wrap. Turns out there is plenty, and I get soft waves with a bit of body.", n:"Elke V.", d:"October 12, 2026"}
+];
+document.getElementById('rvList').innerHTML = REVIEWS.map(r => `
+  <article class="card">
+    <div class="st">${'★'.repeat(r.s)}${'☆'.repeat(5-r.s)}</div>
+    <h3>${r.t}</h3>
+    <p>${r.b}</p>
+    <div class="who">${r.n}</div>
+    <div class="when">${r.d}</div>
+    <div class="prod"><div class="ph r11 sm" data-label=""></div>ONDA Heatless Curling Ribbon</div>
+  </article>`).join('');
+
+renderCart();
+</script>
+</body>
+</html>
