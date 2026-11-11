@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RocketGenie — Your business, open after hours.</title>
-<meta name="description" content="RocketGenie builds your website and the layer behind it: lead capture, one inbox, an instant reply in under 60 seconds and a booking on your calendar. A BookiStudios product for local businesses.">
+<title>the portal — Your business, open after hours.</title>
+<meta name="description" content="the portal builds your website and the layer behind it: lead capture, one inbox, an instant reply in under 60 seconds and a booking on your calendar. A BookiStudios product for local businesses.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23D63929'/%3E%3Ctext x='16' y='23' font-size='19' font-family='serif' font-style='italic' text-anchor='middle' fill='%23F5F6F2'%3ER%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap">
 <script>
 /* Single source of truth for every consultation CTA on the page. */
-const CAL_URL = "https://cal.com/bookistudios/consult";
+const CAL_URL = "https://cal.com/bookistudios/consultation";
 (function () {
   function wire() {
     var links = document.querySelectorAll("[data-cal]");
@@ -44,8 +44,9 @@ const CAL_URL = "https://cal.com/bookistudios/consult";
   --accent-on:#F5F6F2;
   --glow:rgba(255,82,82,.25);
   --glow-2:rgba(255,23,68,.16);
-  --serif:"Instrument Serif",Georgia,serif;
-  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --serif:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --display:"Syne","DM Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  --sans:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   --pad:clamp(20px,5vw,72px);
   --maxw:1240px;
@@ -91,11 +92,11 @@ button{font:inherit;color:inherit}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
 section{position:relative;padding:clamp(72px,9vw,140px) 0}
 .veil{background:linear-gradient(180deg,rgba(5,5,7,.96),rgba(5,5,7,.99))}
-h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.035em;line-height:.98}
-.h-xl{font-size:clamp(42px,9.2vw,116px)}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:800;letter-spacing:-.035em;line-height:.98}
+.h-xl{font-size:clamp(32px,4.5vw,62px)}
 .h-lg{font-size:clamp(34px,5.6vw,74px)}
 .h-sm{font-size:clamp(20px,2vw,25px);letter-spacing:-.02em;line-height:1.12}
-.it{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em;color:rgba(245,246,242,.74)}
+.it{font-family:var(--serif);font-style:italic;font-weight:300;letter-spacing:-.015em;color:rgba(245,246,242,.76)}
 p{margin:0}
 .lead{font-size:clamp(16px,1.2vw,17.5px);color:var(--ink-2);max-width:58ch;line-height:1.62}
 .body{font-size:15px;color:var(--ink-3);line-height:1.6;max-width:56ch}
@@ -153,10 +154,10 @@ p{margin:0}
 .h-in .w>span{transform:none}
 
 /* ---------- hero ---------- */
-.hero{padding-top:clamp(104px,13vw,168px);padding-bottom:clamp(48px,6vw,78px)}
+.hero{padding-top:clamp(88px,9vw,116px);padding-bottom:clamp(20px,2.4vw,32px)}
 .hero-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:26px}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(28px,4vw,60px);align-items:start}
-.hero-h{margin:0 0 22px}
+.hero-h{margin:0 0 18px}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
 .hero-micro{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
 @media (max-width:940px){.hero-grid{grid-template-columns:1fr}}
@@ -356,6 +357,28 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
   .slider-fill>i{transition:none}
   .npath{animation:none}
 }
+
+:root{--peek:clamp(92px,13vh,150px)}
+.vsl{padding:0 0 clamp(56px,7vw,96px);margin-top:calc(-1 * clamp(8px,2vh,28px))}
+.vsl-frame{position:relative;border:1px solid var(--hair);border-radius:20px;overflow:hidden;
+  background:radial-gradient(120% 140% at 50% 0%,rgba(255,82,82,.14),transparent 60%),linear-gradient(180deg,#0A0A0C,#050507);
+  box-shadow:0 50px 110px -50px var(--glow),inset 0 1px 0 rgba(255,255,255,.05);
+  transform:scale(.965);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.vsl-frame.is-full{transform:scale(1)}
+.vsl-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 18px;
+  border-bottom:1px solid var(--hair);background:rgba(5,5,7,.5)}
+.vsl-slot{position:relative;aspect-ratio:16/9;display:grid;place-items:center}
+.vsl-slot video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#07070A}
+.vsl-play{display:inline-flex;align-items:center;gap:9px;padding:9px 16px;
+  border-radius:999px;border:1px solid var(--hair-2);background:rgba(5,5,7,.55);
+  color:var(--ink);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;
+  transition:border-color .25s,transform .25s,background .25s,color .25s}
+.vsl-play:hover{border-color:var(--accent);transform:translateY(-1px);background:rgba(214,57,41,.14)}
+.vsl-play svg{width:13px;height:13px;fill:currentColor}
+.vsl-tag{color:var(--ink-3)}
+.vsl-rule{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;margin-top:14px}
+@media (max-width:760px){.vsl-slot{aspect-ratio:4/3}.vsl-head{padding:11px 12px}.vsl-tag{font-size:9.5px}}
+@media (prefers-reduced-motion:reduce){.vsl-frame{transform:none;transition:none}}
 </style>
 </head>
 <body>
@@ -365,9 +388,9 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
 <!-- ============ NAV ============ -->
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="#studio" aria-label="RocketGenie, a BookiStudios product">
+    <a class="brand" href="#studio" aria-label="the portal, a BookiStudios product">
       <span class="brand-mark" aria-hidden="true"></span>
-      <span class="brand-word">ROCKET<span class="dotsep">·</span>GENIE</span>
+      <span class="brand-word">BOOKI<span class="dotsep">·</span>STUDIOS</span>
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#studio">The site</a>
@@ -387,7 +410,7 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
 <section class="hero" id="studio">
   <div class="wrap">
     <div class="hero-top up">
-      <span class="eyebrow"><span class="glyph" aria-hidden="true">⊕</span>RocketGenie — a BookiStudios product</span>
+      <span class="eyebrow"><span class="glyph" aria-hidden="true">⊕</span>The client portal — a BookiStudios product</span>
       <span class="chip">Site → capture → reply → booking</span>
     </div>
     <div class="hero-grid">
@@ -399,7 +422,7 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
           <span class="w"><span>after</span></span>
           <span class="w it-w"><span class="it">hours.</span></span>
         </h1>
-        <p class="lead up" data-delay="520">RocketGenie builds the website and the layer behind it: lead capture, one shared
+        <p class="lead up" data-delay="520">the portal builds the website and the layer behind it: lead capture, one shared
           inbox, an instant reply in under 60 seconds, and a booking on your calendar. For the shop, salon, studio or
           venue that can't pick up at nine at night.</p>
         <div class="hero-cta up" data-delay="640">
@@ -413,7 +436,7 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
       </div>
       <div class="card graph up" data-delay="320" data-spot>
         <div class="card-cap">
-          <span class="micro micro-ink">ROCKETGENIE IS ONE LAYER</span>
+          <span class="micro micro-ink">THE PORTAL IS ONE LAYER</span>
           <span class="micro">V1</span>
         </div>
         <div class="card-pad">
@@ -446,6 +469,25 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
   </div>
 </section>
 
+<section class="vsl" id="vsl" aria-label="Walkthrough">
+  <div class="wrap">
+    <div class="vsl-frame up">
+      <div class="vsl-head">
+        <span class="vsl-tag micro">Walkthrough · 90 seconds · the portal running a real day</span>
+        <button class="vsl-play" type="button" data-vsl-play>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          Play
+        </button>
+      </div>
+      <div class="vsl-slot">
+        <video id="vslVideo" playsinline preload="none"></video>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
 <!-- ============ MARQUEE ============ -->
 <div class="marq" aria-label="What the layer does">
   <div class="marq-track" id="marqTrack">
@@ -465,6 +507,7 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
 </div>
 
 <!-- ============ THREAD DEMO ============ -->
+
 <section id="thread" class="veil">
   <div class="wrap">
     <div class="thread">
@@ -476,9 +519,9 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
         <p class="micro up" data-delay="280" style="margin-top:20px">Illustrative thread · demo copy, not a customer record</p>
       </div>
       <div class="card" data-spot>
-        <div class="card-cap"><span class="micro micro-ink">THREAD — 001.ENQUIRY</span><span class="micro">RocketGenie · Front desk</span></div>
+        <div class="card-cap"><span class="micro micro-ink">THREAD — 001.ENQUIRY</span><span class="micro">the portal · Front desk</span></div>
         <div class="card-pad" id="threadLines">
-          <div class="cmd" style="margin-bottom:14px"><span class="p">$</span> rocketgenie run "capture enquiry → reply → book"</div>
+          <div class="cmd" style="margin-bottom:14px"><span class="p">$</span> portal run "capture enquiry → reply → book"</div>
           <div class="tline"><span class="num">01</span><code><span class="ok">✓</span> Enquiry from site form — Sat 21:47</code></div>
           <div class="tline"><span class="num">02</span><code><span class="ok">✓</span> Captured: name, number, service, location</code></div>
           <div class="tline"><span class="num">03</span><code><span class="ok">✓</span> Reply sent in under 60s — SMS + email</code></div>
@@ -530,7 +573,7 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
           <p class="body">The reply offers real slots and writes the booking to your calendar, with a reminder before the visit.</p>
         </div>
         <div class="vig">
-          <div class="code-mini"><span class="k">$</span> rocketgenie book --next-slot
+          <div class="code-mini"><span class="k">$</span> portal book --next-slot
 <span class="k">✓</span> slot held · Mon 08:30
 <span class="k">✓</span> added to calendar
 <span class="k">→</span> reminder scheduled</div>
@@ -605,7 +648,7 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
         <table class="data">
           <thead>
             <tr>
-              <th>Moment</th><th>Website alone</th><th class="hi">With RocketGenie</th>
+              <th>Moment</th><th>Website alone</th><th class="hi">With the portal</th>
             </tr>
           </thead>
           <tbody>
@@ -689,7 +732,7 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
     <div class="card up" data-delay="120" style="margin-top:16px" data-spot>
       <div class="card-pad quote">
         <p>“You keep the trade. The layer keeps the diary.”</p>
-        <span class="micro">RocketGenie · built and run by BookiStudios</span>
+        <span class="micro">the portal · built and run by BookiStudios</span>
       </div>
     </div>
   </div>
@@ -854,10 +897,10 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
       <div>
         <div class="brand" style="margin-bottom:14px">
           <span class="brand-mark" aria-hidden="true"></span>
-          <span class="brand-word">ROCKET<span class="dotsep">·</span>GENIE</span>
+          <span class="brand-word">BOOKI<span class="dotsep">·</span>STUDIOS</span>
         </div>
         <p class="body" style="max-width:34ch">The site, and the layer that answers it. A BookiStudios product for local businesses.</p>
-        <p class="micro" style="margin-top:16px">RocketGenie v1 · built by BookiStudios</p>
+        <p class="micro" style="margin-top:16px">the portal v1 · built by BookiStudios</p>
       </div>
       <div>
         <span class="micro" style="display:block;margin-bottom:14px">The product</span>
@@ -878,7 +921,7 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
       </div>
     </div>
     <div class="foot-bottom">
-      <span class="micro">BookiStudios · Houston — RocketGenie</span>
+      <span class="micro">BookiStudios · Houston — the portal</span>
       <span class="micro">© 2026 BookiStudios</span>
     </div>
   </div>
@@ -1320,6 +1363,37 @@ footer{padding:clamp(56px,7vw,88px) 0 46px}
       host.addEventListener("pointerleave", function () { mag.style.transform = ""; });
     });
   })();
+})();
+</script>
+
+<script>
+(() => {
+  const frame = document.querySelector('.vsl-frame');
+  const video = document.getElementById('vslVideo');
+  const btn = document.querySelector('[data-vsl-play]');
+  if (!frame) return;
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const r = frame.getBoundingClientRect();
+      frame.classList.toggle('is-full', r.top < innerHeight * 0.62);
+      ticking = false;
+    });
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  if (btn && video) {
+    btn.addEventListener('click', () => {
+      const src = video.dataset.src || video.currentSrc;
+      if (!src) return;
+      video.src = src;
+      video.controls = true;
+      video.play().catch(() => {});
+      btn.remove();
+    });
+  }
 })();
 </script>
 </body>
