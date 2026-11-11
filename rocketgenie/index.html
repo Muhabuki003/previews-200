@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RocketGenie — Your business, open after hours.</title>
+<meta name="description" content="RocketGenie builds your website and the layer behind it: lead capture, one inbox, an instant reply in under 60 seconds and a booking on your calendar. A BookiStudios product for local businesses.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23D63929'/%3E%3Ctext x='16' y='23' font-size='19' font-family='serif' font-style='italic' text-anchor='middle' fill='%23F5F6F2'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<script>
+/* Single source of truth for every consultation CTA on the page. */
+const CAL_URL = "https://cal.com/bookistudios/consult";
+(function () {
+  function wire() {
+    var links = document.querySelectorAll("[data-cal]");
+    for (var i = 0; i < links.length; i++) links[i].setAttribute("href", CAL_URL);
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", wire);
+  else wire();
+})();
+</script>
+<style>
+/* ============================================================
+   TOKENS — canvas / panel / ink from the Relay teardown.
+   Glows stay on the reference reds; the primary accent is
+   BookiStudios red #D63929 (hover #A82A1D).
+   ============================================================ */
+:root{
+  --canvas:#050507;
+  --canvas-2:#0A0A0C;
+  --canvas-3:#0D0D0F;
+  --panel:rgba(255,255,255,.035);
+  --panel-2:rgba(255,255,255,.055);
+  --hair:rgba(255,255,255,.08);
+  --hair-2:rgba(255,255,255,.14);
+  --ink:#F5F6F2;
+  --ink-2:#A8ADA3;
+  --ink-3:#7C807A;
+  --accent:#D63929;
+  --accent-deep:#A82A1D;
+  --accent-on:#F5F6F2;
+  --glow:rgba(255,82,82,.25);
+  --glow-2:rgba(255,23,68,.16);
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --pad:clamp(20px,5vw,72px);
+  --maxw:1240px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:112px}
+@media (max-width:860px){html{scroll-padding-top:132px}}
+body{
+  margin:0;background:var(--canvas);color:var(--ink);
+  font-family:var(--sans);font-size:16px;line-height:1.5;
+  font-weight:400;-webkit-font-smoothing:antialiased;
+}
+img,svg{max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+::selection{background:var(--accent);color:var(--accent-on)}
+
+/* ---------- aurora backdrop ---------- */
+#aurora{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.35;
+  background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:3px 3px;mix-blend-mode:overlay}
+.shell{position:relative;z-index:2}
+
+/* ---------- micro type ---------- */
+.micro{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);line-height:1.5}
+.micro-ink{color:var(--ink-2)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;padding:7px 13px;border:1px solid var(--hair);
+  border-radius:999px;background:rgba(255,255,255,.022);color:var(--ink-2);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase}
+.eyebrow .glyph{color:var(--accent);font-size:12px;line-height:1}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border-radius:999px;
+  background:var(--accent);color:var(--accent-on);font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.12em;text-transform:uppercase;font-weight:500}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border-radius:999px;
+  background:rgba(255,255,255,.05);border:1px solid var(--hair);color:var(--ink-2);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--glow);flex:none}
+.dot-live{animation:pulse 3.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+
+/* ---------- layout ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+section{position:relative;padding:clamp(72px,9vw,140px) 0}
+.veil{background:linear-gradient(180deg,rgba(5,5,7,.96),rgba(5,5,7,.99))}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.035em;line-height:.98}
+.h-xl{font-size:clamp(42px,9.2vw,116px)}
+.h-lg{font-size:clamp(34px,5.6vw,74px)}
+.h-sm{font-size:clamp(20px,2vw,25px);letter-spacing:-.02em;line-height:1.12}
+.it{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em;color:rgba(245,246,242,.74)}
+p{margin:0}
+.lead{font-size:clamp(16px,1.2vw,17.5px);color:var(--ink-2);max-width:58ch;line-height:1.62}
+.body{font-size:15px;color:var(--ink-3);line-height:1.6;max-width:56ch}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:9px;border-radius:999px;padding:13px 22px;
+  font-size:14.5px;font-weight:600;letter-spacing:-.01em;border:1px solid transparent;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,background .3s,border-color .3s;cursor:pointer}
+.btn-accent{background:var(--accent);color:var(--accent-on);box-shadow:0 8px 30px -12px var(--glow)}
+.btn-accent:hover{background:var(--accent-deep);transform:translateY(-2px);box-shadow:0 16px 44px -14px var(--glow)}
+.btn-ghost{background:rgba(255,255,255,.04);border-color:var(--hair);color:var(--ink)}
+.btn-ghost:hover{background:rgba(255,255,255,.08);border-color:var(--hair-2);transform:translateY(-2px)}
+.btn-sm{padding:9px 16px;font-size:13px}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .4s,backdrop-filter .4s,border-color .4s,box-shadow .4s;
+  border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(5,5,7,.7);backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);border-bottom-color:var(--hair)}
+.nav-in{max-width:var(--maxw);margin:0 auto;padding:14px var(--pad);display:flex;align-items:center;gap:22px}
+.brand{display:flex;align-items:center;gap:10px;flex:none}
+.brand-mark{width:20px;height:20px;border-radius:5px;background:var(--accent);position:relative;flex:none;
+  box-shadow:0 0 0 4px var(--glow)}
+.brand-mark::after{content:"";position:absolute;inset:6px;border-radius:1.5px;background:var(--accent-on);opacity:.85}
+.brand-word{font-family:var(--mono);font-size:11.5px;letter-spacing:.17em;color:var(--ink)}
+.brand-word .dotsep{color:var(--accent);margin:0 2px}
+.nav-links{display:flex;align-items:center;gap:26px;margin-left:8px}
+.nav-links a{font-size:14px;color:var(--ink-2);position:relative;padding:4px 0;transition:color .25s}
+.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--accent);
+  transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.nav-status{display:inline-flex}
+@media (max-width:1180px){.nav-status{display:none}}
+@media (max-width:860px){
+  .nav-in{flex-wrap:wrap;row-gap:0}
+  .nav-links{display:flex;order:5;width:100%;justify-content:space-between;gap:8px;
+    margin:10px 0 2px;padding-top:10px;border-top:1px solid var(--hair)}
+  .nav-links a{font-size:12.5px;letter-spacing:-.005em}
+  .nav.scrolled .nav-links{border-top-color:rgba(255,255,255,.06)}
+}
+@media (max-width:560px){
+  .nav-in{padding:12px var(--pad);gap:12px}
+  .nav-links a{font-size:11.5px}
+  .nav-right .btn{font-size:12px;padding:8px 14px}
+}
+
+/* ---------- reveals ---------- */
+.up{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.up.in{opacity:1;transform:none}
+.w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em}
+.w>span{display:inline-block;transform:translateY(112%);transition:transform 1s cubic-bezier(.16,.84,.24,1)}
+.w.it-w{overflow:hidden}
+.h-in .w>span{transform:none}
+
+/* ---------- hero ---------- */
+.hero{padding-top:clamp(104px,13vw,168px);padding-bottom:clamp(48px,6vw,78px)}
+.hero-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:26px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(28px,4vw,60px);align-items:start}
+.hero-h{margin:0 0 22px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.hero-micro{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+@media (max-width:940px){.hero-grid{grid-template-columns:1fr}}
+
+/* ---------- cards ---------- */
+.card{position:relative;border:1px solid var(--hair);border-radius:16px;background:var(--panel);
+  overflow:hidden;transition:transform .5s cubic-bezier(.2,.7,.2,1),border-color .4s,box-shadow .5s}
+.card::before{content:"";position:absolute;inset:0;opacity:0;transition:opacity .45s;pointer-events:none;
+  background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%),var(--glow),transparent 62%)}
+.card:hover{transform:translateY(-5px);border-color:var(--hair-2);box-shadow:0 24px 60px -30px rgba(0,0,0,.9)}
+.card:hover::before{opacity:1}
+.card-pad{padding:clamp(20px,2.2vw,26px);position:relative;z-index:1}
+.card-cap{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:12px 16px;border-bottom:1px solid var(--hair);background:rgba(255,255,255,.02);position:relative;z-index:1}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:940px){.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:820px){.grid-3{grid-template-columns:1fr}}
+@media (max-width:620px){.grid-4,.grid-2{grid-template-columns:1fr}}
+
+/* ---------- node graph ---------- */
+.graph{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
+.graph svg{display:block;width:100%;height:auto}
+.npath{stroke:rgba(255,255,255,.16);stroke-width:1;fill:none;stroke-dasharray:4 6;animation:dash 9s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-100}}
+.nnode rect{fill:rgba(255,255,255,.045);stroke:rgba(255,255,255,.12)}
+.nnode.text-accent rect{fill:var(--glow);stroke:var(--accent)}
+.ntext{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;fill:var(--ink-2)}
+.nnode.text-accent .ntext{fill:var(--ink)}
+
+/* ---------- thread demo ---------- */
+.thread{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,3vw,52px);align-items:start}
+@media (max-width:880px){.thread{grid-template-columns:1fr}}
+.tline{display:flex;gap:14px;padding:11px 4px;border-bottom:1px solid rgba(255,255,255,.05);
+  opacity:0;transform:translateX(-8px);transition:opacity .5s,transform .5s}
+.tline.in{opacity:1;transform:none}
+.tline .num{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);padding-top:3px;flex:none;width:20px}
+.tline code{font-family:var(--mono);font-size:12.5px;color:var(--ink);word-break:break-word}
+.tline .ok{color:var(--accent)}
+.cmd{background:rgba(255,255,255,.04);border:1px solid var(--hair);border-radius:9px;padding:12px 14px;
+  font-family:var(--mono);font-size:12.5px;color:var(--ink);word-break:break-word;line-height:1.5}
+.cmd .p{color:var(--accent)}
+
+/* ---------- marquee ---------- */
+.marq{overflow:hidden;position:relative;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  background:rgba(255,255,255,.015);padding:20px 0}
+.marq::before,.marq::after{content:"";position:absolute;top:0;bottom:0;width:14vw;z-index:2;pointer-events:none}
+.marq::before{left:0;background:linear-gradient(90deg,var(--canvas),transparent)}
+.marq::after{right:0;background:linear-gradient(270deg,var(--canvas),transparent)}
+.marq-track{display:flex;width:max-content;animation:marq 42s linear infinite}
+.marq:hover .marq-track{animation-play-state:paused}
+.marq-set{display:flex;align-items:center;gap:clamp(26px,4vw,64px);padding-right:clamp(26px,4vw,64px)}
+.marq-item{font-family:var(--mono);font-size:clamp(12px,1.35vw,15px);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);white-space:nowrap;transition:color .35s}
+.marq-item:hover{color:var(--ink)}
+.marq-sep{color:var(--accent);opacity:.6;font-size:9px}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- vignettes (mini UI) ---------- */
+.vig{border-top:1px solid var(--hair);padding:16px;background:rgba(0,0,0,.25)}
+.vig-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.vig-row:last-child{margin-bottom:0}
+.bub{height:22px;border-radius:6px;background:rgba(255,255,255,.06);flex:none}
+.bub.a{background:var(--glow);border:1px solid var(--accent)}
+.toggle{width:34px;height:18px;border-radius:999px;background:var(--accent);position:relative;flex:none}
+.toggle::after{content:"";position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:var(--accent-on)}
+.toggle.off{background:rgba(255,255,255,.13)}
+.toggle.off::after{right:auto;left:2px;background:rgba(255,255,255,.5)}
+.code-mini{font-family:var(--mono);font-size:10.5px;color:var(--ink-2);line-height:1.75;white-space:pre-wrap}
+.code-mini .k{color:var(--accent);opacity:.9}
+.bar{height:6px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden;flex:1}
+.bar>i{display:block;height:100%;background:var(--accent);width:0;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+
+/* ---------- statement ---------- */
+.statement{padding:clamp(90px,12vw,180px) 0}
+.st-h{font-size:clamp(38px,8.4vw,104px);font-weight:800;letter-spacing:-.04em;line-height:1.02;max-width:15ch}
+.st-h .w>span{transform:none}
+.st-h .w{opacity:.16;transition:opacity .18s linear}
+.st-h .it{color:inherit}
+.st-h .w.lit{opacity:1}
+.st-h .w.lit.it-w{opacity:.92}
+.st-note{position:absolute;top:clamp(72px,9vw,140px);right:var(--pad);text-align:right;max-width:200px}
+@media (max-width:820px){.st-note{position:static;text-align:left;margin-bottom:22px;max-width:none}}
+
+/* ---------- interrupt slide ---------- */
+.interrupt{background:var(--accent);color:var(--accent-on);padding:clamp(88px,13vw,190px) 0;position:relative;overflow:hidden}
+.interrupt .giant{font-size:clamp(46px,11vw,168px);font-weight:800;letter-spacing:-.05em;line-height:.94;
+  transform:scale(.9);opacity:.35;transition:transform 1.2s cubic-bezier(.16,.84,.24,1),opacity 1.2s}
+.interrupt.in .giant{transform:scale(1);opacity:1}
+.interrupt .it{color:inherit;opacity:.72}
+.int-mark{width:clamp(52px,6vw,76px);height:clamp(52px,6vw,76px);border-radius:14px;background:var(--accent-on);
+  display:flex;align-items:center;justify-content:center;margin:0 auto clamp(28px,4vw,48px);position:relative}
+.int-mark::after{content:"";position:absolute;inset:30%;background:var(--accent);
+  clip-path:polygon(0 0,100% 0,100% 100%,0 100%);border-radius:2px}
+.int-foot{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-top:clamp(36px,5vw,64px);
+  border-top:1px solid rgba(0,0,0,.18);padding-top:20px}
+.interrupt .micro{color:inherit;opacity:.6}
+.orbit-ring{position:absolute;border:1px solid var(--accent-on);border-radius:50%;opacity:.07;pointer-events:none}
+
+/* ---------- table ---------- */
+.tbl-wrap{border:1px solid var(--hair);border-radius:16px;background:var(--panel);overflow:hidden}
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.data{width:100%;border-collapse:collapse;min-width:720px}
+table.data th,table.data td{text-align:left;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.055);
+  font-size:13.5px;color:var(--ink-2);white-space:nowrap}
+table.data thead th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  background:rgba(255,255,255,.028);position:sticky;top:0}
+table.data thead th.hi{color:var(--accent)}
+table.data td:first-child{color:var(--ink)}
+table.data tbody tr:hover td{background:rgba(255,255,255,.022)}
+table.data td.hi{color:var(--ink);font-weight:500}
+/* The track row is a definite 1fr so the inline `height:<n>%` written by the
+   JS (data-h) resolves against the plot area, not against an auto-height
+   column — with the old align-items:flex-end the columns collapsed to their
+   content, the percentages resolved to auto and every bar rendered 0px tall. */
+.bars{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);
+  gap:clamp(10px,2vw,26px);height:170px;padding:0 4px}
+.bar-col{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:9px;min-width:0}
+.bar-col .b{align-self:end;background:linear-gradient(180deg,var(--accent),var(--accent-deep));border-radius:5px 5px 2px 2px;
+  height:0;min-height:2px;transition:height 1.5s cubic-bezier(.2,.7,.2,1);box-shadow:0 0 24px -6px var(--glow)}
+.bar-col .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);text-align:center}
+.bar-col .val{font-family:var(--mono);font-size:11.5px;color:var(--ink);text-align:center}
+
+/* ---------- stats ---------- */
+.stat-n{font-size:clamp(38px,5.4vw,66px);font-weight:800;letter-spacing:-.045em;line-height:1;
+  font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:4px}
+.stat-n .unit{font-size:.42em;font-weight:700;letter-spacing:-.02em;color:var(--ink-2)}
+.quote{display:flex;flex-direction:column;justify-content:space-between;gap:26px}
+.quote p{font-family:var(--serif);font-style:italic;font-size:clamp(19px,2.1vw,26px);line-height:1.34;color:var(--ink)}
+
+/* ---------- pricing ---------- */
+.slider-box{border:1px solid var(--hair);border-radius:16px;background:var(--panel);padding:clamp(20px,2.4vw,30px)}
+.slider-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:flex-end}
+.slider-out{font-size:clamp(30px,4.4vw,54px);font-weight:800;letter-spacing:-.04em;line-height:1;
+  font-variant-numeric:tabular-nums;transition:color .3s}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:26px;background:transparent;margin:18px 0 6px;cursor:grab}
+input[type=range]:active{cursor:grabbing}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:rgba(255,255,255,.1)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+  background:var(--accent);border:4px solid var(--canvas);margin-top:-8px;box-shadow:0 0 0 4px var(--glow)}
+input[type=range]::-moz-range-track{height:6px;border-radius:999px;background:rgba(255,255,255,.1)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border:4px solid var(--canvas);border-radius:50%;background:var(--accent)}
+/* sits exactly on the native ::-webkit-slider-runnable-track: the input is
+   26px tall with a 6px track centred in it (track top = input top + 10px),
+   and the fill's natural top is input-bottom(26) + input margin-bottom(6). */
+.slider-fill{position:relative;height:6px;border-radius:999px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:-22px;pointer-events:none}
+.slider-fill>i{display:block;height:100%;width:8%;background:var(--accent);border-radius:999px;transition:width .12s linear}
+.seg{display:inline-flex;border:1px solid var(--hair);border-radius:999px;padding:3px;background:rgba(255,255,255,.03)}
+.seg button{border:0;background:transparent;padding:7px 15px;border-radius:999px;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);cursor:pointer;transition:background .28s,color .28s}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-on)}
+.tier{display:flex;flex-direction:column;gap:18px}
+.tier.pop{border-color:var(--accent);background:linear-gradient(180deg,var(--glow-2),rgba(255,255,255,.03))}
+.badge{position:absolute;top:14px;right:14px;padding:5px 10px;border-radius:999px;background:var(--accent);
+  color:var(--accent-on);font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase}
+.price{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+.price .amt{font-size:clamp(28px,3.1vw,38px);font-weight:800;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.price .suf{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3)}
+.feats{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.feats li{display:flex;gap:10px;font-size:13.5px;color:var(--ink-2);line-height:1.45}
+.feats li::before{content:"✓";color:var(--accent);font-size:12px;flex:none;line-height:1.5}
+.promo{border:1px dashed var(--hair-2);border-radius:12px;padding:14px 16px;display:flex;flex-wrap:wrap;
+  gap:8px 18px;align-items:center;background:rgba(255,255,255,.02)}
+code.kbd{font-family:var(--mono);font-size:11.5px;background:var(--glow);color:var(--ink);border:1px solid var(--accent);
+  border-radius:6px;padding:2px 7px;letter-spacing:.06em}
+
+/* ---------- faq ---------- */
+.faq-item{border-top:1px solid var(--hair);padding:22px 0;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(14px,3vw,48px)}
+.faq-item:last-child{border-bottom:1px solid var(--hair)}
+@media (max-width:760px){.faq-item{grid-template-columns:1fr;gap:10px}}
+
+/* ---------- closing CTA ---------- */
+.cta-box{position:relative;overflow:hidden;border:1px solid var(--hair-2);border-radius:20px;
+  background:linear-gradient(180deg,rgba(255,23,68,.18),rgba(255,23,68,0) 62%),var(--panel);padding:clamp(28px,5vw,64px)}
+.cta-box::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(68% 86% at 16% 0%,var(--glow),transparent 72%)}
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:clamp(24px,3vw,34px)}
+.cta-note{margin-top:16px}
+@media (max-width:520px){.cta-row .btn{width:100%;justify-content:center}}
+
+/* ---------- footer ---------- */
+footer{padding:clamp(56px,7vw,88px) 0 46px}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(2,minmax(0,1fr));gap:28px}
+@media (max-width:760px){.foot-grid{grid-template-columns:1fr 1fr}}
+.foot-links{display:flex;flex-direction:column;gap:11px}
+.foot-links a{font-size:14px;color:var(--ink-2);transition:color .25s}
+.foot-links a:hover{color:var(--accent)}
+.foot-bottom{margin-top:44px;padding-top:22px;border-top:1px solid var(--hair);
+  display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;justify-content:space-between}
+@media (prefers-reduced-motion:reduce){
+  .up{opacity:1;transform:none}.w>span{transform:none}
+  .marq-track{animation:none}.st-h .w{opacity:1}
+  .st-h .w.it-w{opacity:.92}
+  .interrupt .giant{transform:none;opacity:1}
+  .bar-col .b,.bar>i{transition:none}
+  .slider-fill>i{transition:none}
+  .npath{animation:none}
+}
+</style>
+</head>
+<body>
+<canvas id="aurora" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#studio" aria-label="RocketGenie, a BookiStudios product">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-word">ROCKET<span class="dotsep">·</span>GENIE</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#studio">The site</a>
+      <a href="#skills">Capabilities</a>
+      <a href="#benchmarks">Timing</a>
+      <a href="#pricing">Scope</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-status"><span class="pill"><i class="dot dot-live" style="border-radius:50%"></i>REPLIES IN UNDER 60 SECONDS</span></span>
+      <a class="btn btn-accent btn-sm" data-cal data-mag>Book a consultation</a>
+    </div>
+  </div>
+</header>
+<div class="shell">
+<!-- ============ HERO ============ -->
+<section class="hero" id="studio">
+  <div class="wrap">
+    <div class="hero-top up">
+      <span class="eyebrow"><span class="glyph" aria-hidden="true">⊕</span>RocketGenie — a BookiStudios product</span>
+      <span class="chip">Site → capture → reply → booking</span>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <h1 class="hero-h h-xl" id="heroH">
+          <span class="w"><span>Your</span></span>
+          <span class="w"><span>business,</span></span>
+          <span class="w"><span>open</span></span>
+          <span class="w"><span>after</span></span>
+          <span class="w it-w"><span class="it">hours.</span></span>
+        </h1>
+        <p class="lead up" data-delay="520">RocketGenie builds the website and the layer behind it: lead capture, one shared
+          inbox, an instant reply in under 60 seconds, and a booking on your calendar. For the shop, salon, studio or
+          venue that can't pick up at nine at night.</p>
+        <div class="hero-cta up" data-delay="640">
+          <a class="btn btn-accent" data-cal>Book a consultation →</a>
+          <a class="btn btn-ghost" href="#thread">See it answer</a>
+        </div>
+        <div class="hero-micro up" data-delay="720">
+          <span class="micro">Built and hosted by BookiStudios</span>
+          <span class="micro micro-ink">Reply target: under 60 seconds, day or night</span>
+        </div>
+      </div>
+      <div class="card graph up" data-delay="320" data-spot>
+        <div class="card-cap">
+          <span class="micro micro-ink">ROCKETGENIE IS ONE LAYER</span>
+          <span class="micro">V1</span>
+        </div>
+        <div class="card-pad">
+          <p class="micro" style="margin-bottom:14px;color:var(--ink-3)">Enquiry, reply, diary — one record, nothing retyped.</p>
+          <svg viewBox="0 0 460 300" role="img" aria-label="System diagram: an enquiry arrives, is captured by the site form, lands in the inbox, is answered by the reply engine, and becomes a booking on the calendar, with the site live behind all of it.">
+            <path class="npath" d="M62 54 C120 54 120 132 176 132"/>
+            <path class="npath" d="M62 54 C130 54 150 40 214 40"/>
+            <path class="npath" d="M176 132 C220 132 220 66 250 66"/>
+            <path class="npath" d="M176 132 C220 132 224 196 258 196"/>
+            <path class="npath" d="M250 66 C300 66 300 132 330 132"/>
+            <path class="npath" d="M258 196 C300 196 300 132 330 132"/>
+            <path class="npath" d="M330 132 C366 132 370 92 400 92"/>
+            <path class="npath" d="M330 132 C368 132 372 210 400 210"/>
+            <path class="npath" d="M214 40 C260 40 268 96 250 66"/>
+            <g class="nnode" transform="translate(18,36)"><rect width="88" height="34" rx="9"/><text class="ntext" x="12" y="21">enquiry</text></g>
+            <g class="nnode" transform="translate(176,114)"><rect width="98" height="34" rx="9"/><text class="ntext" x="12" y="21">capture</text></g>
+            <g class="nnode" transform="translate(214,24)"><rect width="86" height="32" rx="9"/><text class="ntext" x="12" y="20">intake</text></g>
+            <g class="nnode" transform="translate(250,50)"><rect width="104" height="32" rx="9"/><text class="ntext" x="12" y="20">inbox</text></g>
+            <g class="nnode text-accent" transform="translate(258,180)"><rect width="128" height="34" rx="9"/><text class="ntext" x="12" y="21">reply engine</text></g>
+            <g class="nnode" transform="translate(330,115)"><rect width="96" height="34" rx="9"/><text class="ntext" x="12" y="21">booking</text></g>
+            <g class="nnode" transform="translate(398,76)"><rect width="56" height="32" rx="9"/><text class="ntext" x="12" y="20">cal</text></g>
+            <g class="nnode" transform="translate(398,194)"><rect width="58" height="32" rx="9"/><text class="ntext" x="12" y="20">site</text></g>
+            <circle cx="214" cy="176" r="2.4" fill="var(--accent)"/>
+            <circle cx="120" cy="96" r="2.2" fill="var(--accent)" opacity=".7"/>
+            <circle cx="352" cy="60" r="2.2" fill="var(--accent)" opacity=".5"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marq" aria-label="What the layer does">
+  <div class="marq-track" id="marqTrack">
+    <div class="marq-set">
+      <span class="marq-item">Lead capture</span><span class="marq-sep">◆</span>
+      <span class="marq-item">Instant reply</span><span class="marq-sep">◆</span>
+      <span class="marq-item">One inbox</span><span class="marq-sep">◆</span>
+      <span class="marq-item">Booking</span><span class="marq-sep">◆</span>
+      <span class="marq-item">Site build</span><span class="marq-sep">◆</span>
+      <span class="marq-item">Hosting</span><span class="marq-sep">◆</span>
+      <span class="marq-item">Calendar</span><span class="marq-sep">◆</span>
+      <span class="marq-item">SMS + email</span><span class="marq-sep">◆</span>
+      <span class="marq-item">After-hours cover</span><span class="marq-sep">◆</span>
+      <span class="marq-item">Local businesses</span><span class="marq-sep">◆</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ THREAD DEMO ============ -->
+<section id="thread" class="veil">
+  <div class="wrap">
+    <div class="thread">
+      <div>
+        <span class="eyebrow up"><span class="glyph" aria-hidden="true">⊕</span>Thread — 001.Enquiry</span>
+        <h2 class="h-lg up" data-delay="120" style="margin:20px 0 18px">One enquiry, <span class="it">end to end</span>.</h2>
+        <p class="body up" data-delay="200">The same thread holds the form fill, the reply, the reminder and the booking.
+          Nothing is retyped into a second tool, and nothing waits until the morning.</p>
+        <p class="micro up" data-delay="280" style="margin-top:20px">Illustrative thread · demo copy, not a customer record</p>
+      </div>
+      <div class="card" data-spot>
+        <div class="card-cap"><span class="micro micro-ink">THREAD — 001.ENQUIRY</span><span class="micro">RocketGenie · Front desk</span></div>
+        <div class="card-pad" id="threadLines">
+          <div class="cmd" style="margin-bottom:14px"><span class="p">$</span> rocketgenie run "capture enquiry → reply → book"</div>
+          <div class="tline"><span class="num">01</span><code><span class="ok">✓</span> Enquiry from site form — Sat 21:47</code></div>
+          <div class="tline"><span class="num">02</span><code><span class="ok">✓</span> Captured: name, number, service, location</code></div>
+          <div class="tline"><span class="num">03</span><code><span class="ok">✓</span> Reply sent in under 60s — SMS + email</code></div>
+          <div class="tline"><span class="num">04</span><code>→ Slot held for Mon 08:30 · reminder queued</code></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SURFACES / ROLE CARDS ============ -->
+<section class="veil">
+  <div class="wrap">
+    <span class="eyebrow up"><span class="glyph" aria-hidden="true">⊕</span>Three surfaces · one record</span>
+    <h2 class="h-lg up" data-delay="120" style="margin:20px 0 16px;max-width:22ch">The site is only the <span class="it">front</span> of it.</h2>
+    <p class="lead up" data-delay="200" style="margin-bottom:38px">The page, the inbox and the calendar are three surfaces on the
+      same enquiry — not three subscriptions that never speak to each other.</p>
+    <div class="grid-3">
+      <article class="card up" data-delay="120" data-spot>
+        <div class="card-pad">
+          <span class="micro">Surface 01 · The site</span>
+          <h3 class="h-sm" style="margin:12px 0 10px">Built to capture.</h3>
+          <p class="body">A fast page per service, with the form wired straight into the inbox — not into a mailbox nobody opens.</p>
+        </div>
+        <div class="vig">
+          <div class="vig-row"><span class="bub a" style="width:52%"></span></div>
+          <div class="vig-row"><span class="bub" style="width:78%"></span></div>
+          <div class="vig-row"><span class="bub" style="width:64%"></span></div>
+          <div class="vig-row"><span class="micro" style="margin-left:auto">Form → inbox, first party</span></div>
+        </div>
+      </article>
+      <article class="card up" data-delay="220" data-spot>
+        <div class="card-pad">
+          <span class="micro">Surface 02 · The inbox</span>
+          <h3 class="h-sm" style="margin:12px 0 10px">One place to look.</h3>
+          <p class="body">Form fills, messages and missed calls land in a single queue with the customer's history attached.</p>
+        </div>
+        <div class="vig">
+          <div class="vig-row"><span class="micro">Lead capture</span><span class="toggle" style="margin-left:auto"></span></div>
+          <div class="vig-row"><span class="micro">Instant reply</span><span class="toggle" style="margin-left:auto"></span></div>
+          <div class="vig-row"><span class="micro">Reminders</span><span class="toggle off" style="margin-left:auto"></span></div>
+          <div class="vig-row"><span class="bar"><i data-bar="78%"></i></span><span class="micro">layer connected</span></div>
+        </div>
+      </article>
+      <article class="card up" data-delay="320" data-spot>
+        <div class="card-pad">
+          <span class="micro">Surface 03 · The calendar</span>
+          <h3 class="h-sm" style="margin:12px 0 10px">Booked, not chased.</h3>
+          <p class="body">The reply offers real slots and writes the booking to your calendar, with a reminder before the visit.</p>
+        </div>
+        <div class="vig">
+          <div class="code-mini"><span class="k">$</span> rocketgenie book --next-slot
+<span class="k">✓</span> slot held · Mon 08:30
+<span class="k">✓</span> added to calendar
+<span class="k">→</span> reminder scheduled</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAPABILITIES ============ -->
+<section id="skills" class="veil">
+  <div class="wrap">
+    <span class="eyebrow up"><span class="glyph" aria-hidden="true">⊕</span>What the layer covers</span>
+    <h2 class="h-lg up" data-delay="120" style="margin:20px 0 16px;max-width:22ch">A site and the work behind it, <span class="it">wired</span>.</h2>
+    <p class="lead up" data-delay="200" style="margin-bottom:38px">Six things a local business needs after hours, built as one
+      system instead of six logins.</p>
+    <div class="grid-3">
+      <article class="card up" data-delay="80" data-spot><div class="card-pad">
+        <span class="micro">Build</span><h3 class="h-sm" style="margin:12px 0 8px">Site Build</h3>
+        <p class="body">One page per service, written for your trade, fast on a phone in a car park.</p></div></article>
+      <article class="card up" data-delay="150" data-spot><div class="card-pad">
+        <span class="micro">Capture</span><h3 class="h-sm" style="margin:12px 0 8px">Lead Capture</h3>
+        <p class="body">Short forms that ask only what you need to quote or book the job.</p></div></article>
+      <article class="card up" data-delay="220" data-spot><div class="card-pad">
+        <span class="micro">Inbox</span><h3 class="h-sm" style="margin:12px 0 8px">Shared Inbox</h3>
+        <p class="body">Every enquiry in one queue, with who answered and what was said.</p></div></article>
+      <article class="card up" data-delay="80" data-spot><div class="card-pad">
+        <span class="micro">Reply</span><h3 class="h-sm" style="margin:12px 0 8px">Instant Reply</h3>
+        <p class="body">An answer in under a minute, in your voice, with prices, hours and next steps.</p></div></article>
+      <article class="card up" data-delay="150" data-spot><div class="card-pad">
+        <span class="micro">Book</span><h3 class="h-sm" style="margin:12px 0 8px">Bookings</h3>
+        <p class="body">Real slots in the reply, written to the calendar, with a reminder before the visit.</p></div></article>
+      <article class="card up" data-delay="220" data-spot><div class="card-pad">
+        <span class="micro">Run</span><h3 class="h-sm" style="margin:12px 0 8px">Hosting &amp; Updates</h3>
+        <p class="body">Domain, hosting and changes handled by BookiStudios, not by a plugin update at midnight.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KINETIC STATEMENT ============ -->
+<section class="statement">
+  <div class="st-note micro up">Annotation · v1.0<br>Words resolve as the page scrolls</div>
+  <div class="wrap">
+    <h2 class="st-h" id="stH">Build the site. Catch the enquiry. Reply in <span class="it">seconds</span>.</h2>
+  </div>
+</section>
+
+<!-- ============ INTERRUPT SLIDE ============ -->
+<section class="interrupt" id="interrupt">
+  <span class="orbit-ring" style="width:46vw;height:46vw;left:-8vw;bottom:-14vw"></span>
+  <span class="orbit-ring" style="width:30vw;height:30vw;right:-6vw;top:-8vw"></span>
+  <div class="wrap">
+    <div class="int-mark" aria-hidden="true"></div>
+    <div class="giant">Open after <span class="it">hours.</span></div>
+    <div class="int-foot">
+      <span class="micro">Replies in under 60 seconds · booking included</span>
+      <span class="micro">BookiStudios · Houston</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TIMING ============ -->
+<section id="benchmarks" class="veil">
+  <div class="wrap">
+    <span class="eyebrow up"><span class="glyph" aria-hidden="true">⊕</span>Timing</span>
+    <h2 class="h-lg up" data-delay="120" style="margin:20px 0 16px;max-width:24ch">What happens while you're <span class="it">closed</span>.</h2>
+    <p class="lead up" data-delay="200" style="margin-bottom:34px">A website collects the enquiry. The layer answers it, books it and
+      reminds the customer — the same night, without you picking up the phone.</p>
+
+    <div class="tbl-wrap up" data-delay="240">
+      <div class="tbl-scroll">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Moment</th><th>Website alone</th><th class="hi">With RocketGenie</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Sat 21:47 — form fill</td><td>Sits in an inbox</td><td class="hi">Captured, replied, slot offered</td></tr>
+            <tr><td>Sun 08:10 — missed call</td><td>Voicemail, no follow-up</td><td class="hi">Text back with a booking link</td></tr>
+            <tr><td>Mon 07:30 — booking request</td><td>Waits for opening</td><td class="hi">Already on the calendar</td></tr>
+            <tr><td>Mid-job, 14:20 — message</td><td>Seen when you check</td><td class="hi">Answered from the same queue</td></tr>
+            <tr><td>Public holiday</td><td>Closed, no reply</td><td class="hi">Same reply as any other day</td></tr>
+            <tr><td>Repeat customer</td><td>Starts from scratch</td><td class="hi">History attached to the record</td></tr>
+            <tr><td>After the visit</td><td>Nothing</td><td class="hi">Reminder before the next one</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:16px">
+      <div class="card up" data-delay="120" data-spot>
+        <div class="card-cap"><span class="micro micro-ink">ENQUIRY → BOOKING</span><span class="micro">Sequence</span></div>
+        <div class="card-pad">
+          <div class="bars" id="bars">
+            <div class="bar-col"><span class="val">01</span><span class="b" data-h="22%"></span><span class="lbl">Capture</span></div>
+            <div class="bar-col"><span class="val">02</span><span class="b" data-h="48%"></span><span class="lbl">Reply</span></div>
+            <div class="bar-col"><span class="val">03</span><span class="b" data-h="76%"></span><span class="lbl">Book</span></div>
+            <div class="bar-col"><span class="val">04</span><span class="b" data-h="100%"></span><span class="lbl">Remind</span></div>
+          </div>
+          <p class="micro" style="margin-top:16px">Order of events, not a benchmark — the reply target is under 60 seconds</p>
+        </div>
+      </div>
+      <div class="card up" data-delay="200" data-spot>
+        <div class="card-cap"><span class="micro micro-ink">WHAT THE LAYER IS FOR</span><span class="micro">01 — 03</span></div>
+        <div class="card-pad" style="display:flex;flex-direction:column;gap:18px">
+          <div>
+            <span class="micro">01 · The enquiry is the product</span>
+            <p style="font-family:var(--serif);font-style:italic;font-size:19px;color:var(--ink);margin:9px 0 0">“A form nobody answers is a business card in a drawer.”</p>
+          </div>
+          <div style="border-top:1px solid var(--hair);padding-top:16px">
+            <span class="micro">02 · Written for the trade</span>
+            <p class="body" style="margin-top:8px">The copy, the fields and the reply are written for your trade — vehicle, service, stylist, party size — not a generic contact form.</p>
+          </div>
+          <div style="border-top:1px solid var(--hair);padding-top:16px">
+            <span class="micro">03 · Yours to keep</span>
+            <p class="body" style="margin-top:8px">You own the domain, the content and the customer list. The layer runs for you; it doesn't hold you.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section class="veil">
+  <div class="wrap">
+    <span class="eyebrow up"><span class="glyph" aria-hidden="true">⊕</span>Built around the clock</span>
+    <h2 class="h-lg up" data-delay="120" style="margin:20px 0 16px;max-width:24ch">Measured in seconds, not <span class="it">days</span>.</h2>
+    <p class="lead up" data-delay="200" style="margin-bottom:34px">Every figure below is a design target for the layer, not a
+      customer statistic — we'd rather show you the mechanism than a wall of numbers.</p>
+
+    <div class="grid-4">
+      <div class="card up" data-delay="80" data-spot><div class="card-pad">
+        <span class="micro">Reply target</span>
+        <p class="stat-n" style="margin:14px 0 8px"><span data-count="60">0</span><span class="unit">seconds</span></p>
+        <span class="micro micro-ink">From enquiry to first reply</span>
+      </div></div>
+      <div class="card up" data-delay="150" data-spot><div class="card-pad">
+        <span class="micro">Coverage</span>
+        <p class="stat-n" style="margin:14px 0 8px"><span data-count="24">0</span><span class="unit">/ 7</span></p>
+        <span class="micro micro-ink">Nights, weekends, holidays</span>
+      </div></div>
+      <div class="card up" data-delay="220" data-spot><div class="card-pad">
+        <span class="micro">Inbox</span>
+        <p class="stat-n" style="margin:14px 0 8px"><span data-count="1">0</span><span class="unit">queue</span></p>
+        <span class="micro micro-ink">Form, message and missed call</span>
+      </div></div>
+      <div class="card up" data-delay="290" data-spot><div class="card-pad">
+        <span class="micro">One enquiry</span>
+        <p class="stat-n" style="margin:14px 0 8px"><span data-count="4">0</span><span class="unit">steps to booked</span></p>
+        <span class="micro micro-ink">Capture, reply, slot, reminder</span>
+      </div></div>
+    </div>
+
+    <div class="card up" data-delay="120" style="margin-top:16px" data-spot>
+      <div class="card-pad quote">
+        <p>“You keep the trade. The layer keeps the diary.”</p>
+        <span class="micro">RocketGenie · built and run by BookiStudios</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCOPE ============ -->
+<section id="pricing" class="veil">
+  <div class="wrap">
+    <span class="eyebrow up"><span class="glyph" aria-hidden="true">⊕</span>Scope — no surprises</span>
+    <h2 class="h-lg up" data-delay="120" style="margin:20px 0 16px;max-width:26ch">Scoped per business, not sold per <span class="it">seat</span>.</h2>
+    <p class="lead up" data-delay="200">Tell us how many enquiries you handle and we'll size the layer: how many services, how many
+      calendars, and how many people need to see the same queue. One build, one monthly retainer, quoted in writing
+      before anything starts.</p>
+
+    <div class="slider-box up" data-delay="240" style="margin:34px 0 22px">
+      <div class="slider-head">
+        <div>
+          <span class="micro">How many enquiries do you expect a month?</span>
+          <p class="micro micro-ink" style="margin-top:8px" id="sliderNote">Slide to size the layer.</p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <span class="seg" role="group" aria-label="Scope mode">
+            <button type="button" id="segCore" aria-pressed="false">Core</button>
+            <button type="button" id="segFull" aria-pressed="true">Core + booking</button>
+          </span>
+          <p class="slider-out" id="runOut" aria-live="polite">4,000</p>
+        </div>
+      </div>
+      <input type="range" id="runs" min="100" max="20000" step="100" value="4000" aria-label="Enquiries per month">
+      <div class="slider-fill"><i id="sliderFill"></i></div>
+      <div style="display:flex;justify-content:space-between;margin-top:10px">
+        <span class="micro">100</span><span class="micro">20,000+</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;border-top:1px solid var(--hair);margin-top:20px;padding-top:18px">
+        <span class="pill" id="matchPill"><i class="dot"></i>Site + layer</span>
+        <span class="micro micro-ink" id="matchLine">Site + layer · capture, reply, booking and reminders</span>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:22px">
+      <article class="card tier up" data-delay="80" data-spot>
+        <div class="card-pad tier">
+          <div>
+            <span class="micro">Scope 01 · Site</span>
+            <div class="price" style="margin:12px 0 6px"><span class="amt">Site</span><span class="suf">quoted per build</span></div>
+            <span class="micro micro-ink">The page and the form</span>
+          </div>
+          <ul class="feats">
+            <li>A page per service, written for your trade</li>
+            <li>Lead capture form wired to the inbox</li>
+            <li>Instant reply, under 60 seconds</li>
+            <li>Booking link in every reply</li>
+            <li>Hosting, domain and updates handled</li>
+          </ul>
+          <a class="btn btn-ghost" data-cal>Book a consultation</a>
+        </div>
+      </article>
+
+      <article class="card tier pop up" data-delay="170" data-spot>
+        <span class="badge">Recommended</span>
+        <div class="card-pad tier">
+          <div>
+            <span class="micro">Scope 02 · Site + layer</span>
+            <div class="price" style="margin:12px 0 6px"><span class="amt">Site + layer</span><span class="suf">quoted per build</span></div>
+            <span class="micro micro-ink">Everything below, run for you</span>
+          </div>
+          <ul class="feats">
+            <li>Everything in Scope 01</li>
+            <li>One inbox for form, message and missed call</li>
+            <li>Calendar booking and reminders</li>
+            <li>Follow-up if nobody replies</li>
+            <li>Copy and reply templates per service</li>
+            <li>Monthly check-in with BookiStudios</li>
+          </ul>
+          <a class="btn btn-accent" data-cal>Book a consultation</a>
+        </div>
+      </article>
+
+      <article class="card tier up" data-delay="260" data-spot>
+        <div class="card-pad tier">
+          <div>
+            <span class="micro">Scope 03 · Multi-location</span>
+            <div class="price" style="margin:12px 0 6px"><span class="amt">Multi-site</span><span class="suf">quoted per business</span></div>
+            <span class="micro micro-ink">Two or more premises</span>
+          </div>
+          <ul class="feats">
+            <li>Everything in Scope 02</li>
+            <li>One queue across locations</li>
+            <li>Separate calendars and rotas</li>
+            <li>Per-location reply rules and hours</li>
+            <li>Handover notes between staff</li>
+            <li>Named contact at BookiStudios</li>
+          </ul>
+          <a class="btn btn-ghost" data-cal>Book a consultation</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="promo up" data-delay="120" style="margin-top:16px">
+      <span class="micro micro-ink">Every build includes</span>
+      <span><code class="kbd">DOMAIN</code> <span class="micro micro-ink">set up and pointed</span></span>
+      <span><code class="kbd">HOSTING</code> <span class="micro micro-ink">managed, renewals covered</span></span>
+      <span class="micro" style="margin-left:auto">No seats · no per-message billing · retainer cancellable any time</span>
+    </div>
+    <p class="body up" data-delay="160" style="margin-top:20px">Scoping is a conversation, not a checkout. We look at how enquiries
+      arrive today, what the calendar looks like and who answers the phone — then quote one build and one monthly
+      retainer, in writing.</p>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="veil">
+  <div class="wrap">
+    <span class="eyebrow up"><span class="glyph" aria-hidden="true">⊕</span>FAQ</span>
+    <h2 class="h-lg up" data-delay="120" style="margin:20px 0 30px;max-width:18ch">Questions, <span class="it">answered</span>.</h2>
+    <div class="up" data-delay="180">
+      <div class="faq-item">
+        <h3 class="h-sm">Do I need a new website?</h3>
+        <p class="body">No. If the current site works, we wire the layer into it. If it doesn't load fast or ask the right
+          questions, we rebuild it as part of the same build.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="h-sm">What does “under 60 seconds” actually mean?</h3>
+        <p class="body">It's the reply target the layer is built to: an enquiry that lands while you're closed gets an answer
+          with prices, hours, next steps and a booking link, before the customer tries the next business on the list.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="h-sm">Who writes the replies?</h3>
+        <p class="body">We do, with you, at setup — one reply per service in your voice, with your prices and your hours.
+          You can edit any of them from the inbox at any time.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="h-sm">What happens to my data if we stop?</h3>
+        <p class="body">The domain, the content and the customer list are yours. Ask once and it's exported, and the site keeps
+          running on hosting you control.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSING CTA ============ -->
+<section class="veil" id="book">
+  <div class="wrap">
+    <div class="cta-box up">
+      <span class="eyebrow"><span class="glyph" aria-hidden="true">⊕</span>Next step</span>
+      <h2 class="h-lg" style="margin:22px 0 16px;max-width:20ch">Let's see what your <span class="it">after hours</span> are worth.</h2>
+      <p class="lead">Twenty minutes on how enquiries reach you now — and what a site plus the layer behind it would answer
+        for you.</p>
+      <div class="cta-row">
+        <a class="btn btn-accent" data-cal data-mag>Book a consultation</a>
+        <a class="btn btn-ghost" href="#thread">See the thread first</a>
+      </div>
+      <p class="micro cta-note">BookiStudios · builds, hosts and runs the layer for you</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="veil">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="margin-bottom:14px">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-word">ROCKET<span class="dotsep">·</span>GENIE</span>
+        </div>
+        <p class="body" style="max-width:34ch">The site, and the layer that answers it. A BookiStudios product for local businesses.</p>
+        <p class="micro" style="margin-top:16px">RocketGenie v1 · built by BookiStudios</p>
+      </div>
+      <div>
+        <span class="micro" style="display:block;margin-bottom:14px">The product</span>
+        <div class="foot-links">
+          <a href="#studio">The site</a>
+          <a href="#thread">How it answers</a>
+          <a href="#skills">Capabilities</a>
+          <a href="#benchmarks">Timing</a>
+        </div>
+      </div>
+      <div>
+        <span class="micro" style="display:block;margin-bottom:14px">Start</span>
+        <div class="foot-links">
+          <a data-cal>Book a consultation</a>
+          <a href="#pricing">Scope</a>
+          <a href="#faq">Questions</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="micro">BookiStudios · Houston — RocketGenie</span>
+      <span class="micro">© 2026 BookiStudios</span>
+    </div>
+  </div>
+</footer>
+</div>
+<script>
+(function () {
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- 1. canvas aurora light-trail backdrop ---------- */
+  (function aurora() {
+    var cvs = document.getElementById("aurora");
+    if (!cvs || !cvs.getContext) return;
+    var ctx = cvs.getContext("2d");
+    var W = 0, H = 0, DPR = 1, running = true, t = 0, last = 0;
+    var mx = 0.5, my = 0.45, tmx = 0.5, tmy = 0.45;
+    var accent = [255, 82, 82];
+    function readAccent() {
+      var a = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim();
+      var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(a.replace("#", "#"));
+      if (a.charAt(0) === "#" && a.length === 7) {
+        accent = [parseInt(a.substr(1, 2), 16), parseInt(a.substr(3, 2), 16), parseInt(a.substr(5, 2), 16)];
+      }
+      return m;
+    }
+    readAccent();
+    function size() {
+      DPR = Math.min(1.5, window.devicePixelRatio || 1);
+      W = cvs.width = Math.floor(window.innerWidth * DPR);
+      H = cvs.height = Math.floor(window.innerHeight * DPR);
+    }
+    size();
+    window.addEventListener("resize", function () { size(); }, { passive: true });
+
+    var RIBBONS = [
+      { y: 0.34, amp: 0.16, sp: 0.055, ph: 0.0, w: 2.6, a: 0.50 },
+      { y: 0.52, amp: 0.13, sp: -0.042, ph: 1.7, w: 1.8, a: 0.38 },
+      { y: 0.72, amp: 0.10, sp: 0.031, ph: 3.4, w: 3.4, a: 0.30 },
+      { y: 0.20, amp: 0.09, sp: 0.024, ph: 5.1, w: 1.4, a: 0.32 }
+    ];
+
+    function ribbon(rb, time, alpha) {
+      var pts = 46;
+      ctx.beginPath();
+      for (var i = 0; i <= pts; i++) {
+        var p = i / pts;
+        var x = p * W;
+        var drift = (mx - 0.5) * 90 * DPR;
+        var lift = (my - 0.5) * 60 * DPR;
+        var wob = Math.sin(p * 5.2 + time * rb.sp * 12 + rb.ph) * 0.55 +
+                  Math.sin(p * 2.1 - time * rb.sp * 7 + rb.ph * 1.4) * 0.45;
+        var y = H * rb.y + wob * H * rb.amp * 0.5 + Math.sin(p * 1.4 + rb.ph) * drift * 0.35 + lift * 0.4;
+        var xo = x + Math.sin(p * 3.1 + rb.ph + time * 0.02) * 40 * DPR + drift;
+        if (i === 0) ctx.moveTo(xo, y); else ctx.lineTo(xo, y);
+      }
+      var g = ctx.createLinearGradient(0, 0, W, 0);
+      g.addColorStop(0, "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + ",0)");
+      g.addColorStop(0.22, "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + "," + alpha + ")");
+      g.addColorStop(0.55, "rgba(120,190,255," + alpha * 0.4 + ")");
+      g.addColorStop(0.82, "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + "," + alpha * 0.7 + ")");
+      g.addColorStop(1, "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + ",0)");
+      ctx.strokeStyle = g;
+      ctx.lineWidth = rb.w * DPR;
+      ctx.lineCap = "round";
+      ctx.stroke();
+    }
+
+    function blob(x, y, r, rgb, alpha) {
+      var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, "rgba(" + rgb + "," + alpha + ")");
+      g.addColorStop(1, "rgba(" + rgb + ",0)");
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function frame(ts) {
+      if (!running) return;
+      if (!last) last = ts;
+      if (ts - last < 33) { requestAnimationFrame(frame); return; }
+      var dt = Math.min(0.05, (ts - last) / 1000);
+      last = ts;
+      t += dt;
+      mx += (tmx - mx) * 0.045;
+      my += (tmy - my) * 0.045;
+
+      ctx.globalCompositeOperation = "source-over";
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = "lighter";
+
+      blob(W * (0.72 + Math.sin(t * 0.05) * 0.04), H * (0.34 + Math.cos(t * 0.04) * 0.05),
+        Math.max(W, H) * 0.44, "255,82,82", 0.30);
+      blob(W * (0.22 + Math.cos(t * 0.037) * 0.05), H * (0.62 + Math.sin(t * 0.045) * 0.04),
+        Math.max(W, H) * 0.38, "96,170,255", 0.18);
+      blob(W * (0.46 + Math.sin(t * 0.028) * 0.06), H * (0.16 + Math.cos(t * 0.033) * 0.05),
+        Math.max(W, H) * 0.34, "255,82,82", 0.20);
+
+      for (var i = 0; i < RIBBONS.length; i++) {
+        var rb = RIBBONS[i];
+        ribbon(rb, t, rb.a);
+        ctx.globalAlpha = 0.5;
+        ctx.lineWidth *= 2.8;
+        ribbon(rb, t, rb.a * 0.30);
+        ctx.globalAlpha = 1;
+      }
+      ctx.globalCompositeOperation = "source-over";
+      requestAnimationFrame(frame);
+    }
+    function start() { if (reduce || running) return; running = true; last = 0; requestAnimationFrame(frame); }
+    function stop() { running = false; }
+
+    /* the same light-trail art, drawn once and held still — reduced motion
+       users get the design, just not the movement */
+    function staticDraw() {
+      ctx.globalCompositeOperation = "source-over";
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = "lighter";
+      blob(W * 0.72, H * 0.34, Math.max(W, H) * 0.44, "255,82,82", 0.30);
+      blob(W * 0.22, H * 0.62, Math.max(W, H) * 0.38, "96,170,255", 0.18);
+      blob(W * 0.46, H * 0.16, Math.max(W, H) * 0.34, "255,82,82", 0.20);
+      for (var i = 0; i < RIBBONS.length; i++) {
+        var rb = RIBBONS[i];
+        ribbon(rb, 0, rb.a);
+        ctx.globalAlpha = 0.5;
+        ctx.lineWidth *= 2.8;
+        ribbon(rb, 0, rb.a * 0.30);
+        ctx.globalAlpha = 1;
+      }
+      ctx.globalCompositeOperation = "source-over";
+    }
+
+    window.addEventListener("pointermove", function (e) {
+      tmx = e.clientX / Math.max(1, window.innerWidth);
+      tmy = e.clientY / Math.max(1, window.innerHeight);
+    }, { passive: true });
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) { stop(); }
+      else if (inView) { start(); }
+    });
+    var inView = true;
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        inView = es[0].isIntersecting;
+        if (inView && !document.hidden) start(); else stop();
+      }, { threshold: 0 }).observe(document.body);
+    }
+    if (reduce) {
+      staticDraw();
+      window.addEventListener("resize", function () { setTimeout(staticDraw, 30); }, { passive: true });
+    } else {
+      requestAnimationFrame(frame);
+    }
+  })();
+
+  /* ---------- 2. sticky nav blur + hairline ---------- */
+  (function nav() {
+    var el = document.getElementById("nav");
+    function onScroll() {
+      if (window.scrollY > 8) el.classList.add("scrolled");
+      else el.classList.remove("scrolled");
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  })();
+
+  /* ---------- 3. word-by-word mask reveal (+ serif italic last) ---------- */
+  (function heroReveal() {
+    var h = document.getElementById("heroH");
+    if (!h) return;
+    var ws = h.querySelectorAll(".w > span");
+    for (var i = 0; i < ws.length; i++) {
+      ws[i].style.transitionDelay = (140 + i * 92) + "ms";
+    }
+    var done = false;
+    function go() {
+      if (done) return;
+      done = true;
+      h.classList.add("h-in");
+    }
+    if (reduce) { go(); return; }
+    /* Add the class off DOMContentLoaded + one short beat — never gated on font
+       loading or on requestAnimationFrame scheduling, so the headline can never
+       be caught stuck inside the mask. The animation itself is the transition. */
+    function boot() { setTimeout(go, 60); }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+    else boot();
+    window.addEventListener("load", function () { setTimeout(go, 40); });
+    setTimeout(go, 700);
+  })();
+
+  /* ---------- 4. scroll fade-up reveals ---------- */
+  (function reveals() {
+    var els = [].slice.call(document.querySelectorAll(".up"));
+    if (!("IntersectionObserver" in window) || reduce) {
+      els.forEach(function (e) { e.classList.add("in"); });
+    } else {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          var d = parseInt(en.target.getAttribute("data-delay") || "0", 10);
+          setTimeout(function () { en.target.classList.add("in"); }, reduce ? 0 : d);
+          io.unobserve(en.target);
+        });
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+      els.forEach(function (e) { io.observe(e); });
+    }
+    /* thread lines appear in sequence */
+    var lines = [].slice.call(document.querySelectorAll("#threadLines .tline"));
+    if (lines.length) {
+      var io2 = new IntersectionObserver(function (en) {
+        if (!en[0].isIntersecting) return;
+        lines.forEach(function (l, i) {
+          setTimeout(function () { l.classList.add("in"); }, reduce ? 0 : 120 + i * 190);
+        });
+        io2.disconnect();
+      }, { threshold: 0.3 });
+      io2.observe(document.getElementById("threadLines"));
+    }
+  })();
+
+  /* ---------- 5. scroll-linked progressive type brightening ---------- */
+  (function kinetic() {
+    var h = document.getElementById("stH");
+    if (!h) return;
+    var nodes = [].slice.call(h.childNodes);
+    var words = [];
+    nodes.forEach(function (n) {
+      if (n.nodeType === 3) {
+        n.textContent.split(/(\s+)/).forEach(function (part) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { h.insertBefore(document.createTextNode(part), n); return; }
+          var sp = document.createElement("span");
+          sp.className = "w";
+          sp.textContent = part;
+          h.insertBefore(sp, n);
+          words.push(sp);
+        });
+        h.removeChild(n);
+      } else if (n.nodeType === 1) {
+        /* the serif-italic emphasis word must join the same brightening pass */
+        n.classList.add("w");
+        if (n.classList.contains("it")) n.classList.add("it-w");
+        words.push(n);
+      }
+    });
+    function update() {
+      var r = h.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var start = vh * 1.05;
+      var end = vh * 0.05;
+      var p = (start - r.top) / Math.max(1, (start - end + r.height * 0.5));
+      p = Math.max(0, Math.min(1, p));
+      var n = words.length;
+      for (var i = 0; i < n; i++) {
+        var wi = p * (n + 0.9) - i;
+        if (wi >= 1) words[i].classList.add("lit");
+        else words[i].classList.remove("lit");
+      }
+    }
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { update(); ticking = false; });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    update();
+  })();
+
+  /* ---------- 6. count-up counters ---------- */
+  (function counters() {
+    var els = [].slice.call(document.querySelectorAll("[data-count]"));
+    function fmt(v, kind) {
+      var n = Math.round(v);
+      if (kind === "int") return n.toLocaleString("en-US");
+      return String(n);
+    }
+    function run(el) {
+      var target = parseFloat(el.getAttribute("data-count"));
+      var kind = el.getAttribute("data-fmt") || "";
+      if (reduce) { el.textContent = fmt(target, kind); return; }
+      var start = performance.now(), dur = 1500;
+      function step(now) {
+        var p = Math.min(1, (now - start) / dur);
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(target * e, kind);
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = fmt(target, kind);
+      }
+      requestAnimationFrame(step);
+    }
+    if (!("IntersectionObserver" in window)) { els.forEach(run); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        run(en.target);
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0.5 });
+    els.forEach(function (e) { io.observe(e); });
+  })();
+
+  /* ---------- 7. mini bar chart + progress bars ---------- */
+  (function bars() {
+    var els = [].slice.call(document.querySelectorAll("[data-h]"));
+    var fills = [].slice.call(document.querySelectorAll("[data-bar]"));
+    function paint() {
+      els.forEach(function (b) { b.style.height = b.getAttribute("data-h"); });
+      fills.forEach(function (b) { b.style.width = b.getAttribute("data-bar"); });
+    }
+    if (!("IntersectionObserver" in window)) { paint(); return; }
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      setTimeout(paint, 120);
+      io.disconnect();
+    }, { threshold: 0.3 });
+    if (els[0]) io.observe(els[0].parentNode.parentNode);
+    if (fills[0]) io.observe(fills[0]);
+    if (!els[0] && fills[0]) { /* fills only */ }
+  })();
+
+  /* ---------- 8. interrupt slide scale-in ---------- */
+  (function interrupt() {
+    var el = document.getElementById("interrupt");
+    if (!el) return;
+    if (!("IntersectionObserver" in window) || reduce) { el.classList.add("in"); return; }
+    var io = new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) { el.classList.add("in"); io.disconnect(); }
+    }, { threshold: 0.25 });
+    io.observe(el);
+  })();
+
+  /* ---------- 9. marquee: duplicate the set for a seamless -50% loop ---------- */
+  (function marquee() {
+    var track = document.getElementById("marqTrack");
+    if (!track) return;
+    var set = track.querySelector(".marq-set");
+    if (!set) return;
+    var clone = set.cloneNode(true);
+    clone.setAttribute("aria-hidden", "true");
+    track.appendChild(clone);
+  })();
+
+  /* ---------- 10. scope slider + live recommendation ---------- */
+  (function scope() {
+    var range = document.getElementById("runs");
+    var out = document.getElementById("runOut");
+    var fill = document.getElementById("sliderFill");
+    var pill = document.getElementById("matchPill");
+    var line = document.getElementById("matchLine");
+    var note = document.getElementById("sliderNote");
+    var bC = document.getElementById("segCore");
+    var bF = document.getElementById("segFull");
+    if (!range) return;
+
+    var BANDS = {
+      site: { name: "Site", runs: 300 },
+      layer: { name: "Site + layer", runs: 4000 },
+      group: { name: "Multi-location", runs: 10000 }
+    };
+    var full = true, val = parseInt(range.value, 10) || 4000;
+
+    function pick(r) {
+      if (r <= BANDS.site.runs) return { id: "site", seats: 1, custom: false };
+      if (r <= BANDS.layer.runs) return { id: "layer", seats: 1, custom: false };
+      var seats = Math.ceil(r / BANDS.group.runs);
+      if (seats <= 20) return { id: "group", seats: seats, custom: false };
+      return { id: "group", seats: 20, custom: true };
+    }
+
+    function render() {
+      var r = parseInt(range.value, 10);
+      val = r;
+      var m = pick(r);
+      out.textContent = r.toLocaleString("en-US");
+      fill.style.width = ((r - 100) / (20000 - 100) * 100).toFixed(1) + "%";
+
+      var html;
+      if (m.custom) {
+        pill.innerHTML = '<i class="dot"></i>Multi-site × 20+';
+        html = r.toLocaleString("en-US") + " enquiries / month · more premises than one layer should carry — drawn by hand";
+        note.textContent = "Past what a template should cover — this one is scoped in person.";
+      } else if (m.id === "site") {
+        pill.innerHTML = '<i class="dot"></i>Site';
+        html = "Site · capture and instant reply, no booking layer";
+        note.textContent = "A quiet month: the page and the reply carry it.";
+      } else if (m.id === "layer") {
+        pill.innerHTML = '<i class="dot"></i>Site + layer';
+        html = "Site + layer · capture, " + (full ? "reply, booking and reminders" : "reply and follow-up");
+        note.textContent = "The standard build — one queue, one calendar, one reply.";
+      } else {
+        var loc = m.seats + " location" + (m.seats > 1 ? "s" : "");
+        pill.innerHTML = '<i class="dot"></i>Multi-location × ' + m.seats;
+        html = "Multi-location · " + loc + ", one queue" +
+          (full ? ", separate calendars and reminders" : ", one shared calendar");
+        note.textContent = "Multi-location is scoped per premises, two or more.";
+      }
+      line.textContent = html;
+    }
+
+    function setMode(f) {
+      full = f;
+      bC.setAttribute("aria-pressed", String(!f));
+      bF.setAttribute("aria-pressed", String(f));
+      render();
+    }
+
+    range.addEventListener("input", render);
+    bC.addEventListener("click", function () { setMode(false); });
+    bF.addEventListener("click", function () { setMode(true); });
+    setMode(true);
+  })();
+
+  /* ---------- 11. hover spotlight + lift, magnetic CTA ---------- */
+  (function hover() {
+    var spots = [].slice.call(document.querySelectorAll("[data-spot]"));
+    spots.forEach(function (c) {
+      c.addEventListener("pointermove", function (e) {
+        var r = c.getBoundingClientRect();
+        c.style.setProperty("--mx", (e.clientX - r.left) + "px");
+        c.style.setProperty("--my", (e.clientY - r.top) + "px");
+      }, { passive: true });
+    });
+    var mags = [].slice.call(document.querySelectorAll("[data-mag]"));
+    if (!mags.length || reduce) return;
+    mags.forEach(function (mag) {
+      var host = mag.parentNode;
+      host.addEventListener("pointermove", function (e) {
+        var r = mag.getBoundingClientRect();
+        var dx = (e.clientX - (r.left + r.width / 2)) / r.width;
+        var dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+        var d = Math.min(1, Math.hypot(dx, dy));
+        if (d > 1.6) { mag.style.transform = ""; return; }
+        mag.style.transform = "translate(" + (dx * 5).toFixed(1) + "px," + (dy * 5 - 1).toFixed(1) + "px)";
+      }, { passive: true });
+      host.addEventListener("pointerleave", function () { mag.style.transform = ""; });
+    });
+  })();
+})();
+</script>
+</body>
+</html>
