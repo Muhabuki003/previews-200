@@ -14,20 +14,20 @@
   /* Known products (variant -> display data). Covers all static PDP buy boxes
      and the drawer upsell. Images are self-hosted (no Shopify CDN hotlinks). */
   var PRODUCTS = {
-    "53981241409850": { title: "Fiber Gummies",          price: 16.99, meta: "60 gummies", image: "/img/products/fiber-1-400.jpg" },
-    "53963239850298": { title: "60 Billion Probiotic",   price: 19.99, meta: "30 capsules", image: "/img/products/probiotic-1-400.jpg" },
-    "53963239883066": { title: "Digestive Enzymes", price: 14.99, meta: "60 capsules", image: "/img/products/enzymes-1-400.jpg" },
-    "53963239915834": { title: "Probiotic + Enzyme Duo", price: 24.99, meta: "2 bottles", image: "/img/products/duo-1-400.jpg" },
-    "53964397838650": { title: "Cranberry + Probiotic",     price: 25.99, meta: "30 capsules", image: "/img/products/cranberry-1-400.jpg" },
-    "67983524921658": { title: "Heatless Curling Ribbon",  price: 24.99, meta: "4-piece set · light purple", image: "/img/products/ribbon-1-400.jpg" }
+    "53981241409850": { title: "Fiber Gummies",          price: 16.99, meta: "60 gummies", image: "https://aliviovital.com/img/products/fiber-1-400.jpg" },
+    "53963239850298": { title: "60 Billion Probiotic",   price: 19.99, meta: "30 capsules", image: "https://aliviovital.com/img/products/probiotic-1-400.jpg" },
+    "53963239883066": { title: "Digestive Enzymes", price: 14.99, meta: "60 capsules", image: "https://aliviovital.com/img/products/enzymes-1-400.jpg" },
+    "53963239915834": { title: "Probiotic + Enzyme Duo", price: 24.99, meta: "2 bottles", image: "https://aliviovital.com/img/products/duo-1-400.jpg" },
+    "53964397838650": { title: "Cranberry + Probiotic",     price: 25.99, meta: "30 capsules", image: "https://aliviovital.com/img/products/cranberry-1-400.jpg" },
+    "67983524921658": { title: "Heatless Curling Ribbon",  price: 24.99, meta: "4-piece set · light purple", image: "https://muhabuki003.github.io/previews-200/alivio-ribbon/img/products/av-ribbon-01-400.jpg" }
   };
 
   /* Upsell slides rebuilt from our own products (PC's slides used dead variant ids). */
   var UPSELL = [
-    { variant: "53981241409850", title: "Fiber Gummies", price: "$16.99", image: "/img/products/fiber-1-400.jpg" },
-    { variant: "53963239850298", title: "60 Billion Probiotic", price: "$19.99", image: "/img/products/probiotic-1-400.jpg" },
-    { variant: "53963239883066", title: "Digestive Enzymes", price: "$14.99", image: "/img/products/enzymes-1-400.jpg" },
-    { variant: "53964397838650", title: "Cranberry + Probiotic", price: "$25.99", image: "/img/products/cranberry-1-400.jpg" }
+    { variant: "53981241409850", title: "Fiber Gummies", price: "$16.99", image: "https://aliviovital.com/img/products/fiber-1-400.jpg" },
+    { variant: "53963239850298", title: "60 Billion Probiotic", price: "$19.99", image: "https://aliviovital.com/img/products/probiotic-1-400.jpg" },
+    { variant: "53963239883066", title: "Digestive Enzymes", price: "$14.99", image: "https://aliviovital.com/img/products/enzymes-1-400.jpg" },
+    { variant: "53964397838650", title: "Cranberry + Probiotic", price: "$25.99", image: "https://aliviovital.com/img/products/cranberry-1-400.jpg" }
   ];
 
   function load() {
