@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BookiStudios — AI Agents for Dental Practices</title>
+  <meta name="description" content="Fifty-eight installed AI agents that work the front desk, recalls, no-shows, treatment plans, claims, reviews, and clinic ops for independent dental practices." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #FAF9F7;
+      --surface: #FFFFFF;
+      --fg: #111111;
+      --muted: #5F5C57;
+      --line: #E7E3DD;
+      --red: #D63929;
+      --dark: #141414;
+      --dark-line: #3A3A3A;
+      --dark-muted: #9C9A96;
+      --display: "Oswald", "Arial Narrow", sans-serif;
+      --body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 28px; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--body);
+      font-size: 17px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    a { color: inherit; }
+    a:focus-visible {
+      outline: 2px solid var(--fg);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* ---------- Top bar ---------- */
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 64px;
+    }
+    .wordmark {
+      font-family: var(--display);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+    .topbar-location {
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ---------- Shared section rhythm ---------- */
+    .section {
+      padding: clamp(72px, 9vw, 128px) 0;
+    }
+    .rule-top {
+      border-top: 1px solid var(--line);
+    }
+    .section-heading {
+      margin: 0 0 40px;
+      font-family: var(--display);
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1.02;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      text-transform: uppercase;
+    }
+    .eyebrow {
+      margin: 0 0 28px;
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    /* ---------- Hero ---------- */
+    .hero { background: var(--bg); }
+    .hero-title {
+      margin: 0;
+      max-width: 12ch;
+      font-family: var(--display);
+      font-size: clamp(48px, 7.2vw, 96px);
+      line-height: 0.98;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      text-transform: uppercase;
+    }
+    .hero-title span { display: block; }
+    .hero-sub {
+      margin: 34px 0 0;
+      max-width: 720px;
+      color: #4B4844;
+      font-size: 18px;
+      line-height: 1.65;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px 24px;
+      margin-top: 40px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 24px;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      font-family: var(--body);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+    }
+    .btn-solid {
+      background: var(--red);
+      color: #FFFFFF;
+      border-color: var(--red);
+    }
+    .btn-solid:hover { background: #B32E21; border-color: #B32E21; }
+    .btn-text {
+      min-height: 44px;
+      padding: 0 2px 7px;
+      color: var(--fg);
+      border-bottom: 1px solid var(--red);
+      border-radius: 0;
+    }
+    .btn-text:hover { color: var(--red); }
+
+    /* ---------- Stats ---------- */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 32px 24px;
+    }
+    .stat { min-width: 0; }
+    .stat-num {
+      display: block;
+      font-family: var(--display);
+      font-size: clamp(54px, 7vw, 84px);
+      line-height: 0.95;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--red);
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+    .stats-note {
+      margin: 32px 0 0;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: #6E6A64;
+      font-size: 14px;
+    }
+
+    /* ---------- Dark agent map ---------- */
+    .map-section {
+      background: var(--dark);
+      color: #FFFFFF;
+      padding: clamp(80px, 9vw, 136px) 0;
+    }
+    .map-title {
+      margin: 0 0 48px;
+      font-family: var(--display);
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1.02;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      text-transform: uppercase;
+    }
+    .map-figure { margin: 0; }
+    .map-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .map-svg .ring { fill: none; stroke: var(--dark-line); stroke-width: 1; }
+    .map-svg .line { stroke: var(--dark-line); stroke-width: 1; }
+    .map-svg .node-dot { fill: var(--red); }
+    .map-svg .kb-box { fill: var(--dark); stroke: var(--dark-line); stroke-width: 1; }
+    .map-svg .kb-title {
+      fill: #FFFFFF;
+      font-family: var(--display);
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .map-svg .kb-sub {
+      fill: var(--dark-muted);
+      font-family: var(--body);
+      font-size: 15px;
+      letter-spacing: 0.01em;
+    }
+    .map-svg .node-name {
+      fill: #FFFFFF;
+      font-family: var(--body);
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+    }
+    .map-svg .node-count {
+      fill: var(--red);
+      font-family: var(--display);
+      font-size: 32px;
+      font-weight: 600;
+    }
+    .map-caption {
+      margin: 24px 0 0;
+      max-width: 720px;
+      color: var(--dark-muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .map-list {
+      display: none;
+      list-style: none;
+      margin: 40px 0 0;
+      padding: 0;
+      border-top: 1px solid var(--dark-line);
+    }
+    .map-list li {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 12px;
+      align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--dark-line);
+    }
+    .map-list .map-kb {
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding: 18px 0;
+    }
+    .map-kb-title {
+      font-family: var(--display);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .map-kb-sub {
+      color: var(--dark-muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .map-count {
+      color: var(--red);
+      font-family: var(--display);
+      font-size: 26px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+    .map-name {
+      font-size: 16px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ---------- Departments ---------- */
+    .dept-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 64px;
+      row-gap: 56px;
+    }
+    .dept { min-width: 0; }
+    .dept-num {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--red);
+      font-family: var(--display);
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+    .dept-name {
+      margin: 0 0 10px;
+      font-family: var(--display);
+      font-size: 26px;
+      line-height: 1.1;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+    .dept-desc {
+      margin: 0 0 16px;
+      max-width: 46ch;
+      color: #4B4844;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .dept-agents {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--line);
+    }
+    .dept-agents li {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--line);
+      color: #2A2724;
+      font-size: 16px;
+    }
+    .dept-agents li::before {
+      content: "—";
+      flex: 0 0 auto;
+      color: var(--red);
+    }
+
+    /* ---------- Honest limitations ---------- */
+    .does-not-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--line);
+      max-width: 760px;
+    }
+    .does-not-list li {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+      color: #2A2724;
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    /* ---------- Morning page ---------- */
+    .morning-inner {
+      display: grid;
+      grid-template-columns: minmax(220px, 320px) 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .morning-inner .section-heading { margin-bottom: 0; }
+    .morning-copy {
+      margin: 0;
+      max-width: 640px;
+      color: #2A2724;
+      font-size: 22px;
+      line-height: 1.5;
+    }
+
+    /* ---------- Closing ---------- */
+    .closing-inner {
+      max-width: 760px;
+    }
+    .closing-title {
+      margin: 0 0 28px;
+      font-family: var(--display);
+      font-size: clamp(48px, 7vw, 84px);
+      line-height: 0.98;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      text-transform: uppercase;
+    }
+    .closing-copy {
+      margin: 0;
+      max-width: 620px;
+      color: #4B4844;
+      font-size: 18px;
+      line-height: 1.65;
+    }
+    .closing-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 18px;
+      margin-top: 36px;
+    }
+    .email-line {
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--line);
+      font-size: 17px;
+      text-decoration: none;
+    }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      border-top: 1px solid var(--line);
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      min-height: 88px;
+    }
+    .footer-line {
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 800px) {
+      .dept-grid { grid-template-columns: 1fr; row-gap: 44px; }
+      .morning-inner { grid-template-columns: 1fr; gap: 24px; }
+      .morning-inner .section-heading { margin-bottom: 0; }
+    }
+    @media (max-width: 699px) {
+      .map-svg { display: none; }
+      .map-list { display: block; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: min(1120px, calc(100% - 40px)); }
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 20px; }
+      .hero-title { font-size: clamp(40px, 11.5vw, 56px); }
+      .hero-sub { font-size: 17px; }
+      .btn { width: 100%; }
+      .hero-actions { align-items: stretch; flex-direction: column; gap: 14px; }
+      .closing-title { font-size: 44px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar" data-od-id="topbar">
+    <div class="wrap topbar-inner">
+      <a class="wordmark" href="#" aria-label="BookiStudios home">BOOKISTUDIOS</a>
+      <span class="topbar-location">Houston, TX</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero section" data-od-id="hero" aria-labelledby="hero-heading">
+      <div class="wrap">
+        <p class="eyebrow" data-od-id="hero-eyebrow">AI agents for dental practices</p>
+        <h1 id="hero-heading" class="hero-title" data-od-id="hero-heading">
+          <span>Every agent a dental clinic needs.</span>
+          <span>Fifty-eight of them.</span>
+          <span>One map.</span>
+        </h1>
+        <p class="hero-sub" data-od-id="hero-subhead">A private practice misses calls after 5pm, has empty chairs from no-shows, and does insurance paperwork in the evening — these agents take those three jobs.</p>
+        <div class="hero-actions" data-od-id="hero-actions">
+          <a class="btn btn-solid" data-od-id="hero-book-call" href="mailto:founder@bookistudios.com?subject=BookiStudios%2015%20minute%20call">Book a 15 minute call</a>
+          <a class="btn btn-text" data-od-id="hero-see-agents" href="#agents-map">See the 58 agents</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats section rule-top" data-od-id="stats" aria-labelledby="stats-heading">
+      <div class="wrap">
+        <h2 id="stats-heading" class="sr-only">What this offer contains</h2>
+        <div class="stats-grid">
+          <div class="stat"><span class="stat-num">58</span><span class="stat-label">agents</span></div>
+          <div class="stat"><span class="stat-num">7</span><span class="stat-label">departments</span></div>
+          <div class="stat"><span class="stat-num">1</span><span class="stat-label">knowledge base</span></div>
+          <div class="stat"><span class="stat-num">1</span><span class="stat-label">morning page</span></div>
+        </div>
+        <p class="stats-note">Counts describe this offer, not industry averages.</p>
+      </div>
+    </section>
+
+    <section class="map-section" id="agents-map" data-od-id="agents-map" aria-labelledby="map-heading">
+      <div class="wrap">
+        <h2 id="map-heading" class="map-title" data-od-id="map-heading">One clinic, drawn as a map.</h2>
+        <figure class="map-figure">
+          <svg class="map-svg" viewBox="0 0 1200 800" role="img" aria-labelledby="map-title map-desc" xmlns="http://www.w3.org/2000/svg">
+            <title id="map-title">Agent map: a shared knowledge base connected to seven dental-practice departments</title>
+            <desc id="map-desc">A central node labelled Shared Knowledge Base — price list, policies, FAQs, CDT codes — connects by thin lines to seven surrounding department nodes: Front Desk 14, No-Shows 9, Treatment Plans 10, Recalls 8, Clinic Ops 7, Claims 6, and Reviews 4.</desc>
+
+            <ellipse class="ring" cx="600" cy="400" rx="282" ry="242" />
+
+            <line class="line" x1="600" y1="400" x2="600" y2="158" />
+            <line class="line" x1="600" y1="400" x2="820" y2="252" />
+            <line class="line" x1="600" y1="400" x2="874" y2="456" />
+            <line class="line" x1="600" y1="400" x2="722" y2="620" />
+            <line class="line" x1="600" y1="400" x2="478" y2="620" />
+            <line class="line" x1="600" y1="400" x2="326" y2="456" />
+            <line class="line" x1="600" y1="400" x2="380" y2="252" />
+
+            <!-- Front desk -->
+            <circle class="node-dot" cx="600" cy="158" r="4" />
+            <text class="node-count" x="600" y="126" text-anchor="middle">14</text>
+            <text class="node-name" x="600" y="144" text-anchor="middle">FRONT DESK</text>
+
+            <!-- No-shows -->
+            <circle class="node-dot" cx="820" cy="252" r="4" />
+            <text class="node-count" x="840" y="226" text-anchor="start">9</text>
+            <text class="node-name" x="840" y="250" text-anchor="start">NO-SHOWS</text>
+
+            <!-- Treatment plans -->
+            <circle class="node-dot" cx="874" cy="456" r="4" />
+            <text class="node-count" x="894" y="430" text-anchor="start">10</text>
+            <text class="node-name" x="894" y="454" text-anchor="start">TREATMENT PLANS</text>
+
+            <!-- Recalls -->
+            <circle class="node-dot" cx="722" cy="620" r="4" />
+            <text class="node-count" x="742" y="662" text-anchor="start">8</text>
+            <text class="node-name" x="742" y="686" text-anchor="start">RECALLS</text>
+
+            <!-- Clinic ops -->
+            <circle class="node-dot" cx="478" cy="620" r="4" />
+            <text class="node-count" x="458" y="662" text-anchor="end">7</text>
+            <text class="node-name" x="458" y="686" text-anchor="end">CLINIC OPS</text>
+
+            <!-- Claims -->
+            <circle class="node-dot" cx="326" cy="456" r="4" />
+            <text class="node-count" x="306" y="430" text-anchor="end">6</text>
+            <text class="node-name" x="306" y="454" text-anchor="end">CLAIMS</text>
+
+            <!-- Reviews -->
+            <circle class="node-dot" cx="380" cy="252" r="4" />
+            <text class="node-count" x="360" y="226" text-anchor="end">4</text>
+            <text class="node-name" x="360" y="250" text-anchor="end">REVIEWS</text>
+
+            <!-- Centre knowledge base -->
+            <rect class="kb-box" x="450" y="360" width="300" height="104" rx="2" />
+            <text class="kb-title" x="600" y="395" text-anchor="middle">SHARED KNOWLEDGE BASE</text>
+            <text class="kb-sub" x="600" y="426" text-anchor="middle">price list, policies, FAQs, CDT codes</text>
+          </svg>
+
+          <ul class="map-list" aria-label="Agent departments">
+            <li class="map-kb">
+              <span class="map-kb-title">Shared knowledge base</span>
+              <span class="map-kb-sub">price list, policies, FAQs, CDT codes</span>
+            </li>
+            <li><span class="map-count">14</span><span class="map-name">Front desk</span></li>
+            <li><span class="map-count">9</span><span class="map-name">No-shows</span></li>
+            <li><span class="map-count">10</span><span class="map-name">Treatment plans</span></li>
+            <li><span class="map-count">8</span><span class="map-name">Recalls</span></li>
+            <li><span class="map-count">7</span><span class="map-name">Clinic ops</span></li>
+            <li><span class="map-count">6</span><span class="map-name">Claims</span></li>
+            <li><span class="map-count">4</span><span class="map-name">Reviews</span></li>
+          </ul>
+        </figure>
+        <p class="map-caption">Every agent reads the same source of truth. One job per agent. One written workflow per job.</p>
+      </div>
+    </section>
+
+    <section class="departments section rule-top" data-od-id="departments" aria-labelledby="departments-heading">
+      <div class="wrap">
+        <h2 id="departments-heading" class="sr-only">The fifty-eight agents by department</h2>
+        <div class="dept-grid">
+          <article class="dept" data-od-id="dept-front-desk">
+            <span class="dept-num">14</span>
+            <h3 class="dept-name">Front desk</h3>
+            <p class="dept-desc">Every call gets answered and every booking lands in the chair calendar, not a voicemail box.</p>
+            <ul class="dept-agents">
+              <li>After-hours call answerer</li>
+              <li>Chair-calendar booker</li>
+              <li>New patient intake</li>
+            </ul>
+          </article>
+
+          <article class="dept" data-od-id="dept-no-shows">
+            <span class="dept-num">9</span>
+            <h3 class="dept-name">No-shows</h3>
+            <p class="dept-desc">The moment a slot opens, these agents reach the patients who can fill it.</p>
+            <ul class="dept-agents">
+              <li>Same-hour follow-up</li>
+              <li>Waitlist gap filler</li>
+              <li>Second-chance text</li>
+            </ul>
+          </article>
+
+          <article class="dept" data-od-id="dept-treatment-plans">
+            <span class="dept-num">10</span>
+            <h3 class="dept-name">Treatment plans</h3>
+            <p class="dept-desc">Plans go out in plain English, with a follow-up already scheduled.</p>
+            <ul class="dept-agents">
+              <li>Quote sender</li>
+              <li>Plain-English explainer</li>
+              <li>Day-three follow-up</li>
+            </ul>
+          </article>
+
+          <article class="dept" data-od-id="dept-recalls">
+            <span class="dept-num">8</span>
+            <h3 class="dept-name">Recalls</h3>
+            <p class="dept-desc">Overdue patients are nudged, reminded, and moved back onto the book.</p>
+            <ul class="dept-agents">
+              <li>Overdue hygiene nudge</li>
+              <li>Reply-to-booking</li>
+              <li>Lapsed patient win-back</li>
+            </ul>
+          </article>
+
+          <article class="dept" data-od-id="dept-clinic-ops">
+            <span class="dept-num">7</span>
+            <h3 class="dept-name">Clinic ops</h3>
+            <p class="dept-desc">The small daily jobs that keep the practice running get done before they pile up.</p>
+            <ul class="dept-agents">
+              <li>Stock counter</li>
+              <li>Sterilisation log</li>
+              <li>Roster filler</li>
+            </ul>
+          </article>
+
+          <article class="dept" data-od-id="dept-claims">
+            <span class="dept-num">6</span>
+            <h3 class="dept-name">Claims</h3>
+            <p class="dept-desc">Paperwork is complete before the patient leaves and clean before it is submitted.</p>
+            <ul class="dept-agents">
+              <li>Pre-departure paperwork</li>
+              <li>Claim scrubber</li>
+              <li>Denial router</li>
+            </ul>
+          </article>
+
+          <article class="dept" data-od-id="dept-reviews">
+            <span class="dept-num">4</span>
+            <h3 class="dept-name">Reviews</h3>
+            <p class="dept-desc">Happy patients are asked at the right moment; unhappy ones reach the owner first.</p>
+            <ul class="dept-agents">
+              <li>Next-day ask</li>
+              <li>Unhappy-patient flag</li>
+              <li>Owner digest</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="does-not section rule-top" data-od-id="does-not" aria-labelledby="does-not-heading">
+      <div class="wrap">
+        <h2 id="does-not-heading" class="section-heading">What it does not do</h2>
+        <ul class="does-not-list">
+          <li>No clinical diagnosis.</li>
+          <li>No treatment decisions without the dentist's approval.</li>
+          <li>No guarantees on insurance eligibility.</li>
+          <li>Patient data stays in the practice's own systems wherever the integration allows it.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="morning section rule-top" data-od-id="morning-page" aria-labelledby="morning-heading">
+      <div class="wrap morning-inner">
+        <h2 id="morning-heading" class="section-heading">The morning page</h2>
+        <p class="morning-copy">One page each morning showing who is booked, who is overdue, what was missed; no dashboards to learn.</p>
+      </div>
+    </section>
+
+    <section class="closing section rule-top" data-od-id="closing" aria-labelledby="closing-heading">
+      <div class="wrap closing-inner">
+        <h2 id="closing-heading" class="closing-title">Start with the front desk.</h2>
+        <p class="closing-copy">One installed agent team means no new software to learn and no marketing hire to manage. Put the after-hours calls, recalls, no-shows, and paperwork on autopilot — then keep the patients your practice already has.</p>
+        <div class="closing-actions">
+          <a class="btn btn-solid" data-od-id="closing-book-call" href="mailto:founder@bookistudios.com?subject=BookiStudios%2015%20minute%20call">Book a 15 minute call</a>
+          <a class="email-line" data-od-id="closing-email" href="mailto:founder@bookistudios.com">founder@bookistudios.com</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" data-od-id="footer">
+    <div class="wrap footer-inner">
+      <span class="footer-line">BookiStudios - Houston, Texas</span>
+    </div>
+  </footer>
+</body>
+</html>
