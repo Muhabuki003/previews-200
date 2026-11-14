@@ -106,7 +106,7 @@
       "#avTrustpilot svg{width:9px;height:9px;fill:#fff;}" +
       "#avTrustpilot b{font-size:13px;font-weight:600;line-height:1.25;}" +
       "</style>" +
-      '<img src="/img/band-outdoor-900.jpg" alt="">' +
+      '<img src="https://aliviovital.com/img/band-outdoor-900.jpg" alt="">' +
       '<span class="av-tp-ov">' +
         '<span class="av-tp-brand"><span class="av-tp-mark">' + mark + "</span>Trustpilot</span>" +
         '<span class="av-tp-stars">' + stars + "</span>" +
