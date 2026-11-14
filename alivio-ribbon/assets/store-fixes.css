@@ -1,0 +1,99 @@
+/* ---- store fixes: payment badges, all-products grid, trustpilot lockup ---- */
+
+.gf-pay img{height:26px;width:auto;display:block}
+
+#shop-all .row-head{padding:0 20px}
+.prod-grid{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:30px 20px;max-width:1400px;margin:0 auto;padding:26px 20px 44px;
+}
+.prod-grid .rail-card{flex:none;max-width:none;width:auto;scroll-snap-align:none}
+.prod-grid .rail-card .media{aspect-ratio:4/5}
+@media (max-width:1024px){.prod-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){
+  .prod-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 12px;padding:18px 16px 36px}
+  .prod-grid .rail-card h3{font-size:14px}
+  .prod-grid .rail-card .rc-desc{font-size:12px}
+}
+@media (max-width:400px){
+}
+/* === mobile menu (hamburger): opens from the LEFT edge, slides left -> right === */
+.mnav{display:block;visibility:hidden;pointer-events:none;transition:visibility 0s linear .3s}
+.mnav.on{visibility:visible;pointer-events:auto;transition-delay:0s}
+.mnav .mnav-scrim{opacity:0;transition:opacity .26s ease}
+.mnav.on .mnav-scrim{opacity:1}
+.mnav .mnav-panel{
+  left:0;right:auto;transform:translateX(-100%);
+  transition:transform .28s cubic-bezier(.22,.61,.36,1);
+  box-shadow:18px 0 44px rgba(0,0,0,.14);
+}
+.mnav.on .mnav-panel{transform:translateX(0)}
+
+/* === PDP reviews section (one shared pattern across all five PDPs) === */
+.reviews .rv-head{display:flex;flex-direction:column;align-items:center;text-align:center}
+.reviews .rv-score{margin:14px 0 0;justify-content:center}
+.reviews .rv-count{margin-top:6px}
+.reviews .bars{width:min(340px,100%);margin:16px auto 0}
+.reviews .bar{grid-template-columns:12px 1fr 22px}
+.reviews .rv-write{display:inline-block;margin-top:18px;text-decoration:none;letter-spacing:.08em}
+.reviews .rv-list{grid-template-columns:1fr}
+.reviews .card .st{font-size:11.5px;letter-spacing:2px}
+@media(min-width:640px){.reviews .rv-list{grid-template-columns:1fr 1fr}}
+@media(min-width:1040px){.reviews .rv-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* === GECOMO video tiles (video-studio) === */
+.vthumb{position:relative;display:block;padding:0;border:0;background:none;cursor:pointer;aspect-ratio:9/16;overflow:hidden;border-radius:9px}
+.vvid{width:100%;height:100%;aspect-ratio:9/16;object-fit:cover;display:block;border-radius:9px;background:#000}
+.vthumb>.vvid{position:absolute;inset:0;width:100%;height:100%}
+.vplay{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;transition:opacity .18s ease}
+.vplay::after{content:"";width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.55);background-image:linear-gradient(0deg,transparent,transparent);}
+.vplay::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateX(2px);width:0;height:0;border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent;z-index:1}
+.vthumb.playing .vplay{opacity:0}
+/* === end GECOMO video tiles === */
+
+/* =====================================================================
+   Cart drawer (item 3): no header block, X on the social-proof row,
+   Trustpilot lockup at its natural size, timer label tidy.
+   ===================================================================== */
+/* (a) the old 95px "Your bag" header block is gone — collapse it if a stale
+   copy of the markup is ever served */
+.drawer .d-head{display:none !important}
+/* heading kept for screen readers only, zero vertical cost */
+.drawer .d-sr{position:absolute !important;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* (b) one row: avatars + social proof + X, right aligned */
+.drawer .d-soc{display:flex;align-items:center;gap:9px;padding:11px 12px 11px 16px;
+  border-bottom:1px solid #EFE9E2}
+.drawer .d-soc .avs{display:flex;flex:0 0 auto}
+.drawer .d-soc p{flex:1 1 auto;min-width:0;margin:0;font:400 11px/1.35 Inter,sans-serif;color:#6B6157}
+.drawer .d-soc .d-x{flex:0 0 auto;margin-left:auto;background:none;border:0;cursor:pointer;
+  color:#4C4944;font-size:22px;line-height:1;padding:0 2px 2px 8px;align-self:flex-start}
+.drawer .d-timer{padding:7px 14px;font-size:11.5px}
+
+/* ---- trustpilot banner: matches the template (.ph.r169 = 16:9) ---- */
+.d-banner{position:relative;border-radius:8px;overflow:hidden;margin-bottom:14px;background:#F1F1F1}
+.tp-img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.d-tp{padding:7px 10px 9px}
+.d-tp .t1{font-size:9px;letter-spacing:.04em;color:#6B6B6B;display:flex;align-items:center;gap:3px}
+.d-tp .t1 i{width:9px;height:9px;background:#00B67A;display:block;border-radius:1px}
+.d-tp .t2{font-size:10.5px;font-weight:600;margin-top:3px;color:#111}
+
+/* cart trust box: template 16:9 image slot, no overlay card */
+.d-banner{position:relative;display:block;border-radius:8px;overflow:hidden;margin-bottom:14px;background:#0f0f10;padding:0!important;line-height:0;min-height:0!important}
+.d-banner .tp-img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:8px}
+.d-banner .d-tp{display:none!important}
+
+/* trust badge: photo box + small lockup bottom-left */
+.d-banner{position:relative;overflow:hidden;border-radius:8px;margin-bottom:14px;line-height:0}
+.d-banner .tp-img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.tp-badge{position:absolute;left:8px;bottom:8px;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.95);padding:4px 7px;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.14);line-height:1}
+.tp-badge .tp-logo{height:12px;width:auto;display:block}
+.tp-badge .tp-stars{height:10px;width:auto;display:block}
+.tp-badge .tp-txt{font-size:9.5px;font-weight:600;color:#191919;letter-spacing:-.1px;white-space:nowrap}
+
+/* fullscreen video player */
+.vfull{position:fixed;inset:0;z-index:9999;display:none;place-items:center;background:rgba(0,0,0,.94)}
+.vfull.on{display:grid}
+.vfull-v{width:min(100vw,calc(100vh * 9 / 16));height:auto;max-height:100vh;background:#000}
+.vfull-x{position:absolute;top:14px;right:14px;z-index:2;width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:26px;line-height:1;cursor:pointer}
+.vlock{overflow:hidden}

@@ -1,0 +1,40 @@
+/* =====================================================================
+   AlivioVital · brand layer over the ONDA template (loaded LAST)
+   Only colours + wordmark + footer extras live here — layout, spacing
+   and component rules stay in pdp.css / nav.css / shell.css / cart.css.
+   ===================================================================== */
+:root{
+  --accent:#0A5C5C;
+  --accent-deep:#084B4B;
+  --accent-soft:#EAF3F2;
+  --accent-mid:#D8E8E7;
+  --gold:#B08A2E;
+  --stock:#2E6B4F;
+}
+
+/* ---- wordmark: the brand mark replaces the letterspaced word ---- */
+.hd-g .brand img{display:block;height:25px;width:auto}
+@media(min-width:900px){.hd-g .brand img{height:27px}}
+.gf-brand img{display:block;height:30px;width:auto;margin:0 auto}
+
+/* ---- announcement bar in brand teal instead of rose ---- */
+.ann{background:var(--accent-soft);color:var(--accent);border-bottom:1px solid var(--accent-mid)}
+.ann-bf{background:var(--accent-soft);border-bottom:1px solid var(--accent-mid)}
+.ann-bf .bf-chip{border-color:var(--accent);background:#fff;color:var(--accent)}
+.ann-bf .bf-note{color:var(--accent)}
+.badge-sale{color:var(--accent-deep)}
+#cartCount{background:var(--accent) !important}
+
+/* ---- footer: support address + supplement disclaimer ---- */
+.gf-mail{font-size:10.5px;letter-spacing:.05em;color:#6B655C}
+.gf-mail a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(10,92,92,.28)}
+.gf-fda{font-size:9.5px;line-height:1.55;color:#8A8378;max-width:620px;text-align:center;letter-spacing:.02em}
+
+/* ---- reviews: provenance line sits under the product name ---- */
+.rv-sub em{font-style:normal;color:var(--ink-3)}
+
+/* ---- nothing may overflow at 390px ---- */
+@media(max-width:430px){
+  .price .now{font-size:19px}
+  .vids{max-width:none}
+}
