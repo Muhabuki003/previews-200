@@ -1,0 +1,150 @@
+{
+  "_readme": "PUPSTOP store config. One JSON drives the home grid and every product landing (product.html?p=<slug>). To add product #2: append an object to \"products\" and reload — no code edits. TODO: every shopify_variant_id below is intentionally empty because these products do not exist in the Shopify catalogue yet. When a product is created in ehh05e-7q.myshopify.com, paste its variant GID (gid://shopify/ProductVariant/...) into the matching field. The buy button stays disabled with the label 'Checkout link pending' until then.",
+
+  "brand": {
+    "name": "PUPSTOP",
+    "legal_name": "PUPSTOP",
+    "tagline": "Car safety for dogs who ride shotgun.",
+    "promise": "One job, done properly: keep your dog secured in the car.",
+    "support_email": "hello@pupstop.example",
+    "_support_email_todo": "TODO: replace with the real inbox before launch — this address is a placeholder and is not monitored.",
+    "announcement": "Free shipping over $55 · 30-day money-back guarantee",
+    "announcement_short": "Free shipping over $55",
+    "instagram": "#",
+    "founded": "2026"
+  },
+
+  "commerce": {
+    "shop_domain": "ehh05e-7q.myshopify.com",
+    "storefront_token": "40d6d0459487c81052405c45b704f6fc",
+    "api_version": "2024-07",
+    "endpoint": "https://ehh05e-7q.myshopify.com/api/2024-07/graphql.json",
+    "currency": "USD",
+    "free_shipping_threshold": 55
+  },
+
+  "products": [
+    {
+      "slug": "car-safety-harness",
+      "name": "PUPSTOP Car Safety Harness",
+      "short_name": "Car Safety Harness",
+      "eyebrow": "Seat-belt restraint",
+      "sub": "A padded harness and seat-belt tether that keeps your dog in their seat — not on your lap, not through the windscreen.",
+      "price": 39.99,
+      "compare_at": 54.99,
+      "badge": "Launch price",
+      "currency": "USD",
+      "image_todo": true,
+      "_image_todo_note": "TODO: replace these preview photos with the real product photography (harness on dog, in car, close-up of stitching and buckle). Sources are free-to-use stock until then.",
+      "images": [
+        { "src": "assets/img/gallery-1.jpg", "alt": "Small dog wearing a padded harness, sitting upright on a red car seat" },
+        { "src": "assets/img/gallery-2.jpg", "alt": "Black Labrador in a car with a harness strap visible across its chest" },
+        { "src": "assets/img/gallery-3.jpg", "alt": "Golden dog asleep on a car seat, tethered beside the centre console" },
+        { "src": "assets/img/gallery-4.jpg", "alt": "Curly-haired dog looking out of a car window on a road trip" },
+        { "src": "assets/img/gallery-5.jpg", "alt": "Small white dog sitting on a car centre console between the front seats" }
+      ],
+      "usps": [
+        "Padded chest plate spreads the load, no throat pressure",
+        "Clips into any standard seat belt in about five seconds",
+        "Adjustable at four points so it fits properly, not loosely"
+      ],
+      "fit_tips": [
+        "Measure around the widest part of the ribcage, just behind the front legs. That number picks your size.",
+        "The harness should sit snug — two fingers under the strap, no more. Loose kit is the usual reason a dog slips out.",
+        "Run the belt through the loop on the back, not around the neck. Keep your dog in the back seat, facing forward."
+      ],
+      "variants": [
+        {
+          "name": "Small",
+          "label": "Small · 5–10 kg",
+          "shopify_variant_id": "",
+          "_todo": "TODO: paste the Shopify variant ID for Small after the product is created in the ehh05e-7q store."
+        },
+        {
+          "name": "Medium",
+          "label": "Medium · 10–25 kg",
+          "shopify_variant_id": "",
+          "_todo": "TODO: paste the Shopify variant ID for Medium."
+        },
+        {
+          "name": "Large",
+          "label": "Large · 25–40 kg",
+          "shopify_variant_id": "",
+          "_todo": "TODO: paste the Shopify variant ID for Large."
+        }
+      ],
+      "bundle_label": "More than one dog? Save more",
+      "bundles": [
+        {
+          "id": "one",
+          "name": "One harness",
+          "sub": "Standard price",
+          "qty": 1,
+          "price": 39.99,
+          "compare_at": 54.99,
+          "best": false,
+          "shopify_variant_id": "",
+          "_todo": "TODO: optional variant override. Empty = uses the size selected above."
+        },
+        {
+          "id": "duo",
+          "name": "Two-dog set",
+          "sub": "Save $40",
+          "qty": 2,
+          "price": 69.99,
+          "compare_at": 109.98,
+          "best": false,
+          "shopify_variant_id": "",
+          "_todo": "TODO: optional variant override for a two-pack SKU. Empty = 2 × selected size."
+        },
+        {
+          "id": "trio",
+          "name": "Three-dog set",
+          "sub": "Save $70",
+          "qty": 3,
+          "price": 94.99,
+          "compare_at": 164.97,
+          "best": true,
+          "shopify_variant_id": "",
+          "_todo": "TODO: optional variant override for a three-pack SKU. Empty = 3 × selected size."
+        }
+      ],
+      "addon": {
+        "enabled": true,
+        "name": "Second tether strap",
+        "desc": "Keep one in each car so the harness moves with the dog",
+        "price": 12.99,
+        "shopify_variant_id": "",
+        "_todo": "TODO: paste the Shopify variant ID for the spare tether, or set enabled:false to hide the add-on."
+      },
+      "shipping_steps": [
+        { "title": "Ordered", "detail": "Today" },
+        { "title": "Ships", "detail": "1–2 business days" },
+        { "title": "Delivered", "detail": "3–7 business days" }
+      ],
+      "specs": [
+        { "k": "Fits", "v": "Small 5–10 kg · Medium 10–25 kg · Large 25–40 kg" },
+        { "k": "Belt fit", "v": "Standard 48 mm / 2 inch seat belts" },
+        { "k": "Padding", "v": "10 mm closed-cell foam at chest and sternum" },
+        { "k": "Hardware", "v": "Aluminium buckle, welded steel D-ring" },
+        { "k": "Care", "v": "Machine washable at 30°C, air dry" }
+      ],
+      "faq": [
+        { "q": "Will it fit my car?", "a": "It clips into any standard lap-and-shoulder seat belt, which covers essentially every passenger car made since the 1970s. It does not fit lap-only belts in the centre rear seat of some older cars." },
+        { "q": "How do I know which size to order?", "a": "Measure the widest part of the ribcage behind the front legs. Small is 5–10 kg, Medium 10–25 kg, Large 25–40 kg. If your dog sits between two sizes, go up — the straps adjust down but not past their limit." },
+        { "q": "Can my dog still sit up and lie down?", "a": "Yes. The tether is short enough to stop them reaching the front seats, and long enough to stand, turn and lie down on the seat." },
+        { "q": "Is it safe in a crash?", "a": "It is designed to hold your dog in place on the seat and to spread load across the chest rather than the throat. Be clear on the limit: like every harness sold without a crash-test certificate, we cannot claim a tested crash rating. It is far safer than an unrestrained dog, which is the comparison that matters most." },
+        { "q": "What if it does not fit?", "a": "Send it back within 30 days for a full refund, including the return postage. No form to fill in — reply to your order email." }
+      ],
+      "reviews": [],
+      "_reviews_todo": "TODO: add real review objects here ({rating,title,body,name,date}) as orders come in. While this array is empty the page renders the honest empty state, never a fabricated rating or count.",
+      "photo_strip_label": "In the car",
+      "photo_strip": [
+        { "src": "assets/img/strip-1.jpg", "alt": "Dog waiting in the driver's seat with its head out of the window" },
+        { "src": "assets/img/strip-2.jpg", "alt": "Two dogs sitting in the back of a car, photographed through the windscreen" },
+        { "src": "assets/img/strip-3.jpg", "alt": "Small long-haired dog wearing sunglasses in an open-top car" }
+      ],
+      "meta_description": "Padded dog car harness with a seat-belt tether. Keeps your dog secured in the back seat. $39.99 with free shipping over $55 and a 30-day money-back guarantee."
+    }
+  ]
+}
